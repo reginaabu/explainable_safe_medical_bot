@@ -1,0 +1,42 @@
+2026-02-23 19:02:14 | INFO     | test | ok
+2026-02-23 19:03:13 | INFO     | test | ok
+2026-02-23 19:24:14 | INFO     | __main__ | Loading PubMedQA pqa_labeled …
+2026-02-23 19:25:40 | INFO     | __main__ | Loaded 1000 records.
+2026-02-23 19:25:40 | INFO     | __main__ | Building BM25 index (k1=1.20, b=0.75) …
+2026-02-23 19:25:40 | INFO     | __main__ | Index built: 1009 chunks.
+2026-02-23 19:25:40 | INFO     | __main__ | Running BM25 on full set (1000 queries) …
+2026-02-23 19:25:43 | INFO     | __main__ | Full set — Recall@5=0.9630  Recall@10=0.9750  MRR@10=0.9374
+2026-02-23 19:25:43 | INFO     | __main__ | Hard set size: 37 failures at BM25@5.
+2026-02-23 19:25:43 | INFO     | __main__ | Loading KG expander …
+2026-02-23 19:26:06 | INFO     | __main__ | KG expander ready.
+2026-02-23 19:26:06 | INFO     | __main__ | Evaluating hard set with BM25 and BM25+KG …
+2026-02-23 19:26:06 | INFO     | __main__ | Hard set — BM25+KG recovered 5/37 queries at @5.
+2026-02-23 19:26:06 | INFO     | __main__ | Saving hard_queries.csv …
+2026-02-23 19:26:06 | INFO     | __main__ | Writing curated_eval.md …
+2026-02-24 08:19:17 | INFO     | arogyasaathi | QUERY | text='May mean platelet volume levels be a predictor in the diagnosis of pelvic inflammatory disease?' | top_k=5 | mode=None (BM25 only) | bm25_candidates=20 | top3_pmids=['24958650', '20602101', '18435678'] | top3_norm_scores=['1.000', '0.703', '0.664']
+2026-02-24 08:19:25 | INFO     | arogyasaathi | QUERY | text='May mean platelet volume levels be a predictor in the diagnosis of pelvic inflammatory disease?' | top_k=5 | mode=None (BM25 only) | bm25_candidates=20 | top3_pmids=['24958650', '20602101', '18435678'] | top3_norm_scores=['1.000', '0.703', '0.664']
+2026-02-24 08:19:38 | INFO     | arogyasaathi | RAG_GEN | query='May mean platelet volume levels be a predictor in the diagnosis of pelvic inflammatory disease?' | latency=13.00s | answer_words=222 | source_pmids=['24958650', '20602101', '18435678']
+2026-02-24 08:22:55 | INFO     | arogyasaathi | EVAL | safe=True | faithfulness=0.733 | relevancy=0.895 | factuality=0.13 | facts=2/15 | latency=13.00s
+2026-02-24 08:22:55 | WARNING  | arogyasaathi | CORRECTION | triggered=True | factuality=0.13 | threshold=0.50
+2026-02-24 08:23:39 | INFO     | arogyasaathi | CORRECTION | accepted=True | old_factuality=0.13 | new_factuality=0.15
+2026-02-24 08:27:45 | INFO     | arogyasaathi | QUERY | text='May mean platelet volume levels be a predictor in the diagnosis of pelvic inflammatory disease?' | top_k=5 | mode=None (BM25 only) | bm25_candidates=20 | top3_pmids=['24958650', '20602101', '18435678'] | top3_norm_scores=['1.000', '0.703', '0.664']
+2026-02-24 08:28:04 | INFO     | arogyasaathi | RAG_GEN | query='May mean platelet volume levels be a predictor in the diagnosis of pelvic inflammatory disease?' | latency=11.86s | answer_words=216 | source_pmids=['24958650', '20602101', '18435678']
+2026-02-24 08:30:21 | INFO     | arogyasaathi | EVAL | safe=True | faithfulness=0.846 | relevancy=0.895 | factuality=0.06 | facts=1/17 | latency=11.86s
+2026-02-24 08:30:21 | WARNING  | arogyasaathi | CORRECTION | triggered=True | factuality=0.06 | threshold=0.50
+2026-02-24 08:31:05 | INFO     | arogyasaathi | CORRECTION | accepted=True | old_factuality=0.06 | new_factuality=1.00
+2026-02-24 08:35:54 | INFO     | arogyasaathi | QUERY | text='May mean platelet volume levels be a predictor in the diagnosis of pelvic inflammatory disease?' | top_k=5 | mode=None (BM25 only) | bm25_candidates=20 | top3_pmids=['24958650', '20602101', '18435678'] | top3_norm_scores=['1.000', '0.703', '0.664']
+2026-02-24 08:36:20 | INFO     | arogyasaathi | RAG_GEN | query='May mean platelet volume levels be a predictor in the diagnosis of pelvic inflammatory disease?' | latency=12.57s | answer_words=218 | source_pmids=['24958650', '20602101', '18435678']
+2026-02-24 08:39:57 | INFO     | arogyasaathi | EVAL | safe=True | faithfulness=0.800 | relevancy=0.895 | factuality=0.11 | facts=2/18 | latency=12.57s
+2026-02-24 08:39:57 | WARNING  | arogyasaathi | CORRECTION | triggered=True | factuality=0.11 | threshold=0.50
+2026-02-24 08:40:43 | INFO     | arogyasaathi | CORRECTION | accepted=True | old_factuality=0.11 | new_factuality=0.17
+2026-02-24 08:41:17 | INFO     | arogyasaathi | EVAL | safe=True | faithfulness=0.812 | relevancy=0.866 | factuality=0.75 | facts=6/8 | latency=0.00s
+2026-02-24 08:48:45 | INFO     | arogyasaathi | QUERY | text='May mean platelet volume levels be a predictor in the diagnosis of pelvic inflammatory disease?' | top_k=5 | mode=None (BM25 only) | bm25_candidates=20 | top3_pmids=['24958650', '20602101', '18435678'] | top3_norm_scores=['1.000', '0.703', '0.664']
+2026-02-24 08:49:07 | INFO     | arogyasaathi | RAG_GEN | query='May mean platelet volume levels be a predictor in the diagnosis of pelvic inflammatory disease?' | latency=13.52s | answer_words=228 | source_pmids=['24958650', '20602101', '18435678']
+2026-02-24 08:53:43 | INFO     | arogyasaathi | QUERY | text='May mean platelet volume levels be a predictor in the diagnosis of pelvic inflammatory disease?' | top_k=5 | mode=None (BM25 only) | bm25_candidates=20 | top3_pmids=['24958650', '20602101', '18435678'] | top3_norm_scores=['1.000', '0.703', '0.664']
+2026-02-24 08:54:00 | INFO     | arogyasaathi | RAG_GEN | query='May mean platelet volume levels be a predictor in the diagnosis of pelvic inflammatory disease?' | latency=12.76s | answer_words=222 | source_pmids=['24958650', '20602101', '18435678']
+2026-02-24 08:56:18 | INFO     | arogyasaathi | EVAL | safe=True | faithfulness=0.750 | relevancy=0.895 | factuality=0.18 | facts=3/17 | latency=12.76s
+2026-02-24 08:56:24 | WARNING  | arogyasaathi | CORRECTION | triggered=True | factuality=0.18 | threshold=0.50
+2026-02-24 08:57:08 | INFO     | arogyasaathi | CORRECTION | accepted=True | old=0.18 | new=0.71
+2026-02-24 08:57:42 | INFO     | arogyasaathi | EVAL | safe=True | faithfulness=1.000 | relevancy=0.000 | factuality=0.06 | facts=1/16 | latency=0.00s
+2026-02-24 08:57:42 | WARNING  | arogyasaathi | CORRECTION | triggered=True | factuality=0.06 | threshold=0.50
+2026-02-24 08:58:28 | INFO     | arogyasaathi | CORRECTION | accepted=False | old=0.06 | new=0.05
