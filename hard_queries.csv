@@ -1,0 +1,38 @@
+doc_id,question,failure_reason,kg_recovered
+9488747,"Syncope during bathing in infants, a pediatric form of water-induced urticaria?",Gold not in BM25@5,True
+23831910,Double balloon enteroscopy: is it efficacious and safe in a community setting?,Gold not in BM25@5,False
+10966943,Amblyopia: is visual loss permanent?,Gold not in BM25@5,False
+29112560,Is the Distance Worth It?,Gold not in BM25@5,False
+11570976,Is it Crohn's disease?,Gold not in BM25@5,False
+14697414,Is there a favorable subset of patients with prostate cancer who develop oligometastases?,Gold not in BM25@5,True
+24160268,"""Would a man smell a rose then throw it away?",Gold not in BM25@5,False
+19106867,"The Main Gate Syndrome: a new format in mass-casualty victim ""surge"" management?",Gold not in BM25@5,False
+18540901,Transient tachypnea of the newborn (TTN): a role for polymorphisms in the beta-adrenergic receptor (ADRB) encoding genes?,Gold not in BM25@5,False
+10605400,Is the international normalised ratio (INR) reliable?,Gold not in BM25@5,False
+24434052,Are we seeing the effects of public awareness campaigns?,Gold not in BM25@5,False
+18359123,Is it better to be big?,Gold not in BM25@5,False
+22867778,Does responsibility affect the public's valuation of health care interventions?,Gold not in BM25@5,False
+20064872,Can the prognosis of polymyalgia rheumatica be predicted at disease onset?,Gold not in BM25@5,False
+11296674,Prostatic syndrome and pleural effusion: are they different diseases?,Gold not in BM25@5,False
+24139705,Telemedicine and type 1 diabetes: is technology per se sufficient to improve glycaemic control?,Gold not in BM25@5,False
+15151701,Profiling quality of care: Is there a role for peer review?,Gold not in BM25@5,False
+26399179,Eyelid-parotid metastasis: do we screen for coexisting masses?,Gold not in BM25@5,False
+12098035,Does a special interest in laparoscopy affect the treatment of acute cholecystitis?,Gold not in BM25@5,True
+17610439,Do hospitals provide lower quality care on weekends?,Gold not in BM25@5,False
+10411439,Lloyd-Davies position with Trendelenburg--a disaster waiting to happen?,Gold not in BM25@5,False
+25982163,Appendectomy timing: Will delayed surgery increase the complications?,Gold not in BM25@5,False
+8200238,Must early postoperative oral intake be limited to laparoscopy?,Gold not in BM25@5,False
+12221908,The HELPP syndrome--evidence of a possible systemic inflammatory response in pre-eclampsia?,Gold not in BM25@5,False
+18575014,Nasal polyposis: is there an inheritance pattern?,Gold not in BM25@5,True
+26460153,Cardiac reoperations in octogenarians: Do they really benefit?,Gold not in BM25@5,False
+26418441,Can we ease the financial burden of colonoscopy?,Gold not in BM25@5,False
+12070552,Do antibiotics decrease post-tonsillectomy morbidity?,Gold not in BM25@5,False
+26285789,Does Molecular Genotype Provide Useful Information in the Management of Radioiodine Refractory Thyroid Cancers?,Gold not in BM25@5,True
+20813740,Does β-catenin have a role in pathogenesis of sebaceous cell carcinoma of the eyelid?,Gold not in BM25@5,False
+15095519,Are patients with diabetes receiving the same message from dietitians and nurses?,Gold not in BM25@5,False
+7664228,Discharging patients earlier from Winnipeg hospitals: does it adversely affect quality of care?,Gold not in BM25@5,False
+9465206,"""Occult"" posttraumatic lesions of the knee: can magnetic resonance substitute for diagnostic arthroscopy?",Gold not in BM25@5,False
+24751724,Does ethnicity affect where people with cancer die?,Gold not in BM25@5,False
+16147837,Is grandmultiparity an independent risk factor for adverse perinatal outcomes?,Gold not in BM25@5,False
+12172698,Is withdrawal-induced anxiety in alcoholism based on beta-endorphin deficiency?,Gold not in BM25@5,False
+27146470,Are tuberculosis patients adherent to prescribed treatments in China?,Gold not in BM25@5,False

@@ -1,0 +1,3963 @@
+doc_id,entity_text,entity_type
+21645374,death,DISEASE
+21645374,pcd,DISEASE
+21645374,perforations,DISEASE
+21645374,npcd,DISEASE
+21645374,cyclosporine a,CHEMICAL
+21645374,csa,CHEMICAL
+21645374,non-pcd,DISEASE
+16418930,amblyopia,DISEASE
+16418930,strabismus,DISEASE
+16418930,strabismus amblyopia,DISEASE
+9488747,sudden infant death syndrome,DISEASE
+9488747,seizure,DISEASE
+9488747,reflux,DISEASE
+9488747,urticaria,DISEASE
+9488747,dermographism,DISEASE
+9488747,maladies,DISEASE
+9488747,histamine,CHEMICAL
+9488747,"aquagenic maladies""",DISEASE
+17208539,hirschsprung disease,DISEASE
+23831910,small bowel ibd,DISEASE
+23831910,dbe,CHEMICAL
+23831910,bleeding,DISEASE
+23831910,vces,CHEMICAL
+26852225,sleep disorders,DISEASE
+26852225,sleep-related,DISEASE
+17113061,cholesterol,CHEMICAL
+17113061,coronary heart disease,DISEASE
+17113061,chd,DISEASE
+17113061,hdl deficiency,DISEASE
+17113061,lcat,CHEMICAL
+17113061,atherosclerosis,DISEASE
+17113061,a-i,CHEMICAL
+10966337,nch,CHEMICAL
+10966337,asthma,DISEASE
+10966337,gastroenteritis,DISEASE
+10966337,convulsion,DISEASE
+10966337,pneumonia,DISEASE
+25432938,injuries,DISEASE
+25432938,alcohol,CHEMICAL
+18847643,trauma,DISEASE
+18847643,heparin,CHEMICAL
+18847643,bleeding,DISEASE
+18847643,venous thrombosis,DISEASE
+18847643,hemorrhage,DISEASE
+18847643,chronic obstructive pulmonary disease,DISEASE
+18239988,nonalcoholic,DISEASE
+18239988,nash,DISEASE
+18239988,alcoholic steatohepatitis,DISEASE
+18239988,steatohepatitis,DISEASE
+18239988,liver diseases,DISEASE
+18239988,alcohol,CHEMICAL
+18239988,fibrosis,DISEASE
+25957366,pcp,DISEASE
+25957366,heart disease,DISEASE
+25957366,stroke,DISEASE
+25957366,diabetes,DISEASE
+25957366,"breast, colorectal, or ovarian cancer",DISEASE
+26578404,breathlessness,DISEASE
+26578404,cancer,DISEASE
+26578404,noncancer,DISEASE
+26578404,agitation,DISEASE
+26578404,morphine,CHEMICAL
+11729377,deaths,DISEASE
+11729377,bilirubin,CHEMICAL
+11729377,alanine,CHEMICAL
+11729377,fatty degeneration,DISEASE
+17096624,illness,DISEASE
+22694248,rpn,DISEASE
+22694248,blood loss,DISEASE
+22990761,cardiovascular disease,DISEASE
+22990761,cvd,DISEASE
+22990761,alcohol,CHEMICAL
+22990761,abdominal obesity,DISEASE
+19394934,trauma,DISEASE
+19394934,injuries,DISEASE
+11481599,malignancy,DISEASE
+11481599,respiratory distress syndrome,DISEASE
+11481599,ards,DISEASE
+11481599,sepsis,DISEASE
+11481599,peep,CHEMICAL
+21669959,smoke,CHEMICAL
+21669959,depression,DISEASE
+21669959,smoking,CHEMICAL
+21669959,depressed,DISEASE
+23806388,prostate,DISEASE
+23806388,aggressive bcr,DISEASE
+23806388,prostate disease research(cpdr)/cancer,DISEASE
+23806388,cancer,DISEASE
+17919952,chronic oro-facial pain,DISEASE
+17919952,oro-facial pain,DISEASE
+17919952,"teeth grinding, facial",DISEASE
+17919952,trauma,DISEASE
+17919952,teeth and the feeling that the teeth,DISEASE
+10966943,amblyopia,DISEASE
+23690198,pain,DISEASE
+23690198,labor,DISEASE
+17940352,urothelial carcinoma,DISEASE
+17940352,methotrexate,CHEMICAL
+17940352,vinblastine,CHEMICAL
+17940352,epirubicin,CHEMICAL
+17940352,cisplatin,CHEMICAL
+20537205,halofantrine,CHEMICAL
+20537205,plasmodium falciparum,DISEASE
+20537205,malaria,DISEASE
+20537205,toluidine blue,CHEMICAL
+7482275,fasciitis,DISEASE
+7482275,hbo,CHEMICAL
+24183388,fractures,DISEASE
+24183388,avascular necrosis,DISEASE
+24183388,fracture,DISEASE
+24183388,talar neck fractures,DISEASE
+24183388,necrosis,DISEASE
+26298839,benign vocal pathologies,DISEASE
+24153338,aneurysmal subarachnoid hemorrhage,DISEASE
+24153338,asah,DISEASE
+24153338,aneurysm,DISEASE
+18534072,diabetes,DISEASE
+18534072,diabetic,DISEASE
+8847047,hepatocellular carcinoma,DISEASE
+8847047,hcc,DISEASE
+8847047,cancer,DISEASE
+8847047,fibrous capsule formation,DISEASE
+8847047,barium sulfate,CHEMICAL
+8847047,tumor,DISEASE
+20084845,allergic,DISEASE
+20084845,cetyl trimethyl ammonium bromide-based,CHEMICAL
+15703931,cancer,DISEASE
+15703931,tumour,DISEASE
+15703931,diabetes mellitus,DISEASE
+15703931,cervical cancer,DISEASE
+15703931,curable recurrent cervical carcinoma,DISEASE
+15703931,0.950/0.938/0.979,CHEMICAL
+18269157,asa,CHEMICAL
+18269157,keratoconus,DISEASE
+18269157,ectasia,DISEASE
+18269157,corneal haze,DISEASE
+18269157,haze,DISEASE
+25489696,toxicity,DISEASE
+25489696,cancer,DISEASE
+25489696,primary rectal cancer,DISEASE
+25489696,tumor,DISEASE
+14599616,lymphedema,DISEASE
+14599616,breast cancer,DISEASE
+14599616,volume increase,DISEASE
+22537902,colorectal cancers,DISEASE
+22537902,crc,DISEASE
+19054501,schizophrenia,DISEASE
+19504993,fournier's gangrene,DISEASE
+20571467,death,DISEASE
+20571467,ischemia,DISEASE
+20571467,creatininaemias,DISEASE
+24237112,ssi,DISEASE
+21402341,carotid artery stenosis,DISEASE
+21402341,stroke,DISEASE
+21402341,carotid disease,DISEASE
+21402341,carotid stenosis,DISEASE
+21402341,peripheral vascular disease,DISEASE
+21402341,pvd,DISEASE
+21402341,diabetes mellitus,DISEASE
+21402341,cerebrovascular disease,DISEASE
+21402341,stenosis,DISEASE
+21402341,strokes,DISEASE
+20082356,gastric cancer,DISEASE
+20082356,uicc,DISEASE
+20082356,gastric carcinoma,DISEASE
+26606599,heterotopic ossification,DISEASE
+26606599,acetabular fractures,DISEASE
+26606599,trauma,DISEASE
+26606599,acetabular fracture,DISEASE
+26606599,xrt,CHEMICAL
+26606599,"injury, injury severity score, presence of neurologic injury",DISEASE
+26606599,fracture,DISEASE
+26606599,dislocation,DISEASE
+26606599,blood loss,DISEASE
+11340218,statins,CHEMICAL
+11340218,stroke,DISEASE
+11340218,74-year-old stroke,DISEASE
+11340218,statin,CHEMICAL
+11340218,death,DISEASE
+25481573,pis,DISEASE
+25277731,fractures,DISEASE
+25277731,sternal fractures,DISEASE
+25277731,fracture,DISEASE
+25277731,pain,DISEASE
+25475395,decreased sexual desire,DISEASE
+25475395,androgen deficiency,DISEASE
+25475395,pituitary disease,DISEASE
+25475395,age-related decline,DISEASE
+25475395,testosterone,CHEMICAL
+25475395,androsterone glucuronide,CHEMICAL
+25475395,adt-g,CHEMICAL
+25475395,androstenedione,CHEMICAL
+25475395,dehydroepiandrosterone sulfate,CHEMICAL
+25475395,dheas,CHEMICAL
+23177368,breast cancer,DISEASE
+23177368,seromas,DISEASE
+17179167,pterygium,DISEASE
+17179167,human papillomavirus,DISEASE
+17179167,pterygia,DISEASE
+17179167,hpv-positive pterygia,DISEASE
+27491658,aortic stenosis,DISEASE
+27491658,tavi,DISEASE
+19822586,hypoxia/anoxia,DISEASE
+19822586,death,DISEASE
+19822586,aea,CHEMICAL
+27643961,comorbid major depression,DISEASE
+27643961,alcohol,CHEMICAL
+27643961,aud,DISEASE
+23539689,cough,DISEASE
+23539689,inner-city,DISEASE
+23539689,ped,CHEMICAL
+22453060,supraglottic airway,DISEASE
+22227642,cip,CHEMICAL
+12380309,stenosis,DISEASE
+12380309,repetitive balanopostitis,DISEASE
+12380309,balanitis,DISEASE
+22186742,diverticulitis,DISEASE
+22186742,malignancy,DISEASE
+22186742,polyp,DISEASE
+22186742,adenoma,DISEASE
+22188074,dementia,DISEASE
+22188074,depression,DISEASE
+22188074,iadl disabilities,DISEASE
+22188074,iadl disability,DISEASE
+27989969,infection,DISEASE
+18607272,overweight,DISEASE
+18235194,dyslexia,DISEASE
+18235194,hearing loss,DISEASE
+18049437,multiple sclerosis,DISEASE
+18049437,autoimmunity,DISEASE
+18049437,streptococcal infections,DISEASE
+18049437,infection,DISEASE
+18049437,antideoxyribonuclease b,CHEMICAL
+15597845,estradiol,CHEMICAL
+15597845,2-methoxyestradiol,CHEMICAL
+15597845,2me,CHEMICAL
+15597845,human ovary cancer,DISEASE
+15597845,epirubicine,CHEMICAL
+15597845,doxorubicine,CHEMICAL
+15597845,paclitaxel,CHEMICAL
+15597845,docetaxel,CHEMICAL
+15597845,carboplatin,CHEMICAL
+15597845,vinorelbine,CHEMICAL
+15597845,5-fluorouracil,CHEMICAL
+15597845,mafosfamide,CHEMICAL
+15597845,ovary cancer,DISEASE
+17489316,renal cell carcinoma,DISEASE
+17489316,pt3 renal cell carcinoma,DISEASE
+17489316,pt3b tumour,DISEASE
+17489316,vena cava invasion,DISEASE
+17489316,tumour,DISEASE
+14518645,deaths,DISEASE
+14518645,poisoning,DISEASE
+14518645,death,DISEASE
+14518645,alcohol,CHEMICAL
+20337202,preterm rupture,DISEASE
+26449554,obstructive sleep apnoea,DISEASE
+26449554,osa,DISEASE
+26449554,obesity,DISEASE
+26449554,obese,DISEASE
+26449554,apnoea-hypopnoea,DISEASE
+26449554,oxygen,CHEMICAL
+26215326,sptb,DISEASE
+26215326,preterm premature rupture,DISEASE
+26215326,pprom,DISEASE
+26215326,preterm labor,DISEASE
+26215326,ptb,DISEASE
+26215326,acd,CHEMICAL
+29112560,rectal cancer,DISEASE
+29112560,cancer,DISEASE
+29112560,90-day,CHEMICAL
+24315783,dopamine,CHEMICAL
+24315783,parkinson disease,DISEASE
+24315783,aripiprazole,CHEMICAL
+24315783,adverse drug reaction,DISEASE
+24315783,adr,CHEMICAL
+24315783,schizophrenic,DISEASE
+24315783,bipolar,DISEASE
+24315783,addictive disorders,DISEASE
+9381529,amine,CHEMICAL
+9381529,chloroquine,CHEMICAL
+9381529,graft-versus-host disease,DISEASE
+9381529,gvhd,DISEASE
+9381529,amines,CHEMICAL
+9381529,cyclosporine,CHEMICAL
+9381529,amines chloroquine,CHEMICAL
+9381529,hydroxychloroquine,CHEMICAL
+9381529,t-cell,CHEMICAL
+9381529,anti-cd3epsilon,CHEMICAL
+9381529,lipopolysaccharide,CHEMICAL
+8985020,nasopharyngeal carcinoma,DISEASE
+8985020,npc,DISEASE
+8985020,anderson cancer,DISEASE
+8985020,cerebrovascular accident,DISEASE
+8985020,squamous cell carcinoma,DISEASE
+8985020,lymphoepitheliomas,DISEASE
+8985020,undifferentiated npc,DISEASE
+8985020,carcinoma,DISEASE
+8985020,unpc,DISEASE
+26708803,torsion,DISEASE
+26708803,hydrocele,DISEASE
+26708803,injury to the spermatic cord,DISEASE
+26708803,hernia,DISEASE
+26708803,25:12,DISEASE
+26708803,torsed,DISEASE
+22427593,visual and/or auditory,DISEASE
+22427593,hearing or vision,DISEASE
+11570976,sulfasalazine,CHEMICAL
+11570976,inflammatory bowel disease,DISEASE
+11570976,rheumatological disorders,DISEASE
+11570976,rheumatoid arthritis,DISEASE
+11570976,eosinophilia,DISEASE
+11570976,granulomatous enteritis,DISEASE
+11570976,myelotoxicity,DISEASE
+11570976,cholestatic hepatitis,DISEASE
+11570976,seizures,DISEASE
+27592038,tinnitus,DISEASE
+27592038,aetiologies,DISEASE
+27592038,hearing loss,DISEASE
+27592038,trauma,DISEASE
+27592038,cervicogenic somatic tinnitus,DISEASE
+27592038,nbq-scores,DISEASE
+27592038,gpe,CHEMICAL
+27044366,asthma,DISEASE
+27044366,non-squamous,DISEASE
+27044366,granulocytic and neutrophilic,DISEASE
+27044366,neutrophilic asthma,DISEASE
+9792366,aids,DISEASE
+9792366,syphilis,DISEASE
+9792366,congenital syphilis,DISEASE
+9792366,inner-city,DISEASE
+17562682,panton-valentine leucocidin (pvl)-positive,DISEASE
+17562682,pvl,DISEASE
+17562682,primary bacteraemia,DISEASE
+17562682,s. aureus,DISEASE
+17562682,bacteraemic,DISEASE
+17562682,bacteraemia,DISEASE
+17562682,pvl-positive,DISEASE
+17562682,oxacillin,CHEMICAL
+17562682,mssa,DISEASE
+17562682,infection,DISEASE
+17562682,penicillin,CHEMICAL
+17562682,fusidic acid,CHEMICAL
+15800018,impaired fasting glucose,DISEASE
+15800018,ifg,CHEMICAL
+15800018,diabetes mellitus,DISEASE
+15800018,fasting blood glucose,DISEASE
+15800018,sdm,CHEMICAL
+14978612,positron,CHEMICAL
+14978612,cancer,DISEASE
+14978612,primary rectal cancer,DISEASE
+14978612,downstaged disease,DISEASE
+14978612,tumor,DISEASE
+18843057,resuscitators,CHEMICAL
+18843057,644.24,DISEASE
+9199905,esophagitis,DISEASE
+23999452,hypoglycaemia,DISEASE
+23999452,dysglycaemia,DISEASE
+23999452,glargine,CHEMICAL
+23999452,glucose,CHEMICAL
+23999452,mmol/l,CHEMICAL
+23999452,glucose ≤,CHEMICAL
+23999452,death,DISEASE
+23999452,myocardial infarction,DISEASE
+23999452,stroke,DISEASE
+23999452,arrhythmic death,DISEASE
+22534881,enema,DISEASE
+22534881,hirschsprung's disease and the total length of aganglionosis,DISEASE
+22534881,hirschsprung's disease,DISEASE
+22534881,enemas,CHEMICAL
+22534881,aganglionosis,DISEASE
+24785562,corticosteroids,CHEMICAL
+24785562,asthma exacerbations,DISEASE
+24785562,prednisone,CHEMICAL
+24785562,prednisolone,CHEMICAL
+24785562,dexamethasone,CHEMICAL
+24785562,vomiting,DISEASE
+22564465,breast cancer,DISEASE
+22564465,cancer,DISEASE
+22564465,breast cancers,DISEASE
+27456836,diabetes,DISEASE
+27456836,iaa,CHEMICAL
+27456836,glucose,CHEMICAL
+27287237,infectious disease,DISEASE
+27287237,infectious diseases,DISEASE
+14697414,prostate cancer,DISEASE
+14697414,stage t1-t3an0-nxm0,DISEASE
+14697414,death,DISEASE
+26686513,cyclopentolate,CHEMICAL
+26686513,hypermetropes,DISEASE
+26686513,myopes,DISEASE
+26686513,hypermetropes (2 to 5 d,CHEMICAL
+15530261,primary hepatocellular carcinoma,DISEASE
+15530261,tumor,DISEASE
+24160268,breast cancer,DISEASE
+24160268,malignancy,DISEASE
+24160268,cancer,DISEASE
+21823940,stroke,DISEASE
+21823940,post-stroke,DISEASE
+21823940,impaired stroke,DISEASE
+21823940,communication disorders,DISEASE
+21823940,mto,CHEMICAL
+27217036,neoadjuvant,CHEMICAL
+27217036,imatinib,CHEMICAL
+27217036,gastrointestinal stromal tumours,DISEASE
+27217036,gist,DISEASE
+27217036,tumour,DISEASE
+27217036,kit,CHEMICAL
+18565233,hypertriglyceridemia,DISEASE
+18565233,colon cancer,DISEASE
+18565233,glucose,CHEMICAL
+18565233,bezafibrate,CHEMICAL
+18565233,tumors,DISEASE
+18565233,coronary artery disease,DISEASE
+18565233,cancer,DISEASE
+18565233,bezafibrate infarction,CHEMICAL
+27184293,dimethyl sulfoxide,CHEMICAL
+27184293,323/333 donations,CHEMICAL
+27184293,febrile neutropenic,DISEASE
+27184293,neutropenic fever,DISEASE
+19459018,obstructive jaundice,DISEASE
+22042121,glucose,CHEMICAL
+22042121,solids,CHEMICAL
+16100194,cough,DISEASE
+16100194,angioedema,DISEASE
+16100194,ace-i,CHEMICAL
+16100194,angiotensin,CHEMICAL
+16100194,sartans,CHEMICAL
+25480629,weight loss,DISEASE
+25480629,upper gastrointestinal symptoms,DISEASE
+25480629,gerd,DISEASE
+25480629,hernia,DISEASE
+25480629,barium,CHEMICAL
+25480629,bleeding,DISEASE
+25480629,1 mid-gastric stenosis,CHEMICAL
+25480629,leaks,DISEASE
+17453263,asthma,DISEASE
+17453263,asthma flare-ups,DISEASE
+18322741,atrial fibrillation,DISEASE
+18322741,trauma,DISEASE
+18322741,nonthoracic,DISEASE
+19106867,trauma,DISEASE
+25691513,communication disorders,DISEASE
+25691513,hearing loss,DISEASE
+25691513,autism spectrum disorder,DISEASE
+25691513,asd,DISEASE
+25691513,typical-development,DISEASE
+11035130,methotrexate toxicity,CHEMICAL
+11035130,folic acid,CHEMICAL
+11035130,methotrexate,CHEMICAL
+11035130,toxicity,DISEASE
+11035130,rheumatoid arthritis,DISEASE
+11035130,neutropenia,DISEASE
+11035130,nausea,DISEASE
+11035130,lower disease activity,DISEASE
+19409117,shock,DISEASE
+19409117,calyceal calculi,DISEASE
+19409117,calculus,DISEASE
+21900017,swine,CHEMICAL
+21900017,lung ischemia,DISEASE
+21900017,left-and right-ventricular pressures,DISEASE
+21900017,tumor necrosis,DISEASE
+21900017,ischemia,DISEASE
+16968876,non-small cell lung cancer,DISEASE
+16968876,nsclc,DISEASE
+16968876,cancer,DISEASE
+16968876,pain,DISEASE
+16968876,dysphagia,DISEASE
+16968876,death,DISEASE
+18540901,ttn,DISEASE
+27448572,depressive disorder,DISEASE
+27448572,comorbidity,DISEASE
+17621202,infection,DISEASE
+25987398,aortic aneurysm rupture,DISEASE
+25987398,aneurysm,DISEASE
+25987398,rupture,DISEASE
+25987398,aneurysms,DISEASE
+25987398,abdominal aneurysm ruptures,DISEASE
+25987398,ruptured abdominal aneurysms,DISEASE
+25987398,ruptured aortic aneurysm,DISEASE
+25987398,hypertension,DISEASE
+12920330,comorbidity,DISEASE
+12920330,depression,DISEASE
+12920330,somatic complaints,DISEASE
+12920330,depressive symptoms,DISEASE
+12920330,depressed mood,DISEASE
+23497210,major depression,DISEASE
+23497210,antidepressants,CHEMICAL
+23497210,depression,DISEASE
+23497210,depressive,DISEASE
+23497210,antidepressant,CHEMICAL
+23497210,n06a antidepressants,CHEMICAL
+23497210,comorbidity,DISEASE
+21952349,myocardial damage,DISEASE
+21952349,cardiovascular death,DISEASE
+21952349,myocardial lesions,DISEASE
+21952349,angina,DISEASE
+21952349,non-st,CHEMICAL
+21952349,acute coronary syndrome,DISEASE
+21952349,ischemia,DISEASE
+21952349,heart failure,DISEASE
+21952349,diabetic,DISEASE
+21712147,human immunodeficiency virus /aids,DISEASE
+21712147,coformulated,CHEMICAL
+21712147,fxd,CHEMICAL
+25311479,cancer,DISEASE
+25311479,breast cancer,DISEASE
+20602784,breast cancer,DISEASE
+12836106,coma,DISEASE
+12836106,trauma,DISEASE
+12836106,injury in blunt trauma,DISEASE
+12836106,rts,DISEASE
+25588461,disorders of consciousness,DISEASE
+25588461,wakefulness syndrome,DISEASE
+25588461,post-anoxic,DISEASE
+25588461,traumatic brain injury,DISEASE
+19299238,hormone receptor-positive breast cancer,DISEASE
+19299238,fractures,DISEASE
+19299238,tamoxifen,CHEMICAL
+19299238,hormone receptor-positive nonmetastatic breast cancer,DISEASE
+19299238,316,CHEMICAL
+19299238,arthralgia,DISEASE
+19299238,bone pain,DISEASE
+19299238,myalgia,DISEASE
+19299238,bone fracture,DISEASE
+19299238,bone pain/myalgia,DISEASE
+22706226,endometrial cancer,DISEASE
+22706226,primary disease,DISEASE
+22706226,vaginal vault recurrences,DISEASE
+12913878,malignant glioma,DISEASE
+12913878,paclitaxel,CHEMICAL
+16769333,esophageal atresia,DISEASE
+16769333,fistula,DISEASE
+16769333,anomalies,DISEASE
+16769333,h-type fistula,DISEASE
+16769333,malformations of the respiratory tree,DISEASE
+16769333,hypoplastic bronchi,DISEASE
+22497340,nystagmus,DISEASE
+10223070,appendiceal perforation,DISEASE
+10223070,tubal infertility,DISEASE
+10223070,infertility,DISEASE
+10223070,perforation,DISEASE
+8566975,gonorrhoea,DISEASE
+8566975,multiple infections,DISEASE
+8566975,infection,DISEASE
+8566975,infections,DISEASE
+9427037,tumors,DISEASE
+9427037,astrocytomas,DISEASE
+9427037,tumor necrosis,DISEASE
+9427037,astrocytoma,DISEASE
+9427037,tumor,DISEASE
+9427037,pilocytic astrocytomas,DISEASE
+9427037,anaplastic astrocytoma,DISEASE
+9427037,gliobastoma multiforme,DISEASE
+9427037,"intimal hyperplasia, loss of vessel wall",DISEASE
+28359277,health behaviors,DISEASE
+15687156,unicompartmental knee disease,DISEASE
+15687156,tricompartmental knee,DISEASE
+15687156,condylar knee,DISEASE
+15687156,tricompartmental,DISEASE
+28127977,primary lung cancer,DISEASE
+28127977,lung cancer,DISEASE
+28127977,weight loss,DISEASE
+16809243,asthma,CHEMICAL
+16809243,pregnancy-induced hypertension,DISEASE
+17276182,atrial fibrillation,DISEASE
+17276182,hypertension,DISEASE
+17276182,forskolin,CHEMICAL
+22428608,left ventricular hypertrophy,DISEASE
+22428608,lvh,DISEASE
+22428608,hypertensive,DISEASE
+22428608,qtcd,DISEASE
+27858166,traumatic aortic injury,DISEASE
+27858166,tai,DISEASE
+27858166,aortic injury,DISEASE
+23791827,neutropenic fever,DISEASE
+23791827,cancer,DISEASE
+23791827,death,DISEASE
+23791827,stage disease,DISEASE
+23791827,primary tumors,DISEASE
+18243752,breast cancer,DISEASE
+18243752,tumours,DISEASE
+18243752,tumour,DISEASE
+17279467,pamidronate,CHEMICAL
+17279467,fractures,DISEASE
+17279467,bisphosphonates,CHEMICAL
+17279467,trauma fracture,DISEASE
+17279467,osteopenia,DISEASE
+17279467,bisphosphonate,CHEMICAL
+22758782,fracture,DISEASE
+15223725,hypertensive,DISEASE
+15223725,hypertension,DISEASE
+19482903,oxygen,CHEMICAL
+19482903,spina bifida,DISEASE
+25752912,anomaly,DISEASE
+25752912,topfa,DISEASE
+25752912,congenital heart defects,DISEASE
+25752912,chd,DISEASE
+25752912,congenital malformations,DISEASE
+21946341,atrial fibrillation,DISEASE
+21946341,± 9,CHEMICAL
+21946341,organic heart disease,DISEASE
+16428354,stillbirth rate,DISEASE
+19302863,ethyl-2-cyanoacrylate,CHEMICAL
+19302863,"ea1, ea2, ea3, eb1, eb2, eb3, la1, la2, la3, lb1, lb2, lb3), each containing 8 rats.",DISEASE
+19302863,hydroxyproline,CHEMICAL
+24245816,bmds,DISEASE
+24666444,major cancer,DISEASE
+24666444,hematologic complications,DISEASE
+19913785,choledocholithiasis-induced acute cholangitis,DISEASE
+19913785,choledocholithiasis,DISEASE
+19913785,cholangitis,DISEASE
+19913785,cbd,CHEMICAL
+15631914,breast cancer,DISEASE
+15631914,asymmetric enlargement of the ipsilateral axillary nodes moderately suspicious for metastasis,DISEASE
+15631914,tumor,DISEASE
+11970923,retinal haemorrhages,DISEASE
+11970923,convulsions,DISEASE
+11970923,haemorrhages,DISEASE
+11970923,convulsive,DISEASE
+11970923,haemorrhage,DISEASE
+11970923,systemic disorder,DISEASE
+11970923,febrile convulsion,DISEASE
+27281318,knee flexion,DISEASE
+12846929,lung cancer,DISEASE
+12846929,cancer,DISEASE
+12846929,breathlessness,DISEASE
+26505821,fracture,DISEASE
+26505821,tetracycline,CHEMICAL
+25156467,anomalous pulmonary venous,DISEASE
+22023714,pain,DISEASE
+16046584,bleeding,DISEASE
+16046584,irregular bleeding,DISEASE
+16155169,ethanol,CHEMICAL
+16155169,pain,DISEASE
+16155169,intracystic hemorrhage,DISEASE
+19398929,neoplasm,DISEASE
+19398929,polyps,DISEASE
+19398929,hypertension,DISEASE
+19398929,polyp,DISEASE
+28143468,pms,DISEASE
+9483814,prostaglandin analogues,CHEMICAL
+9483814,gemeprost,CHEMICAL
+9483814,abortion,DISEASE
+9483814,pain,DISEASE
+9483814,labour,CHEMICAL
+9483814,pethidin,CHEMICAL
+9483814,butylscopolamine,CHEMICAL
+9483814,bupivacain,CHEMICAL
+9483814,prostaglandin,CHEMICAL
+22720085,hyperglycemia,DISEASE
+22720085,cardiovascular disease,DISEASE
+22720085,cvd,DISEASE
+22720085,diabetes,DISEASE
+22720085,glucose,CHEMICAL
+24748473,weight loss,DISEASE
+24748473,obese,DISEASE
+24748473,obesity,DISEASE
+24748473,lsgs,DISEASE
+24748473,apnea,DISEASE
+15588538,functional somatic symptoms,DISEASE
+15588538,chronic functional somatic symptoms,DISEASE
+15588538,nijmegen,DISEASE
+15588538,comorbidity,DISEASE
+15588538,psychiatric,DISEASE
+22211919,urinary tract infection,DISEASE
+24433626,congestive heart failure,DISEASE
+24433626,ischemic heart disease,DISEASE
+24433626,stroke/transient,DISEASE
+24433626,chronic kidney disease,DISEASE
+24433626,depression,DISEASE
+24433626,diabetes,DISEASE
+24433626,osteoporosis,DISEASE
+24433626,rheumatoid arthritis/osteoarthritis,DISEASE
+24433626,alzheimer's disease,DISEASE
+24433626,cancer,DISEASE
+24433626,chronic obstructive pulmonary disease,DISEASE
+9542484,syphilis,DISEASE
+9542484,labour,CHEMICAL
+17008699,prostate cancer,DISEASE
+17008699,primary prostate cancer,DISEASE
+17008699,toxicity,DISEASE
+17008699,anxiety,DISEASE
+17008699,depression,DISEASE
+23228527,cortisol,CHEMICAL
+23228527,n=65,CHEMICAL
+15489384,spasticity,DISEASE
+15489384,stroke,DISEASE
+17444776,holmium,CHEMICAL
+8422202,metered-dose,CHEMICAL
+8422202,asthma,DISEASE
+23794696,alginate,CHEMICAL
+20549895,overweight,DISEASE
+20549895,alcohol,CHEMICAL
+20549895,diphtheria,DISEASE
+20549895,tetanus,DISEASE
+20549895,poliomyelitis,DISEASE
+20549895,hepatitis b,DISEASE
+18714572,neoplasia,DISEASE
+18714572,vaginal lesions,DISEASE
+18714572,koilocytosis,DISEASE
+18714572,cin,DISEASE
+18714572,cin ii,CHEMICAL
+18714572,carcinoma,DISEASE
+18714572,high-grade vain,DISEASE
+8910148,ventricular dysfunction,DISEASE
+8910148,left ventricular dysfunction,DISEASE
+8910148,fac,CHEMICAL
+8910148,epinephrine,CHEMICAL
+8910148,hemorrhage,DISEASE
+23899611,sodium chloride,CHEMICAL
+23899611,edaravone,CHEMICAL
+23899611,glutathione,CHEMICAL
+23899611,gsh,CHEMICAL
+23899611,malondialdehyde,CHEMICAL
+23899611,mda,CHEMICAL
+23899611,tac,CHEMICAL
+23899611,edema,DISEASE
+23899611,i/r injury,DISEASE
+10548670,stroke,DISEASE
+10548670,neurological deficit,DISEASE
+10548670,ninds,DISEASE
+10548670,cerebral infarction,DISEASE
+10548670,right hemisphere strokes,DISEASE
+10548670,left hemisphere strokes,DISEASE
+10548670,hemisphere stroke,DISEASE
+10548670,hemisphere strokes,DISEASE
+10548670,left hemisphere stroke,DISEASE
+10548670,right hemisphere stroke,DISEASE
+26907557,tmj,DISEASE
+20871246,nonorthopaedic injuries,DISEASE
+20871246,fractures,DISEASE
+20871246,pelvic fractures,DISEASE
+20871246,trauma,DISEASE
+20871246,abdomen injuries,DISEASE
+20871246,abdomen injury,DISEASE
+22876568,celiac disease,DISEASE
+22876568,autoimmune enteropathy,DISEASE
+22876568,villus atrophy,DISEASE
+22876568,malabsorption,DISEASE
+22876568,vitamin d,CHEMICAL
+22876568,autoimmune diseases,DISEASE
+22876568,calcium,CHEMICAL
+22876568,25-hydroxyvitamin d,CHEMICAL
+22876568,non-obese,DISEASE
+15280782,hiv infection,DISEASE
+15280782,hiv- infected,DISEASE
+17502203,cholestasis,DISEASE
+17502203,small bowel atresia,DISEASE
+17502203,atresia,DISEASE
+17502203,duodenal atresia,DISEASE
+17502203,jejunoileal atresia,DISEASE
+17502203,multiple atresia,DISEASE
+17502203,short bowel,DISEASE
+17502203,biliary atresia,DISEASE
+17502203,deaths,DISEASE
+26370095,cipt,CHEMICAL
+26370095,482/qaly,CHEMICAL
+10354335,pain,DISEASE
+26452334,head and neck paragangliomas,DISEASE
+26452334,tumour,DISEASE
+26452334,tumours,DISEASE
+26452334,paragangliomas,DISEASE
+15065192,breast lesions,DISEASE
+15065192,malignancy,DISEASE
+25488308,malocclusion,DISEASE
+25488308,orthodontic,DISEASE
+25488308,thickness,CHEMICAL
+26222664,neurological complications,DISEASE
+26222664,neurological deficit,DISEASE
+26222664,thoracic 3-column osteotomies,DISEASE
+26222664,3-column osteotomies,CHEMICAL
+22617083,psychiatric,DISEASE
+22617083,personality disorder,DISEASE
+9767546,ages,CHEMICAL
+9767546,glycoxidation,CHEMICAL
+9767546,normoglycemic uremia,DISEASE
+9767546,uremia,DISEASE
+9767546,carbohydrate-derived adducts,CHEMICAL
+9767546,maillard,CHEMICAL
+9767546,carboxymethyllysine,CHEMICAL
+9767546,cml,CHEMICAL
+9767546,polyunsaturated fatty acids,CHEMICAL
+9767546,carbohydrate,CHEMICAL
+9767546,carbonyl compounds,CHEMICAL
+9767546,pentosidine,CHEMICAL
+9767546,carbohydrate-derived carbonyls,CHEMICAL
+9767546,malondialdehyde,CHEMICAL
+9767546,lipid-derived carbonyls,CHEMICAL
+9767546,fructoselysine,CHEMICAL
+9767546,diabetic and non-diabetic,DISEASE
+9767546,glucose,CHEMICAL
+9767546,diabetic and non-diabetic hemodialysis,DISEASE
+21214884,hpv infection,DISEASE
+21214884,breast milk,DISEASE
+23321509,ovarian cancer,DISEASE
+23321509,peritoneal carcinomatosis,DISEASE
+23321509,ascites,DISEASE
+23321509,tumour,DISEASE
+23321509,platinum,CHEMICAL
+16827975,non-small lung carcinoma,DISEASE
+16827975,non-small cell carcinoma,DISEASE
+16827975,iiib,CHEMICAL
+16827975,comorbidity,DISEASE
+16827975,weight loss,DISEASE
+18179827,ropivacaine hydrochloride,CHEMICAL
+18179827,pain,DISEASE
+18179827,ropivacaine,CHEMICAL
+18179827,"nausea,",DISEASE
+18179827,fever,DISEASE
+18179827,vomiting,DISEASE
+18179827,bleeding,DISEASE
+18179827,otalgia,DISEASE
+18179827,trismus,DISEASE
+14872327,pain,DISEASE
+14872327,psychiatric,DISEASE
+14872327,psychiatric disorder,DISEASE
+14872327,low back pain,DISEASE
+14872327,headache,DISEASE
+14872327,shoulder and neck pain,DISEASE
+14872327,affective disorders,DISEASE
+14872327,"neurotic, stress-related and",DISEASE
+14872327,somatoform disorders,DISEASE
+14872327,psychotic disorders,DISEASE
+14872327,schizophrenia,DISEASE
+14872327,schizotypic,DISEASE
+14872327,delusional disorders,DISEASE
+14872327,depression,DISEASE
+14872327,or=3.609,CHEMICAL
+24809662,overactive bladder,DISEASE
+24809662,anterior/apical prolapse,DISEASE
+24809662,urinary incontinence,DISEASE
+24809662,mui,DISEASE
+26485091,depression,DISEASE
+26485091,aaps,CHEMICAL
+26485091,second-line,CHEMICAL
+26485091,antidepressant,CHEMICAL
+12805495,warfarin,CHEMICAL
+12805495,intracerebral hemorrhage,DISEASE
+12805495,ich,DISEASE
+12805495,nonvalvular atrial fibrillation,DISEASE
+12805495,strategies-warfarin,CHEMICAL
+12805495,hemorrhage,DISEASE
+12805495,lobar,DISEASE
+12805495,prior lobar ich,DISEASE
+12805495,hemispheric ich,DISEASE
+12805495,thromboembolic stroke,DISEASE
+19925761,"stones, stone location",DISEASE
+20382292,parkinson's disease,DISEASE
+20382292,idiopathic pd,DISEASE
+20382292,parkinson's disease rating scale,DISEASE
+22236315,cancer,DISEASE
+22236315,"breast, colorectal (crc) and lung cancer",DISEASE
+22236315,breast cancer,DISEASE
+22236315,time-to-treatment,DISEASE
+22236315,crc,DISEASE
+17051586,folic acid,CHEMICAL
+17051586,congenital heart anomalies,DISEASE
+17051586,down syndrome,DISEASE
+17051586,heart anomalies,DISEASE
+17051586,birth defects,DISEASE
+17051586,ventricular septal [vsd]),DISEASE
+17051586,ostium secundum type,DISEASE
+17051586,atrial septal defects [asd]and endocardial cushion defects,DISEASE
+17051586,conotruncal defects,DISEASE
+17051586,asds,DISEASE
+25007420,mood disorders,DISEASE
+25007420,anxiety,DISEASE
+25007420,dementia,DISEASE
+26556589,diabetes mellitus,DISEASE
+26556589,t1dm,DISEASE
+26556589,hyperglycaemia,DISEASE
+26556589,"± 11,",CHEMICAL
+26556589,± 10),CHEMICAL
+26556589,diabetic complications,DISEASE
+12612531,primary eosinophilic esophagitis,DISEASE
+12612531,chronic inflammatory disorder of the esophagus,DISEASE
+12612531,dysphagia,DISEASE
+12612531,fragile esophageal mucosa,DISEASE
+12612531,trauma,DISEASE
+26194560,acetabular fractures,DISEASE
+26194560,osteoporotic,DISEASE
+26194560,hip arthroplasty,DISEASE
+26194560,tha,DISEASE
+26194560,fractures,DISEASE
+26194560,articular comminution,DISEASE
+26194560,unreducible,DISEASE
+26194560,pulmonary embolism,DISEASE
+26194560,ischium,DISEASE
+11079675,chronic pulmonary regurgitation,DISEASE
+11079675,tetralogy of fallot (tof,DISEASE
+11079675,sudden cardiac death,DISEASE
+11079675,tof,CHEMICAL
+21459725,xanthogranulomatous cholecystitis,DISEASE
+21459725,xgc,DISEASE
+21459725,cholecystitis,DISEASE
+21459725,gallbladder carcinoma,DISEASE
+21459725,gbc,DISEASE
+21459725,chronic cholecystitis,DISEASE
+21172844,atrophy,DISEASE
+21172844,frontotemporal lobar degeneration,DISEASE
+21172844,ftld-tdp,DISEASE
+21172844,"ftld-tdp type 1, 9",CHEMICAL
+21172844,temporal lobe atrophy,DISEASE
+21172844,posterior frontal atrophy,DISEASE
+21172844,progranulin,DISEASE
+21172844,dementia,DISEASE
+24946973,breast cancer,DISEASE
+24946973,high-dose,CHEMICAL
+24946973,hdr,CHEMICAL
+24946973,tumor,DISEASE
+24946973,fibrosis,DISEASE
+24946973,telangiectasia,DISEASE
+24946973,hyperpigmentation,DISEASE
+17335331,bipolar i disorder,DISEASE
+17335331,bipolar disorders,DISEASE
+17335331,manic,DISEASE
+17335331,grandiosity,DISEASE
+17335331,psychiatric,DISEASE
+17335331,affective disorders,DISEASE
+17335331,mania,DISEASE
+17335331,psychosis,DISEASE
+27581329,overweight,DISEASE
+27581329,obese,DISEASE
+11867487,concussion,DISEASE
+12765819,hematoma,DISEASE
+12765819,subarachnoid hemorrhage,DISEASE
+12765819,sah,DISEASE
+12765819,ruptured internal carotid aneurysm,DISEASE
+12765819,fasudil hydrochloride,CHEMICAL
+12765819,vasospasm,DISEASE
+12765819,buttock pain,DISEASE
+12765819,sciatica,DISEASE
+12765819,pain,DISEASE
+12765819,neurologic deficit,DISEASE
+24507422,stroke,DISEASE
+24507422,thrombus,DISEASE
+24507422,atherosclerotic,DISEASE
+9854965,cognitive dysfunction,DISEASE
+9854965,motor neuron disease,DISEASE
+9854965,mnd,DISEASE
+9854965,demented,DISEASE
+9854965,impaired language function,DISEASE
+9854965,aphasic syndrome,DISEASE
+9854965,anomia,DISEASE
+9854965,cognitive deficits,DISEASE
+21756515,tuberculosis,DISEASE
+21756515,dst,CHEMICAL
+19131405,tumors,DISEASE
+19131405,tumor,DISEASE
+19131405,pleomorphic adenomas,DISEASE
+19131405,myoepithelial adenomas,DISEASE
+19131405,lipomas,DISEASE
+19131405,salivary duct carcinomas,DISEASE
+19131405,mucoepidermoid carcinomas,DISEASE
+19131405,acinic cell carcinomas,DISEASE
+19131405,basal cell adenocarcinomas,DISEASE
+19131405,warthin tumors,DISEASE
+18568290,hypotension,DISEASE
+18568290,hypertension,DISEASE
+18568290,endothelin-1,CHEMICAL
+18568290,et-1,CHEMICAL
+18568290,end-stage renal disease,DISEASE
+18568290,esrd,DISEASE
+18568290,dialysis-induced hypotension,DISEASE
+18667100,death,DISEASE
+18667100,affective disorders,DISEASE
+18667100,affective disorder,DISEASE
+18667100,major affective disorders,DISEASE
+18667100,depression,DISEASE
+18667100,depressive and bipolar disorders,DISEASE
+18667100,suicidal behavior,DISEASE
+18667100,bipolar,DISEASE
+18667100,hopelessness,DISEASE
+9191526,breast cancer,DISEASE
+10605400,warfarin,CHEMICAL
+17601244,disease damage,DISEASE
+20608141,prostate cancer,DISEASE
+20608141,cancer,DISEASE
+20608141,prostate,DISEASE
+25986020,line-associated bloodstream infection,DISEASE
+25986020,clabsi,DISEASE
+25986020,clabsis,DISEASE
+25986020,infections,DISEASE
+15670262,upper gastrointestinal (gi) motor disorders,DISEASE
+15670262,gastroparesis,DISEASE
+22900881,proroot mta,CHEMICAL
+22900881,pulpitis,DISEASE
+22900881,pain,DISEASE
+11413427,idiopathic scoliosis,DISEASE
+11413427,scoliosis,DISEASE
+11413427,thoracic or thoracolumbar scoliosis,DISEASE
+9602458,cerebral palsy,DISEASE
+9602458,5-9,CHEMICAL
+24434052,skin cancer,DISEASE
+24434052,malignant melanoma,DISEASE
+24434052,melanomas,DISEASE
+24434052,melanoma,DISEASE
+17598882,breast cancer,DISEASE
+21190419,gestational diabetes mellitus,DISEASE
+21190419,gdm,DISEASE
+21190419,anomalies,DISEASE
+16403186,arginine vasopressin,CHEMICAL
+16403186,bipolar disorder,DISEASE
+16403186,pea-bp,DISEASE
+16403186,hypersexual,DISEASE
+16403186,mania,DISEASE
+16403186,elation,DISEASE
+16403186,grandiosity,DISEASE
+16403186,attention-deficit hyperactivity disorder,DISEASE
+16403186,adhd,DISEASE
+16403186,affective disorders,DISEASE
+16403186,schizophrenia,DISEASE
+16403186,hypersexuality,DISEASE
+11888773,non-small cell lung carcinoma,DISEASE
+11888773,non-small cell lung cancer,DISEASE
+11888773,radio-,CHEMICAL
+11888773,squamous cell vs,DISEASE
+11888773,adenocarcinoma,DISEASE
+11888773,tumour,DISEASE
+11888773,squamous cell carcinoma,DISEASE
+24014276,deaths,DISEASE
+24014276,death,DISEASE
+26113007,orthodontic,DISEASE
+26113007,tooth-size,DISEASE
+24747511,intrusive ruminative thoughts,DISEASE
+24747511,depression,DISEASE
+24747511,anxiety,DISEASE
+19836806,obesity,DISEASE
+19836806,hemodilution,DISEASE
+19836806,prostate cancer,DISEASE
+19836806,prostate,DISEASE
+17076091,obstructive sleep apnea,DISEASE
+17076091,osa,DISEASE
+17076091,oxygen,CHEMICAL
+17076091,apnea-hypopnea,DISEASE
+21801416,melatonin,CHEMICAL
+21801416,ampk,CHEMICAL
+21801416,metformin,CHEMICAL
+21801416,aicar,CHEMICAL
+25819796,seizures,DISEASE
+25819796,cognitive disability,DISEASE
+25819796,infarct,DISEASE
+25819796,seizure,DISEASE
+18496363,trauma,DISEASE
+18496363,hemorrhagic shock,DISEASE
+18496363,multiple organ failure,DISEASE
+18496363,nosocomial infection,DISEASE
+18496363,alcoholism,DISEASE
+18496363,liver disease,DISEASE
+14551704,terminally ill,DISEASE
+14551704,communication behavior,DISEASE
+14551704,cancer,DISEASE
+14551704,cancer disease,DISEASE
+23234860,breast cancer,DISEASE
+23234860,tpt,CHEMICAL
+23234860,deaths,DISEASE
+22532370,obesity,DISEASE
+22532370,arterial damage,DISEASE
+22532370,vascular dysfunction,DISEASE
+22532370,glucose,CHEMICAL
+22532370,low-density,CHEMICAL
+22532370,cholesterol,CHEMICAL
+11566686,hypertrophic pyloric stenosis,DISEASE
+11566686,pyloric stenosis,DISEASE
+15502995,angiotensin-ii,CHEMICAL
+15502995,esomeprazol,CHEMICAL
+24019262,migraine,DISEASE
+24019262,headache,DISEASE
+24019262,pain,DISEASE
+24019262,low back pain,DISEASE
+24019262,hg increase,DISEASE
+22867778,hospital-acquired infections,DISEASE
+22867778,injuries,DISEASE
+22867778,sports-related injuries,DISEASE
+23348330,fracture,DISEASE
+23348330,fractures,DISEASE
+23348330,trauma,DISEASE
+28177278,polyarteritis nodosa,DISEASE
+28177278,pan,CHEMICAL
+28177278,vasculitis,DISEASE
+28177278,glucocorticoids,CHEMICAL
+28177278,cyclophosphamide,CHEMICAL
+28177278,pain,DISEASE
+28177278,hypertension,DISEASE
+28177278,fever,DISEASE
+28177278,hematuria,DISEASE
+28177278,acute renal failure,DISEASE
+28177278,renal infarction,DISEASE
+28177278,embolism,DISEASE
+28177278,drug abuse,DISEASE
+28177278,cardiac arrhythmias,DISEASE
+28177278,thrombophilia,DISEASE
+18403944,celiac disease,DISEASE
+18403944,autoimmunity,DISEASE
+18403944,gfd,CHEMICAL
+18403944,osteoporosis,DISEASE
+20363841,copd,DISEASE
+20363841,smoking,CHEMICAL
+20363841,airflow obstruction,DISEASE
+20363841,airways obstruction,DISEASE
+20363841,cough,DISEASE
+20363841,dyspnea,DISEASE
+20363841,wheeze,DISEASE
+19664156,allergic,DISEASE
+19664156,allergy,DISEASE
+23356465,cpt,CHEMICAL
+23356465,posttraumatic stress disorder,DISEASE
+23356465,ptsd,DISEASE
+22972546,ads,CHEMICAL
+22972546,mrs,CHEMICAL
+22972546,cardiovascular diseases,DISEASE
+21850494,hepatorenal syndrome,DISEASE
+21850494,hrs,DISEASE
+21850494,functional renal failure,DISEASE
+21850494,cirrhosis,DISEASE
+21850494,fulminant hepatic failure,DISEASE
+21850494,ascites,DISEASE
+21850494,midodrine,CHEMICAL
+21850494,octreotide,CHEMICAL
+21850494,end-stage liver disease,DISEASE
+21850494,esld,DISEASE
+21850494,cardiac cirrhosis,DISEASE
+21850494,hepatitis c,DISEASE
+21850494,alcohol,CHEMICAL
+21850494,neoplasia,DISEASE
+21850494,alcoholic liver disease,DISEASE
+21850494,creatinine,CHEMICAL
+21850494,sodium,CHEMICAL
+21850494,vasopressors,CHEMICAL
+21850494,renal disease,DISEASE
+20187289,stock,DISEASE
+20187289,asthma,DISEASE
+20297950,fenofibrate,CHEMICAL
+20297950,apnoea,DISEASE
+20297950,mmol/l,CHEMICAL
+20297950,apnoea syndrome,DISEASE
+20297950,glucose,CHEMICAL
+20297950,fibrinogen,CHEMICAL
+20297950,apnoea/hypopnoea,DISEASE
+20297950,oxygen,CHEMICAL
+20297950,hypopnoeas,DISEASE
+20297950,oxygen desaturations,DISEASE
+20297950,reduced obstructive apnoeas,DISEASE
+23735520,disorders of consciousness,DISEASE
+23735520,coma,DISEASE
+23735520,scale-revised,CHEMICAL
+23735520,oxygen,CHEMICAL
+10759659,bladder tumours,DISEASE
+10759659,tumour,DISEASE
+25592625,propranolol,CHEMICAL
+25592625,infantile hemangiomas,DISEASE
+25592625,beta-blocker,CHEMICAL
+25592625,cardiovascular disease,DISEASE
+25592625,first-degree,DISEASE
+25592625,hypotension,DISEASE
+12595848,congestive heart failure,DISEASE
+12595848,chf,DISEASE
+12595848,death,DISEASE
+20064872,steroid,CHEMICAL
+20064872,gca,CHEMICAL
+20064872,steroids,CHEMICAL
+20064872,prednisolone,CHEMICAL
+23588461,ascitis,DISEASE
+23588461,cirrhosis,DISEASE
+23588461,alcoholic cirrhosis,DISEASE
+23588461,cancer,DISEASE
+23588461,bacterial peritonitis,DISEASE
+23588461,bleeding,DISEASE
+18019905,deaths,DISEASE
+18019905,sepsis,DISEASE
+18019905,(pre-)eclampsia,DISEASE
+18019905,labour,CHEMICAL
+25859857,nact,CHEMICAL
+25859857,cancer,DISEASE
+25859857,ib1-iib,CHEMICAL
+25859857,140,CHEMICAL
+25859857,tumor,DISEASE
+26418796,infection,DISEASE
+26418796,bsi,DISEASE
+26418796,sepsis,DISEASE
+22825590,cardiovascular disease,DISEASE
+22825590,≤ 120/80 mm hg,CHEMICAL
+22825590,hypertension,DISEASE
+22825590,hypertensive,DISEASE
+22825590,alcohol,CHEMICAL
+22825590,hiv infection,DISEASE
+18832500,depression,DISEASE
+18832500,star*d,DISEASE
+18832500,psychiatric,DISEASE
+18832500,antidepressant,CHEMICAL
+18832500,antidepressants,CHEMICAL
+18955431,stroke,DISEASE
+18955431,hemiparesis and motor impairment,DISEASE
+18955431,depression,DISEASE
+9550200,1248,CHEMICAL
+9550200,multiparae,DISEASE
+10135926,mbb,CHEMICAL
+11296674,prostate and lung cancer,DISEASE
+11296674,tumors,DISEASE
+11296674,carcinoma of the prostate,DISEASE
+24139705,ida,CHEMICAL
+16253970,cos,CHEMICAL
+16253970,intrauterine insemination,DISEASE
+16253970,ovarian hyperstimulation,DISEASE
+16253970,non-conception,CHEMICAL
+14745753,half-dose,CHEMICAL
+14745753,gadolinium chelate,CHEMICAL
+27078715,nephrolithiasis,DISEASE
+15939071,atherosclerosis,DISEASE
+15939071,diabetes,DISEASE
+15939071,insulin,CHEMICAL
+15939071,intermediate-acting,CHEMICAL
+11926574,hepatitis g,DISEASE
+11926574,chronic infection,DISEASE
+11926574,chronic liver disease,DISEASE
+11926574,infection,DISEASE
+11926574,cryptogenic chronic liver disease,DISEASE
+11926574,alanine,CHEMICAL
+11926574,liver disease,DISEASE
+11926574,hepatitis c virus-related chronic liver disease,DISEASE
+11926574,anti-hepatitis g,CHEMICAL
+11926574,hepatitis g virus-rna,DISEASE
+11926574,cryptogenic chronic hepatitis,DISEASE
+11926574,hepatitis c,DISEASE
+11926574,hepatitis,DISEASE
+11926574,hepatitis g virus infection,DISEASE
+11926574,cryptogenic hepatitis,DISEASE
+11926574,cryptogenic,DISEASE
+11926574,hepatitis g virus-infected,DISEASE
+11926574,liver damage,DISEASE
+11926574,chronic hepatitis,DISEASE
+11926574,fibrosis,DISEASE
+11926574,cirrhosis,DISEASE
+25614468,gastric cancer,DISEASE
+25614468,biopsy-proven gastric cancer,DISEASE
+11380492,cushing's disease,DISEASE
+11380492,hypercortisolism,DISEASE
+11380492,low-dose dexamethasone,CHEMICAL
+11380492,hypertension,DISEASE
+11380492,endocrine disorders,DISEASE
+11380492,smoking,CHEMICAL
+11380492,cortisol,CHEMICAL
+11380492,tumour,DISEASE
+11380492,csf leak,DISEASE
+11380492,cacosmia,DISEASE
+16296668,stroke,DISEASE
+16296668,cough,DISEASE
+14992556,reflux episodes,DISEASE
+19931500,lung cancer,DISEASE
+19931500,nsclc,DISEASE
+19931500,emphysema,DISEASE
+19931500,pneumothorax,DISEASE
+19931500,tcr,CHEMICAL
+19931500,tumor,DISEASE
+18378554,agitation,DISEASE
+18378554,dementia,DISEASE
+18378554,agitation behavior,DISEASE
+17306983,cardiac diseases,DISEASE
+17306983,bicuspid aortic valve,DISEASE
+17306983,aneurysm,DISEASE
+17306983,ectasia,DISEASE
+17306983,aortic valve replacement,DISEASE
+26879871,depression,DISEASE
+26879871,antidepressant,CHEMICAL
+26879871,antidepressants,CHEMICAL
+24336869,3775 violent,DISEASE
+16962519,uterine myoma,DISEASE
+16962519,uterine myomas,DISEASE
+16962519,myomas,DISEASE
+17704864,tumor,DISEASE
+17704864,blood loss,DISEASE
+18307476,disability,DISEASE
+18307476,ssi,DISEASE
+15151701,chronic disease,DISEASE
+15151701,diabetes,DISEASE
+15151701,hypertension,DISEASE
+15151701,chronic obstructive pulmonary disease,DISEASE
+15151701,copd,DISEASE
+26399179,primary eyelid tumour,DISEASE
+26399179,eyelid lesions,DISEASE
+26399179,tumour,DISEASE
+23025584,alcohol,CHEMICAL
+23587089,obesity,DISEASE
+15539888,atopy,DISEASE
+15539888,apt,CHEMICAL
+15539888,atopic dermatitis,DISEASE
+15539888,atopic,DISEASE
+15539888,dermatitis,DISEASE
+15539888,hdm,CHEMICAL
+15539888,eczema,DISEASE
+15539888,nonatopic,DISEASE
+15539888,der p 1,CHEMICAL
+15539888,extract,CHEMICAL
+15539888,non-ad,DISEASE
+23096188,juvenile osteochondritis,DISEASE
+23096188,ocd,DISEASE
+23096188,juvenile ocd,DISEASE
+23096188,condylar lesions,DISEASE
+23096188,bone edema,DISEASE
+21881325,statins,CHEMICAL
+21881325,atrial fibrillation,DISEASE
+21881325,statin,CHEMICAL
+19542542,infertility,DISEASE
+15141797,bleeding,DISEASE
+15141797,heparin,CHEMICAL
+15141797,thromboelastogram,CHEMICAL
+25394614,respiratory distress syndrome,DISEASE
+25394614,chronic lung disease,DISEASE
+25394614,cld,DISEASE
+25394614,steroids,CHEMICAL
+25394614,surfactant,CHEMICAL
+10381996,chest syndrome,DISEASE
+10381996,acs,DISEASE
+10381996,febrile,DISEASE
+10381996,sickle cell disease,DISEASE
+10381996,oxygen,CHEMICAL
+25274085,nucleotide,CHEMICAL
+25274085,breast cancer,DISEASE
+25274085,snp,CHEMICAL
+12098035,acute cholecystitis,DISEASE
+12098035,comorbidity,DISEASE
+12963175,valvar aortic stenosis,DISEASE
+12963175,aortic stenosis,DISEASE
+12963175,aortic valve obstruction,DISEASE
+12963175,valvar calcification,DISEASE
+12963175,[vc] scoring 0 to,CHEMICAL
+12963175,valvar obstruction,DISEASE
+16510651,congenital malformations,DISEASE
+24901580,amputation,DISEASE
+24901580,diabetic foot,DISEASE
+24901580,diabetes,DISEASE
+24901580,methylene diphosphonate,CHEMICAL
+24901580,transmetatarsal,DISEASE
+24901580,knee disarticulation,DISEASE
+24901580,primary amputation,DISEASE
+19468282,traumatic,DISEASE
+19468282,cord injury,DISEASE
+19468282,spinal injury association (asia)/international spinal cord society neurological,DISEASE
+19468282,asia,DISEASE
+19468282,indoor mobility spinal cord independence measure,DISEASE
+21481154,gynaecological cancer,DISEASE
+21481154,cancer,DISEASE
+21398266,cancer,DISEASE
+21398266,pain,DISEASE
+25371231,osteochondritis dissecans,DISEASE
+25371231,vitamin d insufficiency,CHEMICAL
+25371231,ocd,DISEASE
+25371231,vitamin d3,CHEMICAL
+25371231,vitamin d3-insufficient,CHEMICAL
+23252468,migraine,DISEASE
+23252468,pain,DISEASE
+23252468,chronic musculoskeletal pain,DISEASE
+23252468,chronic headache,DISEASE
+23252468,headache,DISEASE
+23252468,non-migraine,DISEASE
+22440363,mitral regurgitation,DISEASE
+22440363,dilated and ischemic cardiomyopathy,DISEASE
+22440363,dcm,CHEMICAL
+22440363,systolic dysfunction,DISEASE
+20530150,gallstones,DISEASE
+21618245,carcinomas,DISEASE
+21618245,tumors,DISEASE
+21618245,"small cell carcinoma of which 88,605 (94.1%) and 5,568 (5.9%) had",DISEASE
+21618245,pulmonary small,DISEASE
+21618245,carcinoma,DISEASE
+21618245,head and neck (,DISEASE
+21618245,gastrointestinal disease,DISEASE
+18158048,testis,DISEASE
+21256734,one-hundred-sixty-seven,DISEASE
+21256734,pain,DISEASE
+28027677,gem,CHEMICAL
+17595200,obesity,DISEASE
+26548832,oswestry disability,DISEASE
+26548832,back pain,DISEASE
+26548832,leg pain,DISEASE
+26548832,diabetes,DISEASE
+26548832,coronary artery disease,DISEASE
+26548832,anxiety disorder,DISEASE
+26548832,depression,DISEASE
+26548832,pain,DISEASE
+26548832,functional disability,DISEASE
+15879722,barrett's oesophagus and gastric intestinal metaplasia,DISEASE
+15879722,barrett's oesophagus,DISEASE
+15879722,alcian blue,CHEMICAL
+15879722,cardia,DISEASE
+15879722,intestinal metaplasia,DISEASE
+15879722,barrett,DISEASE
+15879722,"barrett's oesophagus, 11 out of 28 cases (39.3%) with intestinal metaplasia",DISEASE
+27554179,lung cancer,DISEASE
+27554179,primary lung cancer,DISEASE
+27554179,tumor,DISEASE
+27554179,opacity,DISEASE
+15381614,cutaneous melanoma,DISEASE
+15381614,melanoma,DISEASE
+15381614,tumor,DISEASE
+15381614,tumors,DISEASE
+15381614,primary tumors,DISEASE
+18948835,glucose,CHEMICAL
+18435678,haemolytic disease,DISEASE
+18435678,thrombocytopenia,DISEASE
+18435678,alloimmunization,DISEASE
+18435678,intrauterine blood transfusion,DISEASE
+18435678,intrauterine transfusions,DISEASE
+18435678,rhd alloimmunized,DISEASE
+18435678,hydrops,DISEASE
+18435678,non-hydropic,DISEASE
+19268855,cad,DISEASE
+19268855,gadopentetate,CHEMICAL
+12238307,infectious diseases,DISEASE
+12238307,tetanus,DISEASE
+12238307,diphtheria,DISEASE
+12238307,tickborne encephalitis,DISEASE
+20684175,vitamin d deficiency,CHEMICAL
+20684175,autoimmune diseases,DISEASE
+20684175,vitamin d,CHEMICAL
+20684175,autoimmunity,DISEASE
+20684175,25-hydroxyvitamin d,CHEMICAL
+27216167,gynecological cancer,DISEASE
+27216167,pain,DISEASE
+27216167,bleeding,DISEASE
+19852337,peripheral venous thrombophlebitis,DISEASE
+19852337,pvt,DISEASE
+19852337,pain,DISEASE
+19852337,erythema,DISEASE
+19852337,swelling,DISEASE
+19852337,excessive warmth,DISEASE
+19852337,palpable,DISEASE
+25417760,depressive disorder,DISEASE
+25417760,mdd,DISEASE
+25417760,depression,DISEASE
+25417760,psychiatric,DISEASE
+25417760,first-onset or recurrent mdd,DISEASE
+25417760,peri-,CHEMICAL
+25417760,anxiety disorder,DISEASE
+22365295,infection,DISEASE
+22365295,cancer,DISEASE
+22365295,line-associated bloodstream infections,DISEASE
+22365295,clabsis,DISEASE
+15125825,isophane,CHEMICAL
+15125825,nph,CHEMICAL
+15125825,sulfonylurea,CHEMICAL
+15125825,metformin,CHEMICAL
+15125825,type 2 diabetes,DISEASE
+15125825,type 2 diabetes whose disease,DISEASE
+15125825,insulin-naive,DISEASE
+15125825,insulin,CHEMICAL
+15125825,fasting glucose<7.0 mmol/l,DISEASE
+15125825,hypoglycemic,DISEASE
+15125825,weight gain,DISEASE
+24652474,capsulitis,DISEASE
+24652474,primary/idiopathic,DISEASE
+24652474,pain,DISEASE
+24652474,glenohumeral movements,DISEASE
+24947183,idiopathic scoliosis,DISEASE
+24947183,ais,DISEASE
+25779009,chlorhexidine-benzalkonium,CHEMICAL
+25779009,hcc,DISEASE
+25779009,povidone iodine,CHEMICAL
+25779009,p. aeruginosa,DISEASE
+25779009,hirae,DISEASE
+17105833,urinary tract infection,DISEASE
+17105833,uti,DISEASE
+17105833,fluoroquinolones,CHEMICAL
+17105833,ofloxacin,CHEMICAL
+17105833,fluoroquinolone,CHEMICAL
+27338535,infection,DISEASE
+27338535,ssi,DISEASE
+27338535,hernia,DISEASE
+27338535,sso,CHEMICAL
+27690714,bvm,CHEMICAL
+27690714,adult-,DISEASE
+27690714,supraglottic airway,DISEASE
+24964725,mental illness,DISEASE
+11759976,ovarian carcinoma,DISEASE
+11759976,platinum-based,CHEMICAL
+11759976,thirty-four,DISEASE
+11759976,tumor,DISEASE
+16319544,inflammation,DISEASE
+16319544,cardiovascular disease,DISEASE
+16319544,atherosclerosis,DISEASE
+16319544,obesity,DISEASE
+16319544,imts,DISEASE
+20674150,kidney cancers,DISEASE
+20674150,cancers,DISEASE
+20674150,tumors,DISEASE
+20674150,t4 cancers,DISEASE
+20674150,primary tumor,DISEASE
+20674150,kidney cancer,DISEASE
+20674150,tumor,DISEASE
+25336163,meropenem,CHEMICAL
+25887165,numbness,DISEASE
+25887165,paresthesia,DISEASE
+12947068,comorbidity,DISEASE
+12947068,prostate cancer,DISEASE
+12947068,incontinence,DISEASE
+12947068,impotence,DISEASE
+12947068,cancer,DISEASE
+12947068,tumors,DISEASE
+12947068,cancers,DISEASE
+16776337,pituitary apoplexy,DISEASE
+16776337,infarction,DISEASE
+16776337,hemorrhagic infarction,DISEASE
+16776337,frank hemorrhage,DISEASE
+22668852,obesity,DISEASE
+22668852,hypertension,DISEASE
+22668852,prehypertension or stage 1,DISEASE
+25251991,gastrointestinal bleeding,DISEASE
+25251991,dbe,CHEMICAL
+25251991,bleeding,DISEASE
+25251991,dieulafoy's lesion,DISEASE
+25251991,angioectasia,DISEASE
+25251991,tumors,DISEASE
+7497757,thyroxine,CHEMICAL
+7497757,triiodothyronine,CHEMICAL
+7497757,ft3,CHEMICAL
+7497757,rt3,CHEMICAL
+7497757,heparin,CHEMICAL
+7497757,postoperative myocardial infarction,DISEASE
+7497757,congestive heart failure,DISEASE
+7497757,death,DISEASE
+8262881,dysmorphic disorder,DISEASE
+8262881,bdd,DISEASE
+8262881,dsm-iii-r,DISEASE
+8262881,nonpsychotic somatoform disorder,DISEASE
+8262881,psychotic,DISEASE
+8262881,dsm-iii-r psychotic counterpart-delusional disorder,DISEASE
+8262881,nonpsychotic bdd,DISEASE
+8262881,psychotic bdd,DISEASE
+8262881,psychiatric,DISEASE
+8262881,comorbid psychiatric disorders,DISEASE
+8262881,dsm-iii-r psychotic disorder,DISEASE
+8262881,psychotic and nonpsychotic,DISEASE
+8262881,comorbidity,DISEASE
+8262881,anxiety,DISEASE
+8262881,serotonin,CHEMICAL
+8262881,antidepressants,CHEMICAL
+11943048,pain,DISEASE
+11943048,mdss,DISEASE
+11943048,death,DISEASE
+11943048,chronic pain,DISEASE
+11943048,acetaminophen,CHEMICAL
+11943048,morphine,CHEMICAL
+20306735,tod,DISEASE
+20306735,chalazion,DISEASE
+20306735,cataract,DISEASE
+20306735,pterygium 10,CHEMICAL
+23414523,alcohol,CHEMICAL
+23414523,binge episodes and timing of binge,DISEASE
+23414523,smoking,CHEMICAL
+23414523,hearing and vision impairment,DISEASE
+23414523,binge episodes (maximum of 12) and timing of binge,DISEASE
+11882828,desmopressin,CHEMICAL
+11882828,hyperfibrinolysis,DISEASE
+11882828,bleeding,DISEASE
+11882828,tranexamic acid,CHEMICAL
+11882828,protamine,CHEMICAL
+24939676,synovitis,DISEASE
+24939676,bsi,DISEASE
+24939676,doppler synovitis,DISEASE
+24939676,active disease,DISEASE
+17076590,antihistamines,CHEMICAL
+17076590,nonsedating antihistamines,CHEMICAL
+22979954,copper t380a,CHEMICAL
+22979954,iud,CHEMICAL
+22979954,copper t380a iud,CHEMICAL
+22979954,pain,DISEASE
+22955530,fractures,DISEASE
+22955530,angulation,DISEASE
+17323047,ventilator-associated pneumonia,DISEASE
+17323047,vap,DISEASE
+24851767,cryptorchidism,DISEASE
+24851767,atrophy,DISEASE
+24851767,postoperative atrophy,DISEASE
+12006913,myocardial infarction,DISEASE
+12006913,death,DISEASE
+12006913,cholesterol,CHEMICAL
+12006913,ecg-confirmed left ventricular hypertrophy,DISEASE
+12006913,fasting blood glucose,DISEASE
+12006913,diabetes,DISEASE
+12006913,triglyceride,CHEMICAL
+12006913,smoking,CHEMICAL
+15222284,valve-size,CHEMICAL
+15222284,aortic valve replacement,DISEASE
+15222284,avr,DISEASE
+25501465,urinary tract calculi,DISEASE
+25501465,vesicoureteral reflux,DISEASE
+25501465,vur,DISEASE
+25501465,urinary tract infection,DISEASE
+25501465,uti,DISEASE
+16414216,oestrogen,CHEMICAL
+16414216,progesterone,CHEMICAL
+16414216,abnormal bleeding,DISEASE
+16414216,endometrial polyps,DISEASE
+19155657,metabolic syndrome,DISEASE
+19155657,mets,DISEASE
+19155657,hypertensive,DISEASE
+19155657,coronary artery disease,DISEASE
+19155657,hypertension,DISEASE
+19155657,interventricular septal thickness,DISEASE
+27050489,idiopathic misty mesentery,DISEASE
+27050489,abdominal pain,DISEASE
+24977765,concussion,DISEASE
+24977765,trauma,DISEASE
+24977765,head injury,DISEASE
+24977765,intracranial injury,DISEASE
+24977765,skull fracture,DISEASE
+24977765,concussions,DISEASE
+24977765,sports-related concussion,DISEASE
+19130332,hemorrhage,DISEASE
+19130332,zeolite mineral,CHEMICAL
+19130332,blood loss,DISEASE
+19130332,swine extremity arterial injury,DISEASE
+19130332,swine,CHEMICAL
+19130332,oblique groin,DISEASE
+19130332,lactate,CHEMICAL
+23949294,third-line,CHEMICAL
+23949294,nucleoside,CHEMICAL
+23949294,virologic failure,DISEASE
+18926458,myocardial infarction,DISEASE
+18926458,carotid stenosis,DISEASE
+18926458,diabetes mellitus,DISEASE
+18926458,hypertension,DISEASE
+18926458,coronary artery disease,DISEASE
+18926458,hyperlipidemia,DISEASE
+18926458,smoking,CHEMICAL
+18926458,perioperative neurologic complications,DISEASE
+18926458,strokes,DISEASE
+18926458,stroke,DISEASE
+18926458,deaths,DISEASE
+17610439,acute myocardial infarction,DISEASE
+17610439,ami,CHEMICAL
+17610439,angioplasty,DISEASE
+17610439,congestive heart failure,DISEASE
+26859535,cancer,DISEASE
+26859535,carcinoma,DISEASE
+26859535,adenocarcinoma,DISEASE
+26859535,squamous cell carcinoma,DISEASE
+26859535,cancers of the cervix,DISEASE
+25446909,human immunodeficiency virus (hiv)-related salivary gland diseases,DISEASE
+25446909,mucocele,DISEASE
+25446909,plunging ranulas,DISEASE
+25446909,ranula,DISEASE
+25446909,ranulas,DISEASE
+17220021,gbs,DISEASE
+17220021,death,DISEASE
+21198823,myocardial damage,DISEASE
+21198823,wmas,DISEASE
+21198823,dobutamine,CHEMICAL
+21198823,ischemic heart disease,DISEASE
+21198823,ischemia,DISEASE
+17259061,smoking,CHEMICAL
+17259061,smoke,CHEMICAL
+18375490,trophoblastic diseases,DISEASE
+24142776,betamethasone,CHEMICAL
+24142776,toxicity,DISEASE
+24142776,gentamicin,CHEMICAL
+24142776,benzalkonium chloride,CHEMICAL
+24142776,hearing loss,DISEASE
+27896825,thyroid cancer,DISEASE
+27896825,ata,CHEMICAL
+27896825,13·4,CHEMICAL
+25787073,castration-resistant prostate cancer,DISEASE
+25787073,tumor,DISEASE
+25787073,high-grade cancer,DISEASE
+25787073,systemic infection,DISEASE
+25787073,autoimmune disease,DISEASE
+14631523,cerebellar astrocytoma,DISEASE
+14631523,death,DISEASE
+14631523,kernohan,DISEASE
+14631523,tumour,DISEASE
+14631523,pilocytic astrocytoma,DISEASE
+14631523,astrocytoma,DISEASE
+14631523,astrocytomas,DISEASE
+26717802,disability,DISEASE
+23810330,tme,CHEMICAL
+23810330,cancer,DISEASE
+23810330,primary rectal cancer,DISEASE
+23810330,tumour,DISEASE
+23810330,urinary dysfunction,DISEASE
+23810330,sexual dysfunction,DISEASE
+19027440,head and neck cancer,DISEASE
+19027440,hnc,DISEASE
+19027440,cancer,DISEASE
+19027440,anxiety,DISEASE
+19027440,depression,DISEASE
+24446763,death,DISEASE
+9444542,hippocampal atrophy,DISEASE
+9444542,alzheimer's disease,DISEASE
+9444542,decline in cognitive function,DISEASE
+9444542,depressed,DISEASE
+9444542,dementia,DISEASE
+9444542,cognitive decline,DISEASE
+23389866,chemoradiotherapy,CHEMICAL
+23389866,carcinoma esophagus,DISEASE
+23389866,squamous cell esophageal carcinoma,DISEASE
+23389866,cisplatin,CHEMICAL
+23389866,tumor,DISEASE
+23389866,toxicities,DISEASE
+19142546,fibrosis,DISEASE
+19142546,fibrous,DISEASE
+9107172,infection,DISEASE
+9107172,thromboembolic,DISEASE
+9107172,ventricular arrhythmias,DISEASE
+9107172,right ventricular failure,DISEASE
+9107172,deaths,DISEASE
+9107172,nitric oxide,CHEMICAL
+9107172,hemorrhages,DISEASE
+10411439,compartment syndrome,DISEASE
+21166749,blood loss,DISEASE
+21166749,tumour,DISEASE
+21166749,death,DISEASE
+27818079,condylar fractures,DISEASE
+27818079,condylar fracture,DISEASE
+27818079,neurologic impairments,DISEASE
+27818079,preinjury occlusion,DISEASE
+25982163,perforation,DISEASE
+25982163,appendicitis,DISEASE
+25982163,ren-ai,DISEASE
+20353735,vitamin d deficiency/insufficiency,CHEMICAL
+20353735,vddi,CHEMICAL
+20353735,ckd,DISEASE
+20353735,ergocalciferol,CHEMICAL
+20353735,hyperparathyroidism,DISEASE
+20353735,25-hydroxyvitamin d level<30,CHEMICAL
+20353735,vitamin d,CHEMICAL
+20353735,phosphate,CHEMICAL
+20353735,25-hydroxyvitamin d,CHEMICAL
+24630333,trauma,DISEASE
+24630333,intramedullary nailing,DISEASE
+24630333,diaphyseal femur fractures,DISEASE
+24630333,fracture,DISEASE
+24630333,lower extremity,DISEASE
+24630333,fractures,DISEASE
+24630333,malrotation,DISEASE
+24630333,non-trauma,DISEASE
+27096199,respiratory infection,DISEASE
+27096199,acute respiratory infections,DISEASE
+27096199,ari,DISEASE
+27096199,respiratory distress,DISEASE
+27096199,oxygen,CHEMICAL
+12040336,acute myocardial infarction,DISEASE
+12040336,cardiogenic shock,DISEASE
+12040336,angioplasty,DISEASE
+12040336,myocardial infarction,DISEASE
+15918864,infant illness,DISEASE
+23601294,urinary stone,DISEASE
+23601294,urinary stones,DISEASE
+23601294,uric acid,CHEMICAL
+23601294,cystine,CHEMICAL
+23601294,struvite stones,CHEMICAL
+21361755,myelopathy,DISEASE
+21361755,stenosis,DISEASE
+21361755,opll,DISEASE
+21361755,degenerative stenosis,DISEASE
+21361755,kyphosis,DISEASE
+21361755,degenerative cervical stenotic myelopathy,DISEASE
+21361755,blood loss,DISEASE
+21361755,pain,DISEASE
+9003088,estrogen,CHEMICAL
+9003088,progesterone,CHEMICAL
+9003088,dab,CHEMICAL
+23337545,fibrinous,DISEASE
+23337545,pneumonia,DISEASE
+23337545,afop,DISEASE
+23337545,pulmonary disease,DISEASE
+23337545,aplastic anemia,DISEASE
+23337545,vsaa,DISEASE
+23337545,fulminant hepatic failure,DISEASE
+23337545,pulmonary lesion,DISEASE
+23337545,antithymocyte globulin,CHEMICAL
+23337545,cyclosporine,CHEMICAL
+10490564,hypotension,DISEASE
+10490564,ischaemic heart disease,DISEASE
+10490564,angina,DISEASE
+10490564,heart failure,DISEASE
+10490564,hypotensive,DISEASE
+10490564,ischaemia,DISEASE
+23375036,tuberculosis,DISEASE
+11555508,dyspnea,DISEASE
+11555508,asthma,DISEASE
+11555508,airflow obstruction,DISEASE
+11555508,inflammation,DISEASE
+11555508,bronchial hyperresponsiveness,DISEASE
+11555508,bhr,DISEASE
+11555508,icss,CHEMICAL
+11555508,airway inflammation,DISEASE
+11555508,methacholine,CHEMICAL
+11555508,airway obstruction,DISEASE
+11555508,ics,CHEMICAL
+16778275,pneumothorax,DISEASE
+16778275,oxygen,CHEMICAL
+27136599,gynaecological cancer,DISEASE
+27136599,anastomotic leakage,DISEASE
+27136599,stoma,DISEASE
+27050505,hypertension,DISEASE
+27050505,kidney disease,DISEASE
+27050505,ckd,DISEASE
+27050505,hypertensive,DISEASE
+27050505,triglyceride,CHEMICAL
+27050505,urea,CHEMICAL
+27050505,creatinine,CHEMICAL
+27050505,cholesterol,CHEMICAL
+18403945,reflux disease,DISEASE
+18403945,gastrointestinal symptom questionnaire (gastrointestinal symptom rating scale,DISEASE
+11149643,ischemia,DISEASE
+26200172,anxiety,DISEASE
+18783922,epilepsy,DISEASE
+18783922,seizure,DISEASE
+18783922,tnf-alpha,CHEMICAL
+18783922,seizures,DISEASE
+18783922,status epilepticus,DISEASE
+18783922,idiopathic generalized,DISEASE
+18783922,alcohol,CHEMICAL
+12684740,alcohol,CHEMICAL
+12684740,alcohol/saccharin,CHEMICAL
+12684740,non-alcohol,CHEMICAL
+12684740,naltrexone,CHEMICAL
+25155638,death,DISEASE
+25155638,fall,CHEMICAL
+26820719,colorectal cancer,DISEASE
+26820719,hereditary colorectal cancer,DISEASE
+26820719,inflammatory bowel disease,DISEASE
+26820719,polyps,DISEASE
+26820719,angiolymphatic,DISEASE
+26820719,signet cell ring adenocarcinoma,DISEASE
+26820719,tumors,DISEASE
+21080127,lower infection,DISEASE
+21080127,infection,DISEASE
+21080127,failure of infection,DISEASE
+21080127,aureus infection,DISEASE
+18086459,psychotic episodes,DISEASE
+18086459,psychotic,DISEASE
+18086459,seizure disorder,DISEASE
+18086459,seizure,DISEASE
+18086459,mri abnormalities,DISEASE
+18086459,psychiatric,DISEASE
+18086459,ipe,CHEMICAL
+11978239,peptic ulcer disease,DISEASE
+11978239,pud,DISEASE
+11978239,nonulcer dyspepsia,DISEASE
+11978239,nud,DISEASE
+11978239,dyspepsia,DISEASE
+11978239,helicobacter pylori,DISEASE
+10798511,abdominal injuries,DISEASE
+10798511,trauma,DISEASE
+10798511,blood alcohol,DISEASE
+10798511,coma,DISEASE
+10798511,abdominal injury,DISEASE
+10798511,chest injury,DISEASE
+15477551,human t-lymphotrophic virus type i (htlv-i) infection,DISEASE
+15477551,myelopathy,DISEASE
+15477551,abnormal mri lesions,DISEASE
+15477551,htlv-i-associated myelopathy,DISEASE
+15477551,spastic paraparesis,DISEASE
+15477551,polyneuropathy,DISEASE
+15477551,ham/tsp,DISEASE
+19327500,resected non-small cell lung cancer,DISEASE
+19327500,non-small cell lung cancer,DISEASE
+19327500,cancer,DISEASE
+19327500,adenocarcinoma,DISEASE
+23283159,obesity,DISEASE
+23283159,chest wheezing,DISEASE
+23283159,allergies,DISEASE
+23283159,wheezing,DISEASE
+23283159,obese,DISEASE
+16465002,carbon dioxide,CHEMICAL
+16465002,etco2,CHEMICAL
+16465002,hypercapnia,DISEASE
+24191126,ovarian endometriomas,DISEASE
+24191126,ovarian cancer,DISEASE
+24191126,endometriosis,DISEASE
+24191126,ovarian endometrioma,DISEASE
+24191126,ovarian malignancy,DISEASE
+24191126,ovarian endometriosis,DISEASE
+25218577,knee arthroplasty,DISEASE
+25218577,tka,DISEASE
+20488985,coughs,DISEASE
+20488985,colds,DISEASE
+11567820,trigeminal neuralgia,DISEASE
+11567820,pain,DISEASE
+11567820,low-dose,CHEMICAL
+11567820,numbness,DISEASE
+11567820,paresthesias,DISEASE
+19100463,tacrolimus,CHEMICAL
+19100463,hepatic and renal functions,DISEASE
+19100463,tacrolimus ii,CHEMICAL
+12769830,sarcoma,DISEASE
+12769830,tumor,DISEASE
+12769830,tumors,DISEASE
+10331115,serotonin,CHEMICAL
+10331115,dopamine (d)2,CHEMICAL
+10331115,amoxapine,CHEMICAL
+10331115,positron-emission,CHEMICAL
+17483607,n-acetylcysteine,CHEMICAL
+17483607,nac,CHEMICAL
+17483607,ketamine,CHEMICAL
+17483607,perforations,DISEASE
+17483607,nacl,CHEMICAL
+17483607,otorrhea,DISEASE
+28056802,cholesterol,CHEMICAL
+28056802,ldl-c,CHEMICAL
+28056802,acute myocardial infarction,DISEASE
+28056802,ami,CHEMICAL
+28056802,death,DISEASE
+28056802,nonfatal,CHEMICAL
+28056802,nonfatal stroke,DISEASE
+11776681,acidosis,DISEASE
+24922528,alcohol,CHEMICAL
+8200238,ileus,DISEASE
+8200238,abdominal distention,DISEASE
+8200238,nausea,DISEASE
+8200238,vomiting,DISEASE
+8200238,postoperative ileus,DISEASE
+10593212,loss of consciousness,DISEASE
+10593212,head injury,DISEASE
+10593212,traumatic,DISEASE
+10593212,goat,CHEMICAL
+12630042,gastric cancer,DISEASE
+12630042,cancer,DISEASE
+24519615,knee arthroplasty,DISEASE
+24519615,patella reduction,DISEASE
+24519615,patella subluxation,DISEASE
+24267613,gerd,DISEASE
+24267613,hernia,DISEASE
+24267613,impaired esophageal peristalsis,DISEASE
+24267613,intraoperative and postoperative complications,DISEASE
+21074975,uhr,DISEASE
+21074975,psychosis,DISEASE
+21074975,psychotic symptoms,DISEASE
+21074975,aps,DISEASE
+21074975,blips,DISEASE
+12690589,muscle fatigue,DISEASE
+12690589,fatigue,DISEASE
+10757151,preconditioning,CHEMICAL
+10757151,ischemia,DISEASE
+10757151,intraischemic preconditioning,DISEASE
+10757151,cip,CHEMICAL
+10757151,infarct,DISEASE
+10757151,myocardial dysfunction,DISEASE
+15388567,injuries,DISEASE
+10877371,pseudoexfoliation syndrome,DISEASE
+10877371,pseudoexfoliation,DISEASE
+22324545,oestrogen,CHEMICAL
+22324545,cardiovascular disease,DISEASE
+22324545,cholesterol,CHEMICAL
+22324545,ldl-c,CHEMICAL
+22324545,t-chol,CHEMICAL
+19419587,sternal instability,DISEASE
+19419587,mediastinitis,DISEASE
+16909975,dryness,DISEASE
+16909975,toxicities,DISEASE
+16909975,head and neck cancers,DISEASE
+16909975,isodose,DISEASE
+16909975,toxicity,DISEASE
+16909975,dryness of the mouth,DISEASE
+16909975,xerostomia,DISEASE
+18799291,histidine,CHEMICAL
+18799291,adenosine 5'-monophosphoramidate,CHEMICAL
+18799291,schizophrenia,DISEASE
+18799291,dopamine,CHEMICAL
+18799291,"ishdsf, 1350",CHEMICAL
+18799291,schizophrenic,DISEASE
+18799291,ishdsf,DISEASE
+12163782,posttraumatic acute respiratory distress syndrome,DISEASE
+12163782,ards,DISEASE
+12163782,trauma,DISEASE
+12163782,adult blunt trauma,DISEASE
+12163782,blunt major,DISEASE
+16392897,bcrabl,CHEMICAL
+16392897,leukemia,DISEASE
+19615731,asthma,DISEASE
+19615731,obesity,DISEASE
+18537964,adverse drug reactions,DISEASE
+18537964,allergy,DISEASE
+18537964,alcohol,CHEMICAL
+25747932,early-life,DISEASE
+17445978,renal damage,DISEASE
+17445978,impairment of renal function,DISEASE
+17445978,ischemia,DISEASE
+17445978,kidney damage,DISEASE
+17445978,proteinuria,DISEASE
+17445978,creatinine,CHEMICAL
+19309468,inflammation,DISEASE
+19309468,alloimmunization,DISEASE
+19309468,rbc alloimmunization,DISEASE
+19309468,febrile,DISEASE
+25885219,creatine,CHEMICAL
+25885219,arginine,CHEMICAL
+25885219,glycine,CHEMICAL
+25885219,guanidinoacetate,CHEMICAL
+25885219,gamt,DISEASE
+26348845,squamous lesions,DISEASE
+26348845,glandular cell abnormalities,DISEASE
+26348845,agc,CHEMICAL
+26348845,glandular cell abnormality,DISEASE
+26348845,≥agc,DISEASE
+26348845,high-grade squamous intraepithelial lesion,DISEASE
+26348845,carcinoma,DISEASE
+26348845,endometrial adenocarcinoma,DISEASE
+12221908,preeclampsia/eclampsia,DISEASE
+12221908,hemorrhage,DISEASE
+12221908,puerperium complications,CHEMICAL
+12221908,deaths,DISEASE
+12221908,hellp syndrome,DISEASE
+12221908,microangiopathic hemolysis,DISEASE
+12221908,seizures,DISEASE
+12221908,icteric,DISEASE
+12221908,visual disturbances,DISEASE
+12221908,"nausea,",DISEASE
+12221908,vomiting,DISEASE
+12221908,abdominal pain,DISEASE
+12221908,hypertensives disorders,DISEASE
+12221908,renal damage,DISEASE
+12221908,creatinine,CHEMICAL
+21904069,methylene blue,CHEMICAL
+21904069,submucous gastric arterial,DISEASE
+14976655,palsy,DISEASE
+14976655,labial herpetic lesions,DISEASE
+14976655,herpes simplex,DISEASE
+14976655,paralysis,DISEASE
+14976655,herpes labialis,DISEASE
+14976655,poststapedectomy facial palsy,DISEASE
+14976655,acyclovir,CHEMICAL
+22644412,hepatocellular carcinoma,DISEASE
+22644412,hcc,DISEASE
+22644412,tumor,DISEASE
+26419377,injuries,DISEASE
+26419377,perforation,DISEASE
+23052500,hepatocellular carcinoma,DISEASE
+23052500,hcc,DISEASE
+23052500,fibrosis/cirrhosis,DISEASE
+23052500,tumor,DISEASE
+23052500,cirrhosis,DISEASE
+23052500,tumors,DISEASE
+26104852,attr,CHEMICAL
+26104852,amyloidosis,DISEASE
+26104852,hypertrophic cardiomyopathy,DISEASE
+26104852,hcm,DISEASE
+26104852,attr amyloidosis,CHEMICAL
+26104852,(ivst/pwt)>1.6,DISEASE
+18399830,tissue damage,DISEASE
+18399830,lactate,CHEMICAL
+18575014,nasal polyposis,DISEASE
+18575014,asthma,CHEMICAL
+18575014,aspirin,CHEMICAL
+18575014,churg strauss syndrome,DISEASE
+18575014,cystic fibrosis,DISEASE
+18575014,primary ciliary dyskinesia,DISEASE
+15223779,uveal melanoma,DISEASE
+15223779,uveal melanomas,DISEASE
+15223779,tyrosine,CHEMICAL
+15223779,sti571,CHEMICAL
+15223779,cutaneous melanoma,DISEASE
+15223779,kit,CHEMICAL
+15223779,death,DISEASE
+24487044,toxicity,DISEASE
+24487044,knee osteoarthritis,DISEASE
+24487044,knee injury,DISEASE
+12377809,dyschesia,DISEASE
+12377809,inappropriate defecation,DISEASE
+12377809,dysfunction of the anal sphincter,DISEASE
+16195477,obesity,DISEASE
+16195477,cardiovascular disease,DISEASE
+16195477,inflammation,DISEASE
+16195477,atherosclerosis,DISEASE
+16195477,atherosclerotic,DISEASE
+18801797,chronic diseases,DISEASE
+12632437,vasculitis,DISEASE
+12632437,psv,CHEMICAL
+12632437,asthma,DISEASE
+12632437,allergies,DISEASE
+12632437,hepatitis,DISEASE
+12632437,tuberculosis,DISEASE
+12632437,wegener's granulomatosis,DISEASE
+12632437,polyangiitis,DISEASE
+12632437,churg-strauss syndrome,DISEASE
+12632437,2.7 [1.2-5.8]),CHEMICAL
+12632437,mpa,CHEMICAL
+12632437,2.7 [1.3-5.7]),CHEMICAL
+12632437,silica,CHEMICAL
+12632437,"wg 4.8 [1.2-19.8],",CHEMICAL
+12632437,"wg 3.4 [1.3-8.9],",CHEMICAL
+12632437,allergy,DISEASE
+12632437,"wg 4.0 [1.8-8.7],",CHEMICAL
+12632437,wg 2.7 [1.4-5.7]),CHEMICAL
+10201555,chloride,CHEMICAL
+10201555,kidney disorders,DISEASE
+10201555,metabolic diseases,DISEASE
+10201555,coronary heart disease,DISEASE
+10201555,cardiovascular disease,DISEASE
+10201555,cvd,DISEASE
+10201555,cholesterol,CHEMICAL
+10201555,uric acid,CHEMICAL
+10201555,creatinine,CHEMICAL
+10201555,cvd death,DISEASE
+21342862,acute coronary syndrome,DISEASE
+26818046,zonisamide,CHEMICAL
+26818046,zns,CHEMICAL
+26818046,pharmacoresistant epilepsy,DISEASE
+26818046,epileptic,DISEASE
+26818046,seizure,DISEASE
+26818046,seizures,DISEASE
+26818046,tonic-clonic,DISEASE
+26818046,myoclonia,DISEASE
+18005142,headache,DISEASE
+18005142,migraine,DISEASE
+18005142,pain,DISEASE
+18005142,headaches,DISEASE
+18005142,migraine headache,DISEASE
+11481172,manic/mixed,DISEASE
+11481172,bipolar disorder,DISEASE
+11481172,manic,DISEASE
+19230985,haemorrhages,DISEASE
+19230985,haemorrhage,DISEASE
+17295865,infection,DISEASE
+17295865,acute hepatitis c,DISEASE
+17295865,hepatitis c,DISEASE
+17295865,hepatitis,DISEASE
+17565137,smoking,CHEMICAL
+17565137,smoke,CHEMICAL
+18041059,tamoxifen,CHEMICAL
+18041059,breast cancer,DISEASE
+18041059,cancer,DISEASE
+18041059,toxicity,DISEASE
+18041059,ads,CHEMICAL
+18041059,nnh,CHEMICAL
+18041059,thromboembolic,DISEASE
+17274051,carcinoma,DISEASE
+17274051,head and neck primary,DISEASE
+17274051,n status,CHEMICAL
+26460153,bad,CHEMICAL
+26460153,primary aortic valve replacement,DISEASE
+26460153,primary mitral valve,DISEASE
+24061619,hiatal hernia,DISEASE
+24061619,bmi/%ewl,CHEMICAL
+24061619,anterior suture,DISEASE
+26867834,bacterial bronchitis,DISEASE
+26867834,pbb,CHEMICAL
+26867834,bronchiectasis,DISEASE
+26867834,neutrophilic inflammation,DISEASE
+26867834,haemophilus influenzae,DISEASE
+26867834,chronic lung diseases,DISEASE
+22349635,cancer,DISEASE
+22349635,mscc,DISEASE
+15112004,fatty acids,CHEMICAL
+15112004,cream milk,CHEMICAL
+15112004,vitamins e,CHEMICAL
+15112004,folic acid,CHEMICAL
+15112004,iodine,CHEMICAL
+15112004,selenium,CHEMICAL
+15112004,pantothenic acid,CHEMICAL
+15112004,niacin,CHEMICAL
+15112004,vitamin d.,CHEMICAL
+15112004,vitamins a,CHEMICAL
+15112004,linoleic acid,CHEMICAL
+15112004,alpha-linolenic acid,CHEMICAL
+15954832,groin hernia,DISEASE
+15954832,hernia,DISEASE
+19640728,valve endocarditis,DISEASE
+19640728,mitral and aortic prosthesis,DISEASE
+19640728,mitral and aortic prostheses,DISEASE
+19640728,staphylococci,CHEMICAL
+19640728,infection,DISEASE
+22154448,haematoma,DISEASE
+22154448,meningitis,DISEASE
+22154448,abscess,DISEASE
+22154448,hipec,CHEMICAL
+22154448,oxaliplatin,CHEMICAL
+22154448,cisplatin,CHEMICAL
+22154448,ropivacain,CHEMICAL
+22154448,thrombopenia,DISEASE
+22154448,leukopenia,DISEASE
+22154448,blood coagulation disorders,DISEASE
+8199520,depression,DISEASE
+8199520,guilt,DISEASE
+9100537,breast disease,DISEASE
+9100537,pbd,CHEMICAL
+9100537,nonproliferative breast disease,DISEASE
+9100537,npbd,DISEASE
+9100537,breast lesions,DISEASE
+23774337,stroke,DISEASE
+16151770,alzheimer's disease,DISEASE
+16151770,primary degenerative disease,DISEASE
+16151770,(99m)tc-hexamethylpropylene amine oxime,CHEMICAL
+26418441,high-grade dysplasia,DISEASE
+26418441,carcinoma,DISEASE
+26418441,polyp,DISEASE
+26418441,diminutive colonic polyps,DISEASE
+26418441,adenomas,DISEASE
+20130378,congenital cytomegalovirus infection,DISEASE
+20130378,congenital infection,DISEASE
+20130378,cmv congenital infection,DISEASE
+20130378,cmv-dna,CHEMICAL
+20130378,cmv-dnaemia,DISEASE
+11799314,gallbladder carcinoma,DISEASE
+11799314,unresectable gallbladder carcinoma,DISEASE
+11799314,tumor,DISEASE
+11799314,gallbladder cancer,DISEASE
+20828836,true-positives,DISEASE
+20828836,hyperbilirubinemia,DISEASE
+19608436,fatty,CHEMICAL
+19608436,fatty breast,DISEASE
+19608436,fatty breasts,CHEMICAL
+19608436,p<.05,CHEMICAL
+15995461,deaths,DISEASE
+15995461,poisoning,DISEASE
+15995461,intentional injury,DISEASE
+23224030,diabetes,DISEASE
+23224030,cardiovascular diseases,DISEASE
+23224030,± 10 years,CHEMICAL
+23224030,saturated,CHEMICAL
+23224030,cholesterol,CHEMICAL
+23224030,carbohydrate,CHEMICAL
+17910536,intellectual disability,DISEASE
+12070552,185,CHEMICAL
+12070552,pain,DISEASE
+12070552,postoperative fever,DISEASE
+12070552,secondary hemorrhage or reduction,DISEASE
+18182265,uterine endometrial cancer,DISEASE
+18182265,endometrial cancer,DISEASE
+18182265,adenomyosis,DISEASE
+18182265,endometrial cancers,DISEASE
+18182265,cancer,DISEASE
+18182265,carcinomas,DISEASE
+18182265,cancers,DISEASE
+15841770,asthma,DISEASE
+15841770,cromones,CHEMICAL
+15841770,steroids,CHEMICAL
+8017535,alcohol,CHEMICAL
+8017535,cocaine,CHEMICAL
+8017535,sexual behaviors,DISEASE
+8017535,human immunodeficiency virus (hiv) infection,DISEASE
+24172579,acute stroke,DISEASE
+24172579,acute ischemic stroke,DISEASE
+24172579,stroke-international stroke thrombolysis,DISEASE
+24172579,intracerebral hemorrhage,DISEASE
+10781708,thrombosis,DISEASE
+10781708,venous thrombosis,DISEASE
+10781708,malignancy,DISEASE
+10781708,cancer,DISEASE
+10781708,non-cancer,DISEASE
+26561905,toxicity,DISEASE
+26561905,cancer,DISEASE
+26561905,ttn,DISEASE
+26561905,deaths,DISEASE
+17089900,paget's disease of bone,DISEASE
+17089900,paget's disease,DISEASE
+17089900,backache,DISEASE
+17089900,headache,DISEASE
+17089900,bone pains,DISEASE
+17089900,fracture,DISEASE
+17089900,pain,DISEASE
+17089900,deafness,DISEASE
+17089900,gait ataxia,DISEASE
+17089900,visual impairment,DISEASE
+17089900,hydrocephalus,DISEASE
+17089900,paraparesis,DISEASE
+17089900,polyostotic,DISEASE
+17089900,bisphosphonates,CHEMICAL
+26536001,srs,DISEASE
+26536001,177lu-octreotate,CHEMICAL
+26536001,prrt,CHEMICAL
+26536001,gastroenteropancreatic neuroendocrine tumors,DISEASE
+26536001,gep-nets,DISEASE
+26536001,gep-net,DISEASE
+26536001,recist,CHEMICAL
+26536001,tumors,DISEASE
+26536001,tumor,DISEASE
+26536001,enets,DISEASE
+19643525,vaginal infections,DISEASE
+19643525,vulvo-vaginitis,DISEASE
+19643525,infections,DISEASE
+26285789,cancers,DISEASE
+26285789,thyroid cancers,DISEASE
+26285789,tyrosine,CHEMICAL
+26285789,thyroid carcinoma,DISEASE
+26285789,papillary thyroid carcinomas,DISEASE
+26285789,pdtc,CHEMICAL
+26285789,follicular thyroid carcinoma,DISEASE
+26285789,tki,CHEMICAL
+26285789,tki-treated,DISEASE
+26285789,tki-treated ptc,DISEASE
+22266735,diabetes,DISEASE
+22266735,gestational diabetes mellitus,DISEASE
+22266735,gdm,DISEASE
+22266735,glucose,CHEMICAL
+22266735,preeclampsia,DISEASE
+22266735,shoulder dystocia,DISEASE
+22266735,birth injury,DISEASE
+15052394,depression,DISEASE
+15052394,psychiatric,DISEASE
+15052394,depressive symptoms,DISEASE
+15052394,major depression,DISEASE
+15052394,depressive,DISEASE
+15052394,sadness,DISEASE
+22302658,aggressive lower extremity musculoskeletal tumors,DISEASE
+22302658,amputation,DISEASE
+22302658,aggressive musculoskeletal tumors,DISEASE
+17894828,hypoglycaemia,DISEASE
+17894828,type 1 diabetes,DISEASE
+17894828,diabetes,DISEASE
+18096128,fractures,DISEASE
+18096128,trauma,DISEASE
+18096128,spine injury,DISEASE
+12913347,bacterial vaginosis,DISEASE
+12913347,smoking,CHEMICAL
+12913347,lactobacillus spp,DISEASE
+24684514,knee arthroplasty,DISEASE
+24684514,tka,DISEASE
+24684514,tranexamic acid,CHEMICAL
+24684514,asa,CHEMICAL
+24793469,multiple sclerosis,DISEASE
+24793469,autoimmune demyelinating disease of the central nervous system,DISEASE
+24793469,discopathy,DISEASE
+10340286,appendicitis,DISEASE
+10340286,acute appendicitis,DISEASE
+22954812,bipolar disorder,DISEASE
+22954812,depressive,DISEASE
+22954812,mania,DISEASE
+22954812,dsm-based,DISEASE
+18274917,low-tone sd,DISEASE
+18274917,meniere's disease,DISEASE
+18274917,endolymphatic hydrops,DISEASE
+18274917,high-tone sd,DISEASE
+18274917,vertigo,DISEASE
+18274917,hearing loss,DISEASE
+18274917,vertiginous,DISEASE
+18274917,low-tone,DISEASE
+18274917,high-tone,DISEASE
+26237424,avr,DISEASE
+26237424,aortic stenosis,DISEASE
+26237424,ppm,CHEMICAL
+26237424,"11.35, energy/fatigue 49.36",CHEMICAL
+26237424,"15.44, social functioning",CHEMICAL
+15041506,anaphylaxis,DISEASE
+25280365,rbc-m,DISEASE
+20813740,tumour,DISEASE
+20401819,fractures,DISEASE
+20401819,fracture,DISEASE
+20401819,dislocation,DISEASE
+7860319,acute myocardial infarction,DISEASE
+7860319,congestive heart failure,DISEASE
+7860319,ami,CHEMICAL
+25255719,pre-eclampsia,DISEASE
+24973051,chest pain,DISEASE
+24973051,abdominal pain,DISEASE
+24973051,cardiac arrest,DISEASE
+20497146,oesophagitis,DISEASE
+20497146,intragastric acid,CHEMICAL
+20497146,reflux oesophagitis,DISEASE
+20497146,esomeprazole,CHEMICAL
+20497146,d oesophagitis,CHEMICAL
+19401574,carotid artery stenosis,DISEASE
+19401574,stenosis,DISEASE
+25228241,haemolysis,DISEASE
+25228241,haemolytic anaemia,DISEASE
+25228241,enlargement of the chronic,DISEASE
+25228241,aortic regurgitation,DISEASE
+25228241,anaemia,DISEASE
+22348433,chronic radiodermatitis,DISEASE
+22348433,atrophy,DISEASE
+22348433,inflammation,DISEASE
+22348433,fibrosis,DISEASE
+10927144,tumour,DISEASE
+10927144,cancer,DISEASE
+10927144,carcinomas,DISEASE
+10927144,radio-sensitising,CHEMICAL
+10927144,5-fluorouracil,CHEMICAL
+20197761,irritable bowel syndrome,DISEASE
+20197761,ibs,DISEASE
+20197761,diarrhea,DISEASE
+20197761,d-ibs,DISEASE
+20197761,constipation,DISEASE
+20197761,c-ibs,DISEASE
+20197761,celiac sprue,DISEASE
+21394762,pelvic pain,DISEASE
+21394762,pelvic organ prolapse,DISEASE
+21394762,pain,DISEASE
+12442934,blood loss,DISEASE
+12442934,ibuprofen,CHEMICAL
+12442934,bupivacaine,CHEMICAL
+12442934,morphine,CHEMICAL
+9347843,"crohn's disease, ileocolic resections are often difficult to perform, especially if an abscess",DISEASE
+9347843,phlegmon,DISEASE
+9347843,abscess,DISEASE
+9347843,crohn's disease,DISEASE
+9347843,blood loss,DISEASE
+24074624,febrile,DISEASE
+24074624,allergic,DISEASE
+24074624,hypotension,DISEASE
+24074624,hypoxia,DISEASE
+16097998,coeliac disease,DISEASE
+16097998,coeliac,DISEASE
+16097998,gastrointestinal symptoms,DISEASE
+16097998,non-coeliac,DISEASE
+25487603,shigellosis,DISEASE
+25487603,poisoning,DISEASE
+20594006,neurological injury,DISEASE
+20594006,scoliosis,DISEASE
+20594006,myelomeningocele,DISEASE
+20594006,cranial nerve palsy,DISEASE
+20594006,upper extremity weakness/sensory loss,DISEASE
+20594006,lower extremity weakness,DISEASE
+26363639,cardiovascular disease,DISEASE
+27405146,infection,DISEASE
+17192736,lower ureteric stones,DISEASE
+17192736,ureteral calculi,DISEASE
+17192736,perforation,DISEASE
+14652839,atherosclerotic,DISEASE
+14652839,abdominal aortic aneurysm,DISEASE
+14652839,aaa,DISEASE
+14652839,emboli,DISEASE
+12145243,type 2 diabetes,DISEASE
+12145243,diabetic complications,DISEASE
+12145243,diabetes,DISEASE
+12145243,140,CHEMICAL
+12145243,glucose,CHEMICAL
+12145243,fpg,CHEMICAL
+12145243,diabetic symptoms,DISEASE
+12145243,retinopathy,DISEASE
+12145243,abnormal biothesiometer,DISEASE
+12145243,erectile dysfunction,DISEASE
+12145243,stroke,DISEASE
+12145243,myocardial infarction,DISEASE
+12145243,microalbuminuria,DISEASE
+25571931,acute stroke symptoms,DISEASE
+25571931,stroke,DISEASE
+25571931,amaurosis,DISEASE
+25571931,tertiary/university,DISEASE
+19108857,tuberculosis,DISEASE
+19108857,say-barber-miller syndrome,DISEASE
+19108857,infantile encephalopathy,DISEASE
+19108857,microcephaly,DISEASE
+19108857,mental retardation,DISEASE
+19108857,infections,DISEASE
+19108857,pain,DISEASE
+19108857,anorexia,DISEASE
+19108857,cerebral lesions,DISEASE
+19108857,tuberculomas,DISEASE
+18719011,overweight,DISEASE
+9044116,extra hepatic biliary atresia,DISEASE
+9044116,biliary atresia,DISEASE
+9044116,bilirubin,CHEMICAL
+9044116,necrosis,DISEASE
+9044116,cholangitis,DISEASE
+9044116,end-stage cirrhosis,DISEASE
+9044116,failure of the portoenterostomy,DISEASE
+12970636,phenylketonuria,DISEASE
+12970636,pku,DISEASE
+12970636,hypothyroidism,DISEASE
+12970636,congenital adrenal hyperplasia,DISEASE
+12970636,cah,DISEASE
+12970636,2536,CHEMICAL
+21084567,hypertension,DISEASE
+21084567,stroke,DISEASE
+21084567,hypertensive,DISEASE
+19546588,muscle wasting,DISEASE
+19546588,end-stage renal disease,DISEASE
+19546588,acidosis,DISEASE
+19546588,chronic metabolic acidosis,DISEASE
+19546588,cma,CHEMICAL
+19546588,muscle mass,DISEASE
+19546588,alkalizing,CHEMICAL
+19546588,sodium bicarbonate,CHEMICAL
+19546588,bicarbonate,CHEMICAL
+19546588,l-[(2)h(5)ring]phenylalanine,CHEMICAL
+19546588,thyroxin,CHEMICAL
+19546588,triiodothyronine,CHEMICAL
+19923859,toluene,CHEMICAL
+18616781,pigmentary,DISEASE
+18616781,homocystinuria,DISEASE
+18616781,homocysteine,CHEMICAL
+18616781,hcy,CHEMICAL
+18616781,vitiligo,DISEASE
+18616781,vitamin b12,CHEMICAL
+18616781,folic acid,CHEMICAL
+18616781,nutritional deficiency,DISEASE
+18616781,vitamins,CHEMICAL
+27991408,dermatomyositis,DISEASE
+27991408,polymyositis,DISEASE
+27991408,weakness of the thigh muscles,DISEASE
+27991408,muscle oedema,DISEASE
+27991408,oedema,DISEASE
+14655021,spondylitis,DISEASE
+14655021,aas,CHEMICAL
+14655021,peripheral arthritis,DISEASE
+14655021,knee joints,DISEASE
+14655021,valvular dysfunction,DISEASE
+26175531,iib/iiia,CHEMICAL
+26175531,st-segment-elevation myocardial infarction,DISEASE
+26175531,thrombosis,DISEASE
+26175531,stroke,DISEASE
+10473855,delayed gastric emptying,DISEASE
+10473855,vomiting and nausea,DISEASE
+28006766,utuc,DISEASE
+28006766,aggressive disease,DISEASE
+28006766,tumor,DISEASE
+28006766,muscle-invasive tumors,DISEASE
+28006766,t2-t4,DISEASE
+28006766,tumors,DISEASE
+11833948,fracture,DISEASE
+27757987,choroidal thickening,DISEASE
+27757987,amblyopia,DISEASE
+27757987,choroidal thickness,DISEASE
+27757987,anisometropic hyperopic amblyopic,DISEASE
+27757987,anisometropic hyperopic,DISEASE
+27757987,occlusion,DISEASE
+16772913,breast implant,DISEASE
+24449622,atherosclerotic disease,DISEASE
+24449622,hypertension,DISEASE
+24449622,triglyceride,CHEMICAL
+12095973,carcinoma,DISEASE
+12095973,tumors,DISEASE
+12095973,5-fluorouracil,CHEMICAL
+12095973,folinic acid,CHEMICAL
+12095973,cancer,DISEASE
+23761381,testosterone,CHEMICAL
+16971978,atherosclerotic,DISEASE
+16971978,diabetic,DISEASE
+16971978,diabetes mellitus,DISEASE
+16971978,death,DISEASE
+16971978,myocardial infarction,DISEASE
+16971978,hypertension,DISEASE
+16971978,hyperlipidemia,DISEASE
+16971978,smoking,CHEMICAL
+10375486,stroke,DISEASE
+21558951,cocaine,CHEMICAL
+21558951,delinquent behavior,DISEASE
+21558951,alcohol,CHEMICAL
+21558951,meconium,CHEMICAL
+15528969,breast disease,DISEASE
+15528969,ductal carcinoma,DISEASE
+15528969,regional cancer,DISEASE
+17062225,thoracoabdominal aortic aneurysms,DISEASE
+17062225,taa/a,DISEASE
+17062225,paraplegia,DISEASE
+17062225,taa/a repair,CHEMICAL
+17062225,postoperative paraplegia,DISEASE
+17062225,ischemia,DISEASE
+17062225,paraparesis,DISEASE
+17062225,respiratory arrest,DISEASE
+24374414,hie,DISEASE
+20736887,sarcoidosis,DISEASE
+20736887,compressive myelopathy,DISEASE
+20736887,multisystem noncaseating granulomatous disease,DISEASE
+20736887,myelopathy,DISEASE
+20736887,compressive lesion,DISEASE
+20736887,high-dose steroid,CHEMICAL
+20736887,steroid,CHEMICAL
+22504515,saphenopopliteal junction incompetence,DISEASE
+22504515,amc,CHEMICAL
+22504515,varicose vein questionnaire,DISEASE
+22504515,phlebitis,DISEASE
+22504515,paresthesia,DISEASE
+10577397,epinephrine,CHEMICAL
+10577397,ventricular fibrillation cardiac arrest,DISEASE
+10577397,aortic occlusion,DISEASE
+10577397,ventricular fibrillation,DISEASE
+15369037,smoke,CHEMICAL
+15369037,pain,DISEASE
+15369037,low back pain,DISEASE
+15369037,smoking,CHEMICAL
+24073931,pancreatic fistula,DISEASE
+24073931,insulinoma,DISEASE
+24073931,ductal adenocarcinoma,DISEASE
+24073931,pancreatitis,DISEASE
+24073931,pancreatic fistulas,DISEASE
+24073931,postoperative bleeding,DISEASE
+18472368,protraction of external beam radiotherapy (rt) time,DISEASE
+18472368,prostate cancer,DISEASE
+23992109,tubulointerstitial lesions,DISEASE
+23992109,albuminuria,DISEASE
+21164063,fondaparinux,CHEMICAL
+21164063,bleeding,DISEASE
+21164063,sodium,CHEMICAL
+21164063,venous thromboembolism,DISEASE
+21164063,2.5-mg,CHEMICAL
+21164063,heparin,CHEMICAL
+21164063,heparin-induced thrombocytopenia,DISEASE
+21951591,low back pain,DISEASE
+21951591,abnormal motor performance,DISEASE
+21951591,pain,DISEASE
+18619710,140,CHEMICAL
+18619710,comprehension deficits,DISEASE
+15919266,thymoma,DISEASE
+15919266,masaoka stage,DISEASE
+15919266,seventy-nine,CHEMICAL
+2503176,trophoblastic disease,DISEASE
+22108230,fac,CHEMICAL
+22108230,radiculopathy,DISEASE
+22108230,radiculopathic pain,DISEASE
+22108230,herniation,DISEASE
+22108230,interleukin-6,CHEMICAL
+20338971,halitosis,DISEASE
+20338971,chronic renal failure,DISEASE
+20338971,end-stage renal disease,DISEASE
+20338971,esrd,DISEASE
+17276801,acute pulmonary embolism,DISEASE
+17276801,ventricular dysfunction,DISEASE
+17276801,right ventricular dysfunction,DISEASE
+17276801,hypotension,DISEASE
+17276801,oxygen,CHEMICAL
+20497880,urinary tract infection,DISEASE
+20497880,urinary tract infections,DISEASE
+20497880,pain,DISEASE
+23495128,osteoarthritis,DISEASE
+23495128,pain,DISEASE
+23495128,inflammation,DISEASE
+23495128,anger,DISEASE
+23495128,calmness,DISEASE
+23495128,aching pain,DISEASE
+26701174,kid,CHEMICAL
+26701174,hemorrhage,DISEASE
+26701174,respiratory failure,DISEASE
+26701174,death,DISEASE
+24695920,knee flexion,DISEASE
+24695920,kt2000 arthrometer,DISEASE
+15488260,dsm-iii-r,DISEASE
+15488260,unipolar major depressive,DISEASE
+15488260,depression,DISEASE
+15488260,depressive,DISEASE
+15466981,prostate cancer,DISEASE
+18603989,death,DISEASE
+18603989,alcohol,CHEMICAL
+21789019,cancer,DISEASE
+14692023,breast cancer,DISEASE
+14692023,anthracycline-based,CHEMICAL
+14692023,tumor,DISEASE
+14692023,estrogen,CHEMICAL
+14692023,tumors,DISEASE
+25150098,stroke,DISEASE
+25150098,hypertensive,DISEASE
+25150098,smoking,CHEMICAL
+25150098,alcohol,CHEMICAL
+25150098,glucose,CHEMICAL
+25150098,cholesterol,CHEMICAL
+25150098,hypertension,DISEASE
+20337874,arm,CHEMICAL
+20337874,prematurity,DISEASE
+20337874,malformation,DISEASE
+20337874,anomalies,DISEASE
+20337874,obstructive symptoms,DISEASE
+20337874,meconium,CHEMICAL
+19198736,retinopathy,DISEASE
+19198736,prematurity,DISEASE
+19198736,rop,DISEASE
+19198736,weight gain,DISEASE
+22411435,infliximab,CHEMICAL
+22411435,anti-tnfα,DISEASE
+22411435,infections,DISEASE
+22411435,opportunistic infections,DISEASE
+16266387,allergic disease,DISEASE
+16266387,asthma,DISEASE
+16266387,allergy,DISEASE
+16266387,allergies,DISEASE
+16266387,bronchial hyperresponsiveness,DISEASE
+16266387,bhr,DISEASE
+16266387,overweight,DISEASE
+16266387,wheeze,DISEASE
+16266387,atopy,DISEASE
+23792130,prostate,DISEASE
+23792130,prostate cancer,DISEASE
+17462393,adenosine triphosphate,CHEMICAL
+17462393,phosphocreatine,CHEMICAL
+17462393,phosphate,CHEMICAL
+21457946,schizophrenia,DISEASE
+21457946,brain abnormalities,DISEASE
+19481382,chronic disease,DISEASE
+19481382,padam,DISEASE
+19481382,testosterone,CHEMICAL
+19481382,globulin,CHEMICAL
+19481382,shbg,CHEMICAL
+19481382,decreased sexual desire,DISEASE
+19481382,hypogonadism,DISEASE
+25699562,sud,DISEASE
+25699562,lar,CHEMICAL
+17682349,acute myocardial infarction,DISEASE
+17682349,ami,CHEMICAL
+18251357,chorioamnionitis,DISEASE
+18251357,infection,DISEASE
+18251357,mean white blood cell count (p = 0.018,DISEASE
+20971618,cutaneous infections,DISEASE
+20971618,impetigo contagiosum,DISEASE
+20971618,molluscum contagiosum,DISEASE
+20971618,herpes virus infection,DISEASE
+20971618,atopic dermatitis,DISEASE
+20971618,infections,DISEASE
+20971618,allergic diseases,DISEASE
+20971618,asthma,DISEASE
+20971618,allergic rhinitis,DISEASE
+20971618,allergy,DISEASE
+20971618,skin infections,DISEASE
+20971618,non-ad,DISEASE
+19648304,painful joints,DISEASE
+19648304,triamcinolone acetonide,CHEMICAL
+19648304,effusion,DISEASE
+19648304,lidocaine,CHEMICAL
+19648304,pain,DISEASE
+23222920,diabetic,DISEASE
+23222920,end-stage renal disease,DISEASE
+23222920,pancreas retransplantation,DISEASE
+23222920,pancreas loss,DISEASE
+21864397,nasopharyngeal carcinoma,DISEASE
+21864397,npc,DISEASE
+21864397,pms,CHEMICAL
+26601554,viral infection,DISEASE
+26601554,vertigo,DISEASE
+26601554,bppv,DISEASE
+26601554,hsv2,DISEASE
+26601554,herpes zoster,DISEASE
+26601554,parainfluenza,DISEASE
+19322056,necrotizing enterocolitis,DISEASE
+19322056,vlbw,DISEASE
+19322056,sepsis,DISEASE
+22522271,obese,DISEASE
+22522271,t2dm,DISEASE
+22522271,cushing's syndrome,DISEASE
+22522271,cortisol,CHEMICAL
+22522271,hypercortisolism,DISEASE
+9363529,disability,DISEASE
+9363529,chronic disorders,DISEASE
+9363529,smoking,CHEMICAL
+9363529,myocardial infarction,DISEASE
+9363529,depression,DISEASE
+9363529,neck-shoulder disorders,DISEASE
+9363529,unspecified low-back disorders,DISEASE
+9363529,knee osteoarthritis,DISEASE
+9363529,osteoarthritis,DISEASE
+7547656,epinephrine,CHEMICAL
+7547656,bupivacaine,CHEMICAL
+7547656,"1:200,000 epinephrine",CHEMICAL
+7547656,decreased uterine blood flow,DISEASE
+24235894,sleep bruxism,DISEASE
+24235894,bruxism,DISEASE
+17429333,anxiety,DISEASE
+17429333,depression,DISEASE
+19156007,depressive symptoms,DISEASE
+19156007,visual impairment,DISEASE
+19156007,low vision,DISEASE
+19156007,vision impairment,DISEASE
+19156007,presenting visual,DISEASE
+19156007,visual disability,DISEASE
+19156007,depressed,DISEASE
+9603166,human immunodeficiency virus,DISEASE
+9603166,end-stage renal disease,DISEASE
+9603166,hiv infection,DISEASE
+24298614,gastric cancer,DISEASE
+24298614,mucosal cancer,DISEASE
+24298614,submucosal cancer,DISEASE
+21849531,gh deficiency,DISEASE
+21849531,ghd,DISEASE
+21849531,malignancy,DISEASE
+21849531,cardiovascular disease,DISEASE
+21849531,cvd,DISEASE
+21849531,death,DISEASE
+21849531,malignancies,DISEASE
+19854401,breast cancer,DISEASE
+19854401,ductal carcinoma,DISEASE
+19854401,carcinoma,DISEASE
+22237146,non-small cell lung cancer,DISEASE
+22237146,nsclc,DISEASE
+22237146,tumor,DISEASE
+22237146,nucleic acid,CHEMICAL
+22237146,egfr-tyrosine,CHEMICAL
+25793749,human immunodeficiency virus (hiv)-related risk behaviors,DISEASE
+25793749,long-term chronic hiv infection,DISEASE
+15095519,diabetes,DISEASE
+15095519,carbohydrate,CHEMICAL
+15095519,hypoglycemia,DISEASE
+25981682,osteoporosis,DISEASE
+18284441,hbv infection,DISEASE
+18284441,hepatitis,DISEASE
+18284441,cirrhosis,DISEASE
+18284441,hcc,DISEASE
+18284441,inflammation,DISEASE
+18284441,cirrhotic liver,DISEASE
+18284441,hepatitis b infection,DISEASE
+18284441,fibrosis,DISEASE
+10173769,stroke,DISEASE
+10173769,"impairment, disability",DISEASE
+10173769,anxiety,DISEASE
+10173769,depression,DISEASE
+9616411,respiratory diseases,DISEASE
+9616411,cardiac failure,DISEASE
+9616411,cancer,DISEASE
+9616411,stroke,DISEASE
+9616411,fractures,DISEASE
+22205377,gdp,CHEMICAL
+16241924,gestational diabetes,DISEASE
+16241924,gdm,DISEASE
+16241924,glucose,CHEMICAL
+16241924,pregestational body mass index,DISEASE
+16241924,weight gain,DISEASE
+16241924,pregestational,DISEASE
+24599411,cancers,DISEASE
+24599411,tumor,DISEASE
+24599411,gastric cancer,DISEASE
+24599411,gastroesophageal junction tumors,DISEASE
+24599411,dss,DISEASE
+24599411,utg,CHEMICAL
+24599411,ltg,CHEMICAL
+24599411,mtg,CHEMICAL
+24599411,t stage,DISEASE
+23860049,acute appendicitis,DISEASE
+23860049,appendicitis,DISEASE
+23860049,peritonitis,DISEASE
+23860049,abscess,DISEASE
+7664228,acute myocardial infarction,DISEASE
+7664228,ami,CHEMICAL
+7664228,bronchitis,DISEASE
+7664228,asthma,DISEASE
+7664228,nonmalignant disease,DISEASE
+17971187,cholesterol,CHEMICAL
+17971187,ldl-cholesterol,CHEMICAL
+17971187,hyperlipidemia,DISEASE
+27394685,chronic posttraumatic anterior shoulder instability,DISEASE
+27394685,bone defects,DISEASE
+27394685,± 10,CHEMICAL
+27394685,± 4,CHEMICAL
+25079920,overweight,DISEASE
+17355582,chronic disease,DISEASE
+17355582,p<.05,CHEMICAL
+12419743,breast cancer,DISEASE
+12419743,mitoxantrone,CHEMICAL
+12419743,fluorouracil,CHEMICAL
+12419743,epirubicin,CHEMICAL
+12419743,cyclophosphamide,CHEMICAL
+12419743,second-line,CHEMICAL
+12419743,vindesine,CHEMICAL
+12419743,mitomycin,CHEMICAL
+12419743,prednisolone,CHEMICAL
+12419743,alopecia,DISEASE
+12419743,vomiting,DISEASE
+10973547,werlhof's disease,DISEASE
+10973547,bleeding,DISEASE
+10973547,80/nl,CHEMICAL
+10973547,215/nl,CHEMICAL
+10973547,drainage loss,DISEASE
+10973547,1140,CHEMICAL
+25499207,neck pain,DISEASE
+25499207,pain,DISEASE
+25499207,disability,DISEASE
+25499207,arthritis,DISEASE
+25499207,low back pain,DISEASE
+25499207,depressive,DISEASE
+26133538,abdominal bloating,DISEASE
+26133538,irritable bowel syndrome,DISEASE
+26133538,ibs,DISEASE
+26133538,gaseous symptoms,CHEMICAL
+26133538,flatulence,DISEASE
+26133538,abdominal pain,DISEASE
+26133538,diarrhea,DISEASE
+26163474,cardiovascular disease,DISEASE
+26163474,hypertension,DISEASE
+14968373,obstructive hydrocephalus,DISEASE
+14968373,tuberculous meningitis,DISEASE
+14968373,tbm,DISEASE
+14968373,non-communicating hydrocephalus,DISEASE
+14968373,cerebral herniation,DISEASE
+14968373,hydrocephalus,DISEASE
+24698298,pain,DISEASE
+23088164,2:1,CHEMICAL
+23088164,frequency-compressed,DISEASE
+24481006,carious lesions,DISEASE
+24481006,cavitated,DISEASE
+17032327,cancer,DISEASE
+17032327,primary adenocarcinoma,DISEASE
+8916748,death,DISEASE
+16361634,lynch syndrome,DISEASE
+16361634,hereditary nonpolyposis colorectal cancer,DISEASE
+16361634,hnpcc,DISEASE
+16361634,autosomal-dominant cancer predisposition,DISEASE
+16361634,cancers,DISEASE
+16361634,ovarian cancer,DISEASE
+16361634,endometrial and ovarian cancer,DISEASE
+16361634,endometrial and ovarian cancers,DISEASE
+16361634,tumor,DISEASE
+16361634,first-degree,DISEASE
+16361634,hnpcc-associated cancer,DISEASE
+25756710,vertigo,DISEASE
+25756710,neurological deficits,DISEASE
+25756710,spontaneousnystagmus,CHEMICAL
+25756710,nystagmus,DISEASE
+23916653,orthostatic myoclonus,DISEASE
+23916653,gait impairment,DISEASE
+23916653,neurological disorders,DISEASE
+23916653,unsteadiness/gait impairment,DISEASE
+23916653,orthostatic tremor,DISEASE
+23916653,tremors,DISEASE
+23916653,unsteadiness,DISEASE
+23916653,neurodegenerative disease,DISEASE
+23916653,atrophy,DISEASE
+23916653,parkinson's disease,DISEASE
+23916653,alzheimer's disease,DISEASE
+23916653,cognitive impairment,DISEASE
+23916653,hydrocephalus,DISEASE
+12790890,mesial temporal sclerosis,DISEASE
+12790890,mts,DISEASE
+12790890,neuronal loss,DISEASE
+12790890,epilepsy,DISEASE
+12790890,neuronal death,DISEASE
+12790890,seizures,DISEASE
+12790890,death,DISEASE
+12790890,hoechst-33258,CHEMICAL
+23449952,gadobenate dimeglumine,CHEMICAL
+23449952,synovitis,DISEASE
+23449952,tenosynovitis,DISEASE
+23449952,rheumatoid arthritis,DISEASE
+23449952,full-dose,CHEMICAL
+23449952,half-dose,CHEMICAL
+23449952,full-dose gadobenate,CHEMICAL
+10430303,cholelithiasis,DISEASE
+10430303,hyaluronic acid,CHEMICAL
+10430303,bilirubin,CHEMICAL
+20605051,illness,DISEASE
+23048048,adhd,DISEASE
+23048048,sexual behaviors,DISEASE
+23048048,rsb,CHEMICAL
+23048048,past-year,CHEMICAL
+16991071,traumatic tears,DISEASE
+16991071,traumatic,DISEASE
+12090319,renal cell carcinoma,DISEASE
+12090319,rcc,DISEASE
+12090319,tumour,DISEASE
+12090319,bladder cancer,DISEASE
+24614851,spondylotic amyotrophy,DISEASE
+24614851,diabetes mellitus,DISEASE
+24614851,vitamin b12,CHEMICAL
+24614851,impaired muscle,DISEASE
+17578985,parasacral sciatic block,DISEASE
+17578985,lidocaine,CHEMICAL
+17578985,epinephrine,CHEMICAL
+17578985,ropivacaine,CHEMICAL
+26965932,bleeding,DISEASE
+26965932,dapt,CHEMICAL
+26965932,unstable coronary artery disease,DISEASE
+26965932,des,CHEMICAL
+26965932,death,DISEASE
+26965932,myocardial infarction,DISEASE
+26965932,lower myocardial infarction,DISEASE
+26965932,thrombosis,DISEASE
+15137012,ovarian torsion,DISEASE
+15137012,necrotic,DISEASE
+15137012,ovarian cystectomy,DISEASE
+15137012,torsion,DISEASE
+21194998,postoperative pain,DISEASE
+21194998,pain,DISEASE
+21194998,esophageal atresia,DISEASE
+21194998,congenital diaphragmatic hernia,DISEASE
+21194998,cdh,DISEASE
+15787677,gestational diabetes,DISEASE
+15787677,type 2 diabetes,DISEASE
+15787677,diabetes,DISEASE
+15787677,oxygen,CHEMICAL
+15787677,acetylcholine,CHEMICAL
+15787677,ach,CHEMICAL
+15787677,sodium nitroprusside,CHEMICAL
+15787677,hyperaemia,DISEASE
+24625433,hearing loss,DISEASE
+24625433,hfnc,CHEMICAL
+24625433,eam,DISEASE
+25304452,nutritional deficiencies,DISEASE
+25304452,fatty acids,CHEMICAL
+25304452,vitamins,CHEMICAL
+25304452,minerals,CHEMICAL
+25304452,celiac diseases,DISEASE
+25304452,nutritional deficits,DISEASE
+25304452,celiac disease,DISEASE
+25304452,saturated fatty acids,CHEMICAL
+25304452,monounsaturated fatty acids,CHEMICAL
+25304452,phosphorus,CHEMICAL
+25304452,vitamin d,CHEMICAL
+28196511,hiv transmission reduction,DISEASE
+28196511,mitochondrial toxicities,DISEASE
+28196511,cardiovascular disease,DISEASE
+28196511,lipodystrophy,DISEASE
+28196511,prediabetes,DISEASE
+28196511,diabetes,DISEASE
+28196511,hyperlactatemia/lactic acidosis,DISEASE
+24591144,oropharyngeal squamous cell carcinoma,DISEASE
+24591144,opscc,DISEASE
+24591144,dss,DISEASE
+24591144,tumor,DISEASE
+21431987,colorectal carcinoma,DISEASE
+21431987,liver steatosis,DISEASE
+21431987,allergy,DISEASE
+21431987,hepatic and extrahepatic staging,DISEASE
+18928979,preterm labor,DISEASE
+18928979,eum,DISEASE
+18928979,ptd,CHEMICAL
+25752725,schizophrenia,DISEASE
+25752725,illness,DISEASE
+25752725,high-iq schizophrenia,DISEASE
+25752725,manic,DISEASE
+12855939,peripheral arterial disease,DISEASE
+12855939,pad,DISEASE
+12855939,aai,CHEMICAL
+12855939,death,DISEASE
+12855939,icd-9-cm,CHEMICAL
+12855939,ischemic heart disease,DISEASE
+12855939,ihd,CHEMICAL
+12855939,cerebrovascular disease,DISEASE
+24476003,leaks,CHEMICAL
+24476003,blood loss,DISEASE
+23386371,obstructive sleep apnea,DISEASE
+23386371,osa,DISEASE
+23386371,idiopathic pulmonary fibrosis,DISEASE
+23386371,ipf,DISEASE
+23386371,fatigue,DISEASE
+23386371,depression,DISEASE
+23386371,± 5.6 vs. 7.6,CHEMICAL
+23386371,± 4.7 vs. 8.6,CHEMICAL
+23386371,claustrophobia,DISEASE
+23386371,insomnia,DISEASE
+23386371,cough,DISEASE
+10922093,gastrointestinal (gi) subspecialty clinic.,DISEASE
+20602101,hypoalbuminemia,DISEASE
+20602101,gastric cancer,DISEASE
+20602101,gastric carcinoma,DISEASE
+20602101,cancer,DISEASE
+18065862,postoperative pain,DISEASE
+18065862,pain,DISEASE
+18065862,depression,DISEASE
+18065862,chronic pain,DISEASE
+9569972,breast cancers,DISEASE
+9569972,breast cancer,DISEASE
+9569972,death,DISEASE
+9569972,tumors,DISEASE
+9569972,estrogen,CHEMICAL
+9569972,progesterone,CHEMICAL
+25406780,dermatitis,DISEASE
+25406780,iad,DISEASE
+25406780,skin injury,DISEASE
+25406780,critically ill,DISEASE
+20629769,infarct,DISEASE
+23149821,chronic infection,DISEASE
+23149821,myocardial ischaemia,DISEASE
+23149821,smi,DISEASE
+23149821,coronary artery disease,DISEASE
+23149821,hiv infection,DISEASE
+23149821,ischaemia,DISEASE
+23149821,myocardial infarction,DISEASE
+11483547,antivenin,CHEMICAL
+11483547,hypersensitivity,DISEASE
+11483547,permanent disability,DISEASE
+11483547,envenomation,DISEASE
+11483547,snakebite,DISEASE
+11483547,deaths,DISEASE
+11483547,amputations,DISEASE
+11483547,administration-were,CHEMICAL
+11483547,urticaria,DISEASE
+11483547,epinephrine,CHEMICAL
+27884344,small bowel injury,DISEASE
+27884344,small bowel repair,DISEASE
+18800356,rheumatoid arthritis,DISEASE
+18800356,physical disability,DISEASE
+18800356,pain,DISEASE
+22301406,breast cancer,DISEASE
+22301406,breast carcinoma,DISEASE
+26079501,hypoxia,DISEASE
+26079501,polytrauma,DISEASE
+26079501,traumatic brain injury,DISEASE
+26079501,tbi,DISEASE
+26079501,coma,DISEASE
+26079501,trauma,DISEASE
+15774570,nhs,CHEMICAL
+18319270,cpm,CHEMICAL
+26209118,sickle cell disease,DISEASE
+26209118,infarcts and acute osteomyelitis,DISEASE
+26209118,infarct,DISEASE
+26209118,osteomyelitis,DISEASE
+26209118,infarcts from osteomyelitis,DISEASE
+26209118,pain,DISEASE
+11713724,cancer,DISEASE
+11713724,aggressive neoplasm of the oral cavity,DISEASE
+11713724,cancer of the oral cavity,DISEASE
+11713724,primary buccal cancers,DISEASE
+11713724,tumors,DISEASE
+11713724,tumor,DISEASE
+11713724,buccal carcinoma,DISEASE
+11713724,primary lesion,DISEASE
+11713724,t1-t2 disease,DISEASE
+25070942,schistosomiasis,DISEASE
+25070942,mda,CHEMICAL
+25070942,praziquantel,CHEMICAL
+25070942,schistosoma infection,DISEASE
+25070942,infection,DISEASE
+25070942,schistosomiasis-induced,DISEASE
+25070942,left lobe liver enlargement,DISEASE
+25070942,fibrosis,DISEASE
+25070942,splenomegaly,DISEASE
+19683101,appendicitis,DISEASE
+19683101,pain,DISEASE
+10783841,rheumatoid arthritis,DISEASE
+10783841,cardiovascular disease,DISEASE
+10783841,diabetes mellitus,DISEASE
+11862129,albuterol,CHEMICAL
+11862129,bronchospasm,DISEASE
+11862129,wheezing,DISEASE
+11862129,aerosols,CHEMICAL
+11862129,oxygen,CHEMICAL
+23455575,cystic lesions,DISEASE
+23455575,radicular cysts,DISEASE
+23455575,keratocystic odontogenic tumours,DISEASE
+23455575,adenomatoid odontogenic tumour,DISEASE
+23455575,granuloma,DISEASE
+21848798,adenoma,DISEASE
+21848798,adr,CHEMICAL
+21848798,miralax/gatorade,CHEMICAL
+25103647,general/routine,CHEMICAL
+25103647,glaucoma,DISEASE
+25103647,cataracts,DISEASE
+25103647,diabetes,DISEASE
+19406119,telmisartan,CHEMICAL
+19406119,diabetes-related hepatic degeneration,DISEASE
+19406119,alloxan-induced diabetic,DISEASE
+19406119,alloxan-induced diabetic telmisartan,DISEASE
+19406119,diabetic,DISEASE
+24359102,dermatitis,DISEASE
+24359102,eczema,DISEASE
+24359102,allergic,DISEASE
+24359102,allergic contact,DISEASE
+24359102,allergy,DISEASE
+24359102,urticaria,DISEASE
+18802997,inflammatory bowel disease,DISEASE
+18802997,ibd,DISEASE
+18802997,calprotectin,CHEMICAL
+18802997,ulcerative colitis,DISEASE
+18802997,crohn's disease,DISEASE
+26304701,anxiety,DISEASE
+26304701,chest infection,DISEASE
+19058191,lower urinary tract dysfunction,DISEASE
+19058191,lower urinary tract symptoms,DISEASE
+19058191,luts on social limitations and emotions (p<0.05),DISEASE
+27549226,mph,CHEMICAL
+27549226,aids,DISEASE
+24799031,vascularization in hypovascular hepatocellular lesions,DISEASE
+25043083,primary anterior cruciate ligament,DISEASE
+25043083,acl,CHEMICAL
+25043083,pts,DISEASE
+25043083,kt-1000 arthrometer,DISEASE
+25043083,knee flexion,DISEASE
+25043083,ptss,DISEASE
+26516021,death,DISEASE
+23736032,breast cancer,DISEASE
+17312514,seroma,DISEASE
+17312514,abdominal deformity,DISEASE
+17312514,weight loss,DISEASE
+23002947,cognitive impairment,DISEASE
+23002947,dementia,DISEASE
+23002947,eating problems,DISEASE
+23002947,tube-fed,DISEASE
+23002947,peg,CHEMICAL
+23453079,prostate,DISEASE
+23453079,holmium,CHEMICAL
+23453079,304,CHEMICAL
+23453079,trilobar,DISEASE
+15053041,aortic stiffness,DISEASE
+15053041,cardiovascular disease,DISEASE
+15053041,hypertension,DISEASE
+15053041,sympathomimetics,CHEMICAL
+15053041,isoproterenol,CHEMICAL
+15053041,hypertensive,DISEASE
+9465206,trauma,DISEASE
+9465206,pain,DISEASE
+9465206,occult post-traumatic osteochondral injuries,DISEASE
+9465206,acute musculoskeletal trauma,DISEASE
+9465206,fir,CHEMICAL
+9465206,occult post-traumatic injuries,DISEASE
+9465206,chondral injuries,DISEASE
+9465206,a bone bruise,DISEASE
+9465206,osteochondral injuries,DISEASE
+9465206,bruise,DISEASE
+9465206,sprains,DISEASE
+9465206,meniscal damage,DISEASE
+9465206,ligament injury,DISEASE
+9465206,stress injuries,DISEASE
+19593710,crash,DISEASE
+8521557,coronary heart disease,DISEASE
+8521557,chd,DISEASE
+8521557,insulin-resistance syndrome,DISEASE
+8521557,non-insulin-dependent diabetic,DISEASE
+8521557,niddm,DISEASE
+8521557,non-insulin-treated,DISEASE
+24340838,sudden death,DISEASE
+24340838,ventricular arrhythmias,DISEASE
+24340838,ventricular premature beats,DISEASE
+24340838,vpb,DISEASE
+24340838,ventricular couplets,DISEASE
+24340838,non-sustained ventricular tachycardia,DISEASE
+24340838,nsvt,DISEASE
+24751724,death,DISEASE
+24751724,bame,CHEMICAL
+24751724,cancer,DISEASE
+24751724,"93,375 cancer deaths",DISEASE
+24751724,ons,CHEMICAL
+24751724,caribbean(4.3,DISEASE
+24751724,deaths,DISEASE
+24751724,africa(pr,CHEMICAL
+21368683,mental illness,DISEASE
+21368683,smi,DISEASE
+21368683,psychiatric,DISEASE
+21368683,schizophrenia or bipolar disorder,DISEASE
+21368683,schizophrenia,DISEASE
+21368683,"n=23,767",CHEMICAL
+21368683,bipolar disorder,DISEASE
+27832831,fractures,DISEASE
+27832831,ota/ao 31a1-3 fractures,DISEASE
+27832831,fracture,DISEASE
+15208005,eicosapentaenoic,CHEMICAL
+15208005,docosahexaenoic acids,CHEMICAL
+15208005,epa,CHEMICAL
+15208005,dha,CHEMICAL
+15208005,death,DISEASE
+15208005,coronary heart disease,DISEASE
+15208005,chd,DISEASE
+15208005,fatty acid,CHEMICAL
+15208005,omega-3,CHEMICAL
+15208005,chd death,DISEASE
+15208005,sudden cardiac death,DISEASE
+24958650,pelvic inflammatory disease,DISEASE
+24958650,pid,DISEASE
+24958650,chronic disease,DISEASE
+24958650,oral contraceptives,CHEMICAL
+24958650,chronic diseases,DISEASE
+16713745,pancreatic disease,DISEASE
+16713745,abdominal pain,DISEASE
+16713745,nitrogen,CHEMICAL
+16713745,interleukin-6,CHEMICAL
+16713745,pancreatitis,DISEASE
+16713745,pancreatic cancer,DISEASE
+24669960,acute stroke,DISEASE
+24669960,stroke,DISEASE
+24669960,thrombolysis,DISEASE
+24669960,brain ischemia,DISEASE
+24669960,tibi,DISEASE
+24669960,hypertension,DISEASE
+9278754,head and neck cancer,DISEASE
+9278754,head and neck pain,DISEASE
+9278754,bodily pain,DISEASE
+8738894,arsenic,CHEMICAL
+8738894,diabetes mellitus,DISEASE
+8738894,death,DISEASE
+8738894,foundry,DISEASE
+8738894,"cancer, cardiovascular disease",DISEASE
+8738894,diabetes,DISEASE
+8738894,cardiovascular disease,DISEASE
+24671913,coronary artery disease,DISEASE
+24671913,acute coronary syndrome,DISEASE
+24671913,myocardial infarction,DISEASE
+24671913,stemi,CHEMICAL
+24671913,infarct,DISEASE
+24671913,left ventricular systolic functions,DISEASE
+22540518,toluidine blue,CHEMICAL
+16538201,angioplasty,DISEASE
+16538201,stenosis,DISEASE
+16538201,iliac occlusions,DISEASE
+16538201,femoral stenosis,DISEASE
+16538201,iliac stenosis,DISEASE
+16538201,sfa stenosis,DISEASE
+17054994,multinodular thyroid disease,DISEASE
+17054994,multinodular goiter,DISEASE
+17054994,malignancy,DISEASE
+17054994,thyroid cancer,DISEASE
+26999038,deaths,DISEASE
+26999038,fentanyl,CHEMICAL
+26999038,heroin,CHEMICAL
+26999038,fatalities,DISEASE
+26999038,chest wall rigidity,DISEASE
+26999038,norfentanyl,CHEMICAL
+26999038,alfentanyl,CHEMICAL
+26999038,death,DISEASE
+26999038,acute chest rigidity,DISEASE
+26999038,respiratory arrest,DISEASE
+26999038,drug abuse,DISEASE
+23598835,pain,DISEASE
+23598835,vertebroplasty,CHEMICAL
+17890090,breast cancer,DISEASE
+17890090,mbc,DISEASE
+17890090,bone lesions,DISEASE
+22813804,obesity,DISEASE
+22813804,trauma,DISEASE
+22813804,fractures,DISEASE
+22813804,pelvic injuries,DISEASE
+26923375,cirrhosis,DISEASE
+26923375,esophageal varix,DISEASE
+26923375,esophageal varices,DISEASE
+26923375,hepatic cirrhosis,DISEASE
+26923375,hepatic and splenic arterial resistive,DISEASE
+26923375,hepatic artery resistive,DISEASE
+20304513,fluorodeoxyglucose,CHEMICAL
+20304513,fdg,CHEMICAL
+20304513,tumor hypoxia,DISEASE
+20304513,hypoxia,DISEASE
+20304513,tumor,DISEASE
+20304513,sccvii tumors,DISEASE
+21689015,autism spectrum disorder,DISEASE
+21689015,asd,DISEASE
+21689015,asd.settings/ a,CHEMICAL
+21689015,autism,DISEASE
+10811329,upper gastrointestinal small bowel follow-through (ugi-sbft),DISEASE
+10811329,inflammation,DISEASE
+10811329,inflammatory bowel disease,DISEASE
+10811329,ibd,DISEASE
+10811329,crohn's disease,DISEASE
+10811329,ulcerative colitis,DISEASE
+10811329,colitis,DISEASE
+10834864,avascular necrosis,DISEASE
+10834864,avn,DISEASE
+10834864,systemic lupus erythematosus,DISEASE
+10834864,antiphospholipid antibody status (igm and igg anticardiolipin antibodies and,DISEASE
+10834864,lupus,DISEASE
+10834864,organ disease,DISEASE
+10834864,antiphospholipid,DISEASE
+27909738,± 6.0),CHEMICAL
+27909738,± 4.5),CHEMICAL
+27909738,± 5.7),CHEMICAL
+27909738,"± 2.8), 0.5",CHEMICAL
+27909738,± 2.2),CHEMICAL
+27909738,± 1.8),CHEMICAL
+27909738,± 2.3),CHEMICAL
+27909738,± 5.0),CHEMICAL
+26063028,variceal hemorrhage,DISEASE
+26063028,hypertension,DISEASE
+26063028,thrombosis,DISEASE
+26063028,p=0.631,DISEASE
+25034219,non-obese,DISEASE
+25521278,eating behaviors,DISEASE
+25521278,weight gain,DISEASE
+25521278,obesity,DISEASE
+27908583,lower limb fractures,DISEASE
+27908583,chronic spinal cord injuries,DISEASE
+27908583,fractures,DISEASE
+27908583,pain,DISEASE
+23422012,vancomycin,CHEMICAL
+23422012,infections,DISEASE
+11500608,lansoprazole,CHEMICAL
+11500608,heartburn,DISEASE
+8111516,influenza-like illness,DISEASE
+8111516,ili,DISEASE
+8111516,140,CHEMICAL
+8111516,fever,DISEASE
+8111516,cough,DISEASE
+8111516,sore throat,DISEASE
+8111516,myalgia,DISEASE
+8111516,"1,672,542",CHEMICAL
+8111516,pneumonia,DISEASE
+25604390,dickkopf-3,CHEMICAL
+25604390,tumor,DISEASE
+25604390,cancer,DISEASE
+25604390,gastric cancer,DISEASE
+25604390,t stage,DISEASE
+25604390,agc,CHEMICAL
+25985014,atrial fibrillation,DISEASE
+25985014,nsr,DISEASE
+14627582,barium enemas,CHEMICAL
+14627582,polyp,DISEASE
+14627582,carcinoma,DISEASE
+14627582,adenocarcinomas,DISEASE
+18570208,macrosomia,DISEASE
+23448747,cancer,DISEASE
+23448747,cancer type,DISEASE
+23448747,pain,DISEASE
+23448747,weight loss,DISEASE
+23448747,memory recall,DISEASE
+23448747,cancer type or stage,DISEASE
+20156655,undescended testis,DISEASE
+20156655,palpable,DISEASE
+16147837,abruptio,DISEASE
+16147837,macrosomia,DISEASE
+16147837,death,DISEASE
+16147837,hemorrhage,DISEASE
+24495711,hiv infections,DISEASE
+20101129,fracture,DISEASE
+20101129,infection,DISEASE
+20101129,osteonecrosis,DISEASE
+20101129,nonunion,DISEASE
+20101129,malunion,DISEASE
+20101129,death,DISEASE
+17593459,small bowel disorders,DISEASE
+17593459,chronic gastrointestinal bleeding,DISEASE
+17593459,diarrhea,DISEASE
+17593459,polyposis,DISEASE
+17593459,occult or obscure gastrointestinal bleeding,DISEASE
+17593459,bleeding,DISEASE
+17593459,multiple angiodysplasias,DISEASE
+17593459,arterial-venous malformation,DISEASE
+17593459,duodenal adenocarcinoma,DISEASE
+17593459,jejunal tuberculosis,DISEASE
+17593459,erosions,DISEASE
+17593459,ulcer,DISEASE
+17593459,lymphomas,DISEASE
+17593459,plasmocytoma,DISEASE
+17593459,gardner's syndrome,DISEASE
+17593459,peutz-jeghers' syndrome,DISEASE
+17593459,familial adenomatous polyposis,DISEASE
+17593459,"behçet's disease, jejunal submucosal lesion",DISEASE
+17593459,lymphangiectasia,DISEASE
+17593459,blastomycosis,DISEASE
+17593459,unspecific chronic jejunitis,DISEASE
+17593459,dbe,CHEMICAL
+17593459,crohn's disease and lymphoma of the small bowel,DISEASE
+17593459,sore throat,DISEASE
+24577079,wm deficit,DISEASE
+9582182,obsessive-compulsive,DISEASE
+9582182,tumor,DISEASE
+9582182,tumors,DISEASE
+9582182,dementia,DISEASE
+9582182,anxiety,DISEASE
+9582182,chronic illness problem inventory,DISEASE
+9582182,depression,DISEASE
+9582182,complaints of memory problems,DISEASE
+17715311,anomaly,DISEASE
+17715311,fetal anomaly,DISEASE
+17715311,pyelectasis,DISEASE
+19430778,pain,DISEASE
+19430778,discography,CHEMICAL
+19430778,discogenic,DISEASE
+19430778,low back pain,DISEASE
+12848629,tuberculosis,DISEASE
+12848629,acquired immunodeficiency syndrome,DISEASE
+12848629,extra-pulmonary tuberculosis,DISEASE
+12848629,intestinal tuberculosis,DISEASE
+12848629,tuberculous enterocolitis,DISEASE
+12848629,granuloma,DISEASE
+12848629,intestinal obstruction,DISEASE
+12848629,perianal fistula,DISEASE
+10732884,myocardial infarction,DISEASE
+10732884,coronary artery disease,DISEASE
+23568387,knee arthroplasty,DISEASE
+23568387,tka,DISEASE
+25675614,diabetes mellitus,DISEASE
+25675614,periodontitis,DISEASE
+25675614,glucose,CHEMICAL
+26784147,gout,DISEASE
+26784147,urate,CHEMICAL
+26784147,ult,CHEMICAL
+26784147,allopurinol,CHEMICAL
+20850631,megarectum,DISEASE
+20850631,constipation,DISEASE
+20850631,6.8 ±,CHEMICAL
+22849512,nsc,CHEMICAL
+22849512,dutch,DISEASE
+17403428,abortion,DISEASE
+17403428,infertility,DISEASE
+17403428,preeclampsia,DISEASE
+17403428,pregnancy loss,DISEASE
+21252642,cancer,DISEASE
+25503376,apnea,DISEASE
+25503376,osa,DISEASE
+25503376,cardiovascular disease,DISEASE
+25503376,uppp,CHEMICAL
+25503376,hypertriglyceridemia,DISEASE
+25503376,hypercholesterolemia,DISEASE
+25503376,hyperlipidemia,DISEASE
+12172698,anxiety,DISEASE
+12172698,depression,DISEASE
+12172698,alcohol,CHEMICAL
+12172698,cortisol,CHEMICAL
+12172698,alcohol craving,CHEMICAL
+19351635,stroke,DISEASE
+19351635,non-stroke,DISEASE
+19351635,atrial fibrillation,DISEASE
+19351635,lacunar stroke,DISEASE
+19351635,weight reduction,DISEASE
+17606778,pain,DISEASE
+17606778,vitamin c,CHEMICAL
+17606778,ascorbic acid,CHEMICAL
+17606778,fractures,DISEASE
+17606778,fracture,DISEASE
+17606778,ninety-nine,CHEMICAL
+17606778,200-mg,CHEMICAL
+17606778,500-mg,CHEMICAL
+24318956,digoxin,CHEMICAL
+24318956,heart failure,DISEASE
+24318956,cardiac arrhythmias,DISEASE
+24318956,prostate cancer,DISEASE
+26044262,green,CHEMICAL
+20011163,diabetes,DISEASE
+20011163,obese,DISEASE
+20011163,type 2 diabetes,DISEASE
+16735905,obstructive sleep apnea,DISEASE
+16735905,osa,DISEASE
+16735905,sleep disorders,DISEASE
+16735905,h2o,CHEMICAL
+16735905,apnea-hypopnea,DISEASE
+18670651,pancreatitis,DISEASE
+18670651,ercp-induced pancreatits,DISEASE
+18670651,tumor necrosis,DISEASE
+18670651,post-ercp pancreatitis,DISEASE
+18670651,acute pancreatitis,DISEASE
+11034241,cancer,DISEASE
+11034241,breast cancer,DISEASE
+11034241,tumor,DISEASE
+11034241,t2 cancers,DISEASE
+11034241,cancers,DISEASE
+24013712,cancers,DISEASE
+24013712,esophageal cancer,DISEASE
+24013712,esophageal squamous cell carcinoma,DISEASE
+24013712,escc,DISEASE
+23240452,lithogenesis,DISEASE
+21420186,cardiovascular diseases,DISEASE
+21420186,dimethylarginine,CHEMICAL
+21420186,adma,CHEMICAL
+21420186,nitric oxide,CHEMICAL
+21420186,adverse cardiovascular events and,DISEASE
+21420186,cardiac death,DISEASE
+22302761,lidocaine,CHEMICAL
+22302761,monoethylglycinexylidide,CHEMICAL
+22302761,megx,CHEMICAL
+21979183,desmoids,DISEASE
+21979183,abdominal desmoids,DISEASE
+21979183,familial adenomatous polyposis,DISEASE
+21979183,ipaa,CHEMICAL
+21979183,intra-abdominal desmoid tumor,DISEASE
+21979183,stoma,DISEASE
+21979183,bleeding,DISEASE
+21979183,fistula,DISEASE
+21979183,bowel obstruction,DISEASE
+21979183,pain,DISEASE
+21979183,death,DISEASE
+21979183,tumors,DISEASE
+21979183,desmoid tumor,DISEASE
+12607120,cancer,DISEASE
+12607120,continence,DISEASE
+12607120,anastomotic leakage,DISEASE
+24516646,allergic,DISEASE
+28247485,albumin/creatinine,CHEMICAL
+28247485,acr,CHEMICAL
+28247485,preeclampsia,DISEASE
+21593045,pco,DISEASE
+21593045,polycystic ovary syndrome,DISEASE
+21593045,pcos,DISEASE
+21593045,gonadotrophins,CHEMICAL
+21593045,metformin,CHEMICAL
+21593045,ovarian hyperstimulation,DISEASE
+21593045,ohss,DISEASE
+21593045,hyperandrogenism,DISEASE
+26471488,breast cancer,DISEASE
+26471488,tumor,DISEASE
+26471488,ductal carcinoma,DISEASE
+26471488,breasts,DISEASE
+16647887,hypothyroidism,DISEASE
+22668712,temporomandibular joints,DISEASE
+18439500,myomas,DISEASE
+18439500,myoma,DISEASE
+18439500,blood loss,DISEASE
+18439500,leiomyosarcoma,DISEASE
+18439500,diaphragmatic parasitic myoma,DISEASE
+18439500,dilutional coagulopathy,DISEASE
+23347337,cancer,DISEASE
+23347337,colorectal cancers,DISEASE
+23347337,colorectal and node-positive breast cancers,DISEASE
+23347337,breast and colon cancers,DISEASE
+23347337,breast and colorectal cancer,DISEASE
+23347337,breast cancer,DISEASE
+23347337,febrile neutropenia,DISEASE
+23347337,xelox,CHEMICAL
+23347337,diarrhoea,DISEASE
+23347337,vomiting,DISEASE
+23347337,toxic death,DISEASE
+22970993,bile duct injuries,DISEASE
+22970993,gallstone,DISEASE
+22970993,inflammation,DISEASE
+22970993,infection,DISEASE
+22970993,herniation,DISEASE
+22970993,biliary injuries,DISEASE
+16498158,atropine,CHEMICAL
+16498158,ketamine,CHEMICAL
+16498158,hypersalivation,DISEASE
+16498158,rash,DISEASE
+16498158,vomiting,DISEASE
+24622801,press-fit implant,DISEASE
+24622801,coating,CHEMICAL
+24622801,dac,CHEMICAL
+24622801,novagenit srl,DISEASE
+24622801,press-fit,CHEMICAL
+22491528,colorectal cancer,DISEASE
+22491528,colorectal audit,DISEASE
+22491528,colon carcinoma,DISEASE
+22491528,rectum carcinoma,DISEASE
+11247896,familial adenomatous polyposis,DISEASE
+11247896,fap,DISEASE
+11247896,adenomatous polyposis,DISEASE
+11247896,polyposis,DISEASE
+11247896,extracolonic,DISEASE
+11247896,colorectal cancer,DISEASE
+11247896,bleeding,DISEASE
+11247896,abdominal pain,DISEASE
+11247896,diarrhoea,DISEASE
+11247896,desmoids,DISEASE
+11247896,duodenal adenomas,DISEASE
+18568239,prostate,DISEASE
+18568239,sodium,CHEMICAL
+18568239,tur syndrome,DISEASE
+22075911,air,CHEMICAL
+10401824,hiatal herniation,DISEASE
+10401824,achalasia,DISEASE
+10401824,paraesophageal hernia,DISEASE
+10401824,bleeding,DISEASE
+10401824,perforation,DISEASE
+10401824,small bowel enterotomy,DISEASE
+10401824,pneumothorax,DISEASE
+21880023,depression,DISEASE
+21726930,endometrial polyp,DISEASE
+21726930,abnormal uterine bleeding,DISEASE
+21726930,endometrial polyps,DISEASE
+21726930,steroid,CHEMICAL
+21726930,estrogen,CHEMICAL
+21726930,progesterone,CHEMICAL
+21726930,tgf-β1,DISEASE
+22768311,hypertension,DISEASE
+22768311,hcmv infection,DISEASE
+22768311,diabetes,DISEASE
+22768311,hypercholesterolemia,DISEASE
+25636371,hbeag-negative chronic hepatitis b,DISEASE
+25636371,chb,DISEASE
+25636371,nucleos(t)ide,CHEMICAL
+25636371,hbsag,CHEMICAL
+25636371,hbeag-negative chb,DISEASE
+25636371,140,CHEMICAL
+25636371,hbsag-negative chb,DISEASE
+25636371,cirrhosis,DISEASE
+25636371,adefovir,CHEMICAL
+25636371,lamivudine,CHEMICAL
+25636371,tenofovir,CHEMICAL
+25636371,± 4.5,CHEMICAL
+15050326,breast cancer,DISEASE
+15050326,hodgkin's disease,DISEASE
+23412195,displaced midshaft clavicular fractures,DISEASE
+23412195,nonunion,DISEASE
+23412195,malunion,DISEASE
+23412195,insufficiency,DISEASE
+16968183,bleeding,DISEASE
+16968183,visceral injury,DISEASE
+16968183,postoperative nausea or pain,DISEASE
+23359100,heterotopic ossification,DISEASE
+23359100,heterotopic ossifications,DISEASE
+23359100,gastrointestinal complaints,DISEASE
+23359100,etoricoxib,CHEMICAL
+23359100,osteoarthritis,DISEASE
+15943725,pancreatitis,DISEASE
+25735444,rectal cancer,DISEASE
+25735444,postoperative urinary fistula,DISEASE
+9722752,stress urinary incontinence,DISEASE
+9722752,z'-stitch,DISEASE
+9722752,stress incontinence,DISEASE
+9722752,bacterial infection,DISEASE
+9722752,granuloma,DISEASE
+9722752,pain,DISEASE
+9722752,urinary retention,DISEASE
+23870157,death,DISEASE
+23870157,acute renal failure,DISEASE
+23870157,stroke,DISEASE
+23870157,infection,DISEASE
+23870157,bleeding,DISEASE
+23870157,311,CHEMICAL
+22303473,dementia,DISEASE
+22303473,depression,DISEASE
+22303473,anxiety,DISEASE
+22303473,depressive symptoms,DISEASE
+22303473,depressive,DISEASE
+22303473,anxiety disorder,DISEASE
+24995509,amd,DISEASE
+24995509,dry type amd,DISEASE
+24995509,± 5.77 vs. 62.80,CHEMICAL
+24995509,nucleotide,CHEMICAL
+24270957,oxygen,CHEMICAL
+24270957,ischemia,DISEASE
+23848044,oxybutynin,CHEMICAL
+23848044,cardiac arrhythmia,DISEASE
+9920954,infarction,DISEASE
+9920954,acute myocardial infarction,DISEASE
+9920954,aspirin,CHEMICAL
+9920954,beta-blockers,CHEMICAL
+21276532,blood transfusions,DISEASE
+21276532,anemia,DISEASE
+21276532,myocardial infarction,DISEASE
+21276532,stroke,DISEASE
+21276532,renal insufficiency,DISEASE
+21276532,death,DISEASE
+21276532,cardiovascular disease,DISEASE
+23379759,cholesteatoma,DISEASE
+25891436,bilirubin,CHEMICAL
+25891436,coronary artery disease,DISEASE
+25891436,heart failure,DISEASE
+25891436,atrial fibrillation,DISEASE
+25891436,heart diseases,DISEASE
+25891436,cardiogenic cerebral embolism,DISEASE
+25891436,cardioembolic stroke,DISEASE
+25891436,stroke,DISEASE
+25891436,ischaemic stroke,DISEASE
+24450673,liver hemangioma,DISEASE
+24450673,adrenal adenoma,DISEASE
+24450673,parapelvic renal cysts,DISEASE
+17914515,bleeding,DISEASE
+17914515,hematoma,DISEASE
+17914515,perforation,DISEASE
+24739448,epilepsy,DISEASE
+24739448,psychiatric,DISEASE
+24739448,9289,CHEMICAL
+24739448,comorbid psychiatric disorder,DISEASE
+24739448,psychiatric disorder,DISEASE
+19444061,opll,DISEASE
+19444061,affects neurologic outcomes,DISEASE
+19444061,cord injury,DISEASE
+19444061,stenosis,DISEASE
+19444061,fractures,DISEASE
+19444061,dislocations,DISEASE
+19444061,various neurologic conditions,DISEASE
+19444061,asia] impairment scale a,DISEASE
+19444061,canal stenosis,DISEASE
+19444061,asia,DISEASE
+25669733,reflux,DISEASE
+25669733,primary vesicoureteral reflux,DISEASE
+25669733,vur,DISEASE
+20577124,hyperleptinemia,DISEASE
+20577124,cardiovascular diseases,DISEASE
+20577124,obesity,DISEASE
+20577124,nicotinamide adenine,CHEMICAL
+20577124,obese,DISEASE
+20577124,wortmannin,CHEMICAL
+11053064,fibromyalgia,DISEASE
+11053064,sjögren's syndrome,DISEASE
+11053064,pss,DISEASE
+11053064,fatigue,DISEASE
+11053064,lupus,DISEASE
+11053064,sss,DISEASE
+11053064,pain,DISEASE
+9745063,colorectal cancer,DISEASE
+9745063,cancer,DISEASE
+11138995,alexithymia,DISEASE
+11138995,anxiety,DISEASE
+11138995,depression,DISEASE
+11138995,mental disorder,DISEASE
+11138995,a mental disorder,DISEASE
+11138995,alexithymic traits,DISEASE
+15475728,alcohol,CHEMICAL
+15475728,acute myocardial infarction,DISEASE
+15475728,nonfatal,CHEMICAL
+12121321,seizure,DISEASE
+12121321,glutamate,CHEMICAL
+12121321,adenosine,CHEMICAL
+12121321,gamma-aminobutyric acid,CHEMICAL
+12121321,gaba,CHEMICAL
+12121321,epileptic,DISEASE
+12121321,n-methyl-d-aspartate,CHEMICAL
+12121321,nmda,CHEMICAL
+17342562,cbd,CHEMICAL
+17342562,gallbladder stones,DISEASE
+17342562,bds,CHEMICAL
+17342562,bile duct stones,DISEASE
+17342562,choledocholithiasis,DISEASE
+17342562,cbd stones,DISEASE
+17342562,periampullary diverticulum,DISEASE
+17342562,angulation,DISEASE
+17342562,bile duct angulation,DISEASE
+17342562,peripampullary diverticulum,DISEASE
+28011794,sib,DISEASE
+28011794,peep,CHEMICAL
+24098953,vlbw,DISEASE
+24098953,death,DISEASE
+24098953,intraventricular hemorrhage,DISEASE
+24098953,enterocolitis,DISEASE
+24098953,leukomalacia,DISEASE
+24098953,bronchopulmonary dysplasia,DISEASE
+24098953,snap ii,CHEMICAL
+24098953,aetiologies,DISEASE
+24827404,obese,DISEASE
+24827404,weight loss,DISEASE
+28407529,colorectal liver metastases,DISEASE
+28407529,toxicity,DISEASE
+28407529,unresectable,CHEMICAL
+28407529,extrahepatic disease,DISEASE
+28407529,tumour,DISEASE
+27928673,multiparity,DISEASE
+27928673,bleeding,DISEASE
+22011946,eating behavior,DISEASE
+22011946,weight loss,DISEASE
+23517744,ischemia,DISEASE
+23517744,tumor necrosis,DISEASE
+20842006,acupuncture,DISEASE
+20842006,myofascial pain,DISEASE
+20842006,cervical myofascial syndrome,DISEASE
+20842006,pain,DISEASE
+9140335,fluoridated,CHEMICAL
+9140335,teeth with decay,DISEASE
+12142826,fractures,DISEASE
+12142826,intramedullary nailing,DISEASE
+12142826,trauma,DISEASE
+12142826,ao/ota type 31-a1,DISEASE
+12142826,blood loss,DISEASE
+12142826,fracture,DISEASE
+12142826,pain,DISEASE
+22382608,tremor,DISEASE
+22382608,parkinson's disease,DISEASE
+22382608,parkinsonism,DISEASE
+22382608,ioflupane,CHEMICAL
+22382608,nortropane,CHEMICAL
+22382608,hemi-body,CHEMICAL
+17329379,deaths,DISEASE
+17329379,do-not-resuscitate,CHEMICAL
+17329379,death,DISEASE
+27288618,heparin,CHEMICAL
+27288618,pneumonia,DISEASE
+27288618,sodium heparin,CHEMICAL
+27288618,sodium chloride,CHEMICAL
+27288618,vap,DISEASE
+27288618,vac,CHEMICAL
+27288618,actrn12612000038897,CHEMICAL
+21873082,h-indices<10,DISEASE
+25810292,mitral regurgitation,DISEASE
+25810292,deaths,DISEASE
+25810292,rupture,DISEASE
+21739621,knee pain,DISEASE
+21739621,pain,DISEASE
+21739621,knee osteoarthritis,DISEASE
+20073599,liquid-based,CHEMICAL
+20073599,high-grade urothelial carcinoma/carcinoma,DISEASE
+20073599,situ/dysplasia,CHEMICAL
+20073599,squamous cell carcinoma,DISEASE
+20073599,adenocarcinoma,DISEASE
+20073599,surepath,CHEMICAL
+21845457,trauma,DISEASE
+21845457,death,DISEASE
+21845457,deaths,DISEASE
+16216859,restenosis,DISEASE
+16216859,hyperaemia,DISEASE
+16216859,stenosis,DISEASE
+16216859,smoking,CHEMICAL
+19103915,infections,DISEASE
+19103915,hsk,DISEASE
+19103915,msm,DISEASE
+22521460,eclampsia,DISEASE
+22521460,death,DISEASE
+17062234,atherosclerotic,DISEASE
+17062234,injury to the vessel,DISEASE
+17062234,aortic calcifications,DISEASE
+17062234,deaths,DISEASE
+17062234,strokes,DISEASE
+17062234,balloon rupture,DISEASE
+17062234,death,DISEASE
+17062234,stroke,DISEASE
+26126304,microdose leuprolide,CHEMICAL
+26126304,oral contraceptive,CHEMICAL
+26126304,ocp,CHEMICAL
+26126304,estradiol,CHEMICAL
+26126304,ovarian hyperstimulation,DISEASE
+19578820,methadone,CHEMICAL
+19578820,opioid dependence,DISEASE
+19578820,drug-methadone,CHEMICAL
+23719685,lung cancer,DISEASE
+11601252,cerulein-induced edematous pancreatitis,DISEASE
+11601252,hemorrhagic pancreatitis,DISEASE
+11601252,endothelin-1,CHEMICAL
+11601252,bq123,CHEMICAL
+11601252,cerulein,CHEMICAL
+11601252,acute hemorrhagic pancreatitis,DISEASE
+11601252,pancreatic hemorrhage,DISEASE
+23506394,calcification,DISEASE
+23506394,malnutrition,DISEASE
+23506394,arteriovenous fistula,DISEASE
+23506394,hematoxylin/eosin,CHEMICAL
+23506394,alizarin,CHEMICAL
+23506394,phosphorus,CHEMICAL
+23506394,calcium,CHEMICAL
+19575307,hypertension,DISEASE
+19575307,diabetes mellitus,DISEASE
+19575307,urea,CHEMICAL
+19575307,creatinine,CHEMICAL
+11977907,subclavian artery stenosis,DISEASE
+11977907,subclavian steal syndrome,DISEASE
+11977907,brachial arterial blood pressure,DISEASE
+11977907,innominate artery stenosis,DISEASE
+12626177,seventy-nine,CHEMICAL
+15483019,bladder cancer,DISEASE
+15483019,cancer,DISEASE
+15483019,sakk,DISEASE
+15483019,cisplatin,CHEMICAL
+15483019,tumor,DISEASE
+15483019,death,DISEASE
+18693227,cancer,DISEASE
+18693227,curie cancer,DISEASE
+18693227,comorbidity,DISEASE
+18693227,breast cancer,DISEASE
+18693227,depression,DISEASE
+18693227,had>2 chronic diseases,DISEASE
+18693227,depressive,DISEASE
+27131771,laa occlusion,DISEASE
+27131771,atrial fibrillation,DISEASE
+24783217,breast cancer,DISEASE
+24783217,luminal,CHEMICAL
+24783217,cancers,DISEASE
+24783217,luminal tumors,CHEMICAL
+17916877,headache,DISEASE
+17916877,metoclopramide,CHEMICAL
+17916877,vascular type headache,DISEASE
+17916877,sig,CHEMICAL
+17916877,akathisia,DISEASE
+8375607,illness,DISEASE
+8375607,atopy,DISEASE
+8375607,allergic diseases,DISEASE
+8375607,gastroenteritis,DISEASE
+8375607,lower respiratory tract infections,DISEASE
+8375607,digestive tract disorders,DISEASE
+8375607,respiratory tract infections,DISEASE
+8375607,skin infections,DISEASE
+11955750,uveal melanomas,DISEASE
+11955750,106ru,CHEMICAL
+11955750,tumors,DISEASE
+11955750,peripheral tumors,DISEASE
+11955750,retinopathy,DISEASE
+27040842,hypertrophy,DISEASE
+17244100,cancer,DISEASE
+17244100,pain,DISEASE
+15708048,prostate,DISEASE
+15708048,prostate cancer,DISEASE
+15708048,aggressive disease,DISEASE
+11438275,trendelenberg,DISEASE
+11438275,embolism,DISEASE
+22513023,diabetes,DISEASE
+27146470,tuberculosis,DISEASE
+8165771,squamous cell carcinoma of the penis,DISEASE
+8165771,tumor,DISEASE
+8165771,cancer,DISEASE
+8165771,tumors,DISEASE
+23677366,spondylolysis,DISEASE
+23677366,spondylolisthesis,DISEASE
+19237087,colorectal cancers,DISEASE
+19237087,adenomas,DISEASE
+19237087,colorectal cancer,DISEASE
+19237087,cancer,DISEASE
+19237087,cancers,DISEASE
+19237087,adenoma,DISEASE
+19237087,tumour,DISEASE
+10456814,desflurane,CHEMICAL
+10456814,hypertension,DISEASE
+10456814,sufentanil,CHEMICAL
+10456814,midazolam,CHEMICAL
+10456814,mg/kg,CHEMICAL
+10456814,atracurium,CHEMICAL
+10456814,(to)(control,CHEMICAL
+10456814,140,CHEMICAL
+10456814,left-ventricular stroke,DISEASE
+10456814,stroke,DISEASE
+16564683,undescended testis,DISEASE
+23147106,vancomycin,CHEMICAL
+23147106,nephrotoxicity,DISEASE
+23147106,methicillin-resistant staphylococcus aureus pneumonia,DISEASE
+23147106,tdm,CHEMICAL
+23147106,s. aureus pneumonia,DISEASE
+23147106,non-nephrotoxicity,DISEASE
+21550158,platelet-rich,CHEMICAL
+21550158,postoperative pain,DISEASE
+21550158,swelling,DISEASE
+21550158,trismus,DISEASE
+21550158,prp,CHEMICAL
+21550158,pain,DISEASE
+21550158,interincisal mouth,DISEASE
+17559449,tooth wear,DISEASE
+17559449,higher-strength,CHEMICAL

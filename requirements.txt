@@ -1,0 +1,36 @@
+# Track 1 + Track 2/3 – BM25 Medical Retrieval + Knowledge Graph
+# Python 3.12
+# Pinned versions as verified from Colab pip install output
+
+datasets==4.0.0
+rank-bm25==0.2.2
+nltk==3.9.1
+scikit-learn==1.6.1
+numpy==2.0.2
+pandas==2.2.2
+tqdm==4.67.1
+streamlit>=1.35.0
+
+# Track 2/3 – SciSpacy NER
+# Install scispacy core library first, then a model wheel:
+#
+#   pip install scispacy
+#
+#   Option A (preferred) – DISEASE + CHEMICAL labels:
+#   pip install https://s3-us-west-2.amazonaws.com/ai2-s3-scispacy/releases/v0.5.4/en_ner_bc5cdr_md-0.5.4.tar.gz
+#
+#   Option B (fallback) – single ENTITY label:
+#   pip install https://s3-us-west-2.amazonaws.com/ai2-s3-scispacy/releases/v0.5.4/en_core_sci_sm-0.5.4.tar.gz
+#
+scispacy>=0.5.4
+
+# Track 3 – Cross-encoder reranking
+sentence-transformers>=2.7.0
+
+# RAG generation (Task 2)
+anthropic>=0.25.0
+
+# Track 3 – Evaluation
+ragas>=0.1.21
+langchain-anthropic>=0.3.0
+langchain-core>=0.3.0

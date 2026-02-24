@@ -1,0 +1,20 @@
+# Track 1 – Medical Retrieval Baseline (BM25)
+
+## Project
+Explainable and Safe Medical Support Chatbot using Generative AI
+
+## Description
+This repository contains the Track 1 assignment for a medical retrieval system.
+The project implements a BM25-based evidence retrieval pipeline using the PubMedQA dataset.
+
+## Contents
+- track1_bm25_clean.ipynb – Colab notebook with full implementation
+- Explainable_Safe_Medical_Support_Chatbot_Track_1_BM25_Report.docx – Technical report
+
+## Method
+- Dataset: PubMedQA (labeled subset)
+- Retrieval method: BM25 (rank-bm25)
+- Top-k retrieval: k = 5
+
+## Status
+Track 1 completed successfully.
