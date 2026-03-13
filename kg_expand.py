@@ -17,8 +17,8 @@ Models tried (in order):
 
 Install models with:
   pip install scispacy
-  pip install https://s3-us-west-2.amazonaws.com/ai2-s3-scispacy/releases/v0.5.4/en_ner_bc5cdr_md-0.5.4.tar.gz
-  pip install https://s3-us-west-2.amazonaws.com/ai2-s3-scispacy/releases/v0.5.4/en_core_sci_sm-0.5.4.tar.gz
+  pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.5.4/en_ner_bc5cdr_md-0.5.4.tar.gz
+  pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.5.4/en_core_sci_sm-0.5.4.tar.gz
 """
 
 from __future__ import annotations
@@ -68,7 +68,7 @@ def _load_nlp():
         raise RuntimeError(
             "No SciSpacy model found. Install with:\n"
             "  pip install scispacy\n"
-            "  pip install https://s3-us-west-2.amazonaws.com/ai2-s3-scispacy/"
+            "  pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/"
             "releases/v0.5.4/en_ner_bc5cdr_md-0.5.4.tar.gz"
         ) from exc
 

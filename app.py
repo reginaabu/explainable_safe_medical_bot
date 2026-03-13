@@ -18,6 +18,7 @@ if "ANTHROPIC_API_KEY" not in os.environ:
                 break
 
 import json
+import csv
 import streamlit as st
 from datasets import load_dataset
 from rank_bm25 import BM25Okapi
@@ -97,16 +98,29 @@ def _bm25_params() -> tuple[float, float]:
 @st.cache_resource(show_spinner="Building BM25 index … (first run only)")
 def load_index():
     k1, b = _bm25_params()
-    dataset = load_dataset("pubmed_qa", "pqa_labeled", trust_remote_code=True)
-
+    subset_csv = HERE / "pubmedqa_subset.csv"
     records = []
-    for item in dataset["train"]:
-        context_flat = " ".join(item["context"]["contexts"])
-        records.append({
-            "pubid":    str(item["pubid"]),
-            "question": item["question"],
-            "context":  context_flat,
-        })
+
+    # Prefer local subset to avoid network dependency on app startup.
+    if subset_csv.exists():
+        with subset_csv.open(newline="", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                records.append({
+                    "pubid":    str(row.get("doc_id") or row.get("pubid") or ""),
+                    "question": row["question"],
+                    "context":  row["context"],
+                })
+
+    if not records:
+        dataset = load_dataset("pubmed_qa", "pqa_labeled", trust_remote_code=True)
+        for item in dataset["train"]:
+            context_flat = " ".join(item["context"]["contexts"])
+            records.append({
+                "pubid":    str(item["pubid"]),
+                "question": item["question"],
+                "context":  context_flat,
+            })
 
     corpus = []
     for rec in records:
@@ -550,6 +564,8 @@ st.divider()
 if query.strip():
     use_kg      = mode in ("KG expansion", "KG + Cross-encoder")
     use_reranker = mode in ("Cross-encoder reranker", "KG + Cross-encoder")
+    rag_top3_chunks: list[dict] = []
+    rag_grounding_label = "top-3 BM25 chunks"
 
     # ── Baseline retrieval ─────────────────────────────────────────────────────
     base_idx, base_norm = bm25_retrieve(bm25, corpus, query, top_k=20)
@@ -569,6 +585,11 @@ if query.strip():
         # Single-column standard results
         result_cards(base_idx[:top_k], base_norm, corpus,
                      query=query, top_k=top_k)
+        rag_top3_chunks = [
+            {"pubid": corpus[i]["pubid"], "text": corpus[i]["text"]}
+            for i in base_idx[:3]
+        ]
+        rag_grounding_label = "top-3 BM25 chunks"
     else:
         # Two-column comparison: baseline vs enhanced
         left, right = st.columns(2)
@@ -624,18 +645,36 @@ if query.strip():
             result_cards(enh_idx[:top_k], enh_norm, corpus,
                          query=enhanced_query, rerank_fn=rerank_fn, top_k=top_k)
 
+            # Ground generation on the currently selected retrieval mode.
+            if rerank_fn is not None:
+                _cand_docs = [corpus[i] for i in enh_idx]
+                _gen_docs = rerank_fn(enhanced_query, _cand_docs, top_k=3)
+                rag_top3_chunks = [
+                    {"pubid": d["pubid"], "text": d["text"]}
+                    for d in _gen_docs
+                ]
+                rag_grounding_label = "top-3 KG+CE chunks" if use_kg else "top-3 CE chunks"
+            else:
+                rag_top3_chunks = [
+                    {"pubid": corpus[i]["pubid"], "text": corpus[i]["text"]}
+                    for i in enh_idx[:3]
+                ]
+                rag_grounding_label = "top-3 KG-expanded BM25 chunks" if use_kg else "top-3 BM25 chunks"
+
     # ── RAG Generation + Evaluation ───────────────────────────────────────────
     st.divider()
     gen_fn = load_rag_generator()
     if gen_fn is not None:
-        # Collect top-3 chunks for the grounded answer
-        _top3_chunks = [
+        _top3_chunks = rag_top3_chunks or [
             {"pubid": corpus[i]["pubid"], "text": corpus[i]["text"]}
             for i in base_idx[:3]
         ]
 
         # ── Generate on button click ───────────────────────────────────────
         if st.button("Generate Answer", type="primary"):
+            if not _top3_chunks:
+                st.warning("No retrieval evidence available to ground generation.")
+                st.stop()
             with st.spinner("Generating answer with Claude …"):
                 import time as _time
                 _t0 = _time.perf_counter()
@@ -660,11 +699,18 @@ if query.strip():
             and "_rag_answer" in st.session_state
         ):
             _stored_answer = st.session_state["_rag_answer"]
+            _sk = _eval_store_key(query, _stored_answer)
+            _ev = _eval_store()
+            _existing_eval = _ev.get(_sk)
+            _display_answer = (
+                _existing_eval.get("answer_with_disclaimer", _stored_answer)
+                if isinstance(_existing_eval, dict) else _stored_answer
+            )
             st.markdown(
                 f"<div style='"
                 f"background:#f0f7ff;border-left:4px solid #2196F3;"
                 f"padding:1rem;border-radius:4px;'>"
-                f"{_stored_answer.replace(chr(10), '<br>')}"
+                f"{_display_answer.replace(chr(10), '<br>')}"
                 f"</div>",
                 unsafe_allow_html=True,
             )
@@ -674,8 +720,6 @@ if query.strip():
             _render_citation_gate(_stored_answer)
 
             # ── Launch background eval thread (once per answer) ────────────
-            _sk = _eval_store_key(query, _stored_answer)
-            _ev = _eval_store()
             if _sk not in _ev and st.session_state.get("_eval_thread_key") != _sk:
                 _lat = st.session_state.pop("_gen_latency", 0.0)
                 threading.Thread(
@@ -691,7 +735,7 @@ if query.strip():
         from rag_generate import MODEL as _RAG_MODEL
         st.caption(
             f"anthropic {_ANTHROPIC_VERSION} · model: {_RAG_MODEL} · "
-            "grounded on top-3 BM25 chunks"
+            f"grounded on {rag_grounding_label}"
         )
     else:
         st.caption(

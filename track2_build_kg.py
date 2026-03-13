@@ -14,9 +14,9 @@ Outputs (all written to the same directory as this script):
 Dependencies:
     pip install -r requirements.txt
     pip install scispacy
-    pip install https://s3-us-west-2.amazonaws.com/ai2-s3-scispacy/releases/v0.5.4/en_ner_bc5cdr_md-0.5.4.tar.gz
+    pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.5.4/en_ner_bc5cdr_md-0.5.4.tar.gz
     # Fallback model (if bc5cdr is not available):
-    pip install https://s3-us-west-2.amazonaws.com/ai2-s3-scispacy/releases/v0.5.4/en_core_sci_sm-0.5.4.tar.gz
+    pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.5.4/en_core_sci_sm-0.5.4.tar.gz
 """
 
 from __future__ import annotations
@@ -65,11 +65,25 @@ EXPAND_TOP_NBRS   = 3    # KG neighbours added per entity
 # STEP 1 – Load PubMedQA and save subset CSV
 # ══════════════════════════════════════════════════════════════════════════════
 def load_pubmedqa() -> list[dict]:
-    """Load pqa_labeled, flatten context, return list of record dicts."""
+    """Load records from local CSV if present, else from pubmed_qa dataset."""
     logger.info("[1/5] Loading PubMedQA …")
-    dataset = load_dataset("pubmed_qa", "pqa_labeled", trust_remote_code=True)
 
-    records: list[dict] = []
+    if SUBSET_CSV.exists():
+        records: list[dict] = []
+        with open(SUBSET_CSV, newline="", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                records.append({
+                    "doc_id":   str(row.get("doc_id") or row.get("pubid") or ""),
+                    "question": row["question"],
+                    "context":  row["context"],
+                })
+        if records:
+            logger.info("    Loaded %d records from %s.", len(records), SUBSET_CSV.name)
+            return records
+
+    dataset = load_dataset("pubmed_qa", "pqa_labeled", trust_remote_code=True)
+    records = []
     for item in dataset["train"]:
         context_flat = " ".join(item["context"]["contexts"])
         records.append({
@@ -78,7 +92,7 @@ def load_pubmedqa() -> list[dict]:
             "context":  context_flat,
         })
 
-    logger.info("    Loaded %d records.", len(records))
+    logger.info("    Loaded %d records from Hugging Face.", len(records))
     return records
 
 
@@ -110,8 +124,10 @@ def _load_spacy_model():
     except OSError:
         logger.error(
             "No SciSpacy model found. Install with:\n"
+            "  python scripts/install_scispacy.py\n"
+            "or manually install:\n"
             "  pip install scispacy\n"
-            "  pip install https://s3-us-west-2.amazonaws.com/ai2-s3-scispacy/"
+            "  pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/"
             "releases/v0.5.4/en_ner_bc5cdr_md-0.5.4.tar.gz"
         )
         sys.exit(1)

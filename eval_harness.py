@@ -108,7 +108,7 @@ def _safe_str(is_safe: bool, flags: list[str]) -> str:
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
-def main() -> None:
+def main() -> int:
     args = _parse_args()
     n, seed = args.n, args.seed
 
@@ -122,8 +122,15 @@ def main() -> None:
     log.info("Building BM25 index …")
     bm25, corpus = _build_bm25(all_rows)
 
-    from rag_generate import generate_answer
+    from rag_generate import generate_answer, _get_api_key as _rag_api_key
     from evaluator import evaluate_answer, FACTUALITY_THRESHOLD
+
+    if not _rag_api_key():
+        log.error(
+            "ANTHROPIC_API_KEY not found. Failing fast: Track 3 evaluation "
+            "requires a valid Anthropic key for generation."
+        )
+        return 2
 
     results: list[dict] = []
 
@@ -142,21 +149,18 @@ def main() -> None:
         try:
             answer = generate_answer(question, chunks)
         except Exception as exc:
-            log.warning("generate_answer failed: %s", exc)
-            answer = "(generation failed)"
+            log.error("generate_answer failed: %s", exc)
+            log.error("Failing fast. No report written.")
+            return 3
         latency_s = time.perf_counter() - t0
 
         # Evaluate
         try:
             eval_result = evaluate_answer(question, answer, chunks, latency_s=latency_s)
         except Exception as exc:
-            log.warning("evaluate_answer failed: %s", exc)
-            eval_result = {
-                "is_safe": True, "safety_flags": [], "answer_with_disclaimer": answer,
-                "facts": [], "fact_verdicts": [], "factuality_score": 0.0,
-                "faithfulness": None, "answer_relevancy": None, "latency_s": latency_s,
-                "correction_applied": False,
-            }
+            log.error("evaluate_answer failed: %s", exc)
+            log.error("Failing fast. No report written.")
+            return 4
 
         # Correction loop: one retry with strict prompt if factuality below threshold
         eval_result["correction_applied"] = False
@@ -194,8 +198,10 @@ def main() -> None:
                 bl_answer = generate_answer(question, chunks)
                 from evaluator.metrics import score_metrics as _sm
                 baseline_faith = _sm(question, bl_answer, chunks)["faithfulness"]
-            except Exception:
-                pass
+            except Exception as exc:
+                log.error("baseline compare generation/scoring failed: %s", exc)
+                log.error("Failing fast. No report written.")
+                return 5
 
         results.append({
             "pubid":              pubid,
@@ -321,7 +327,8 @@ def main() -> None:
 
     report_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     log.info("Report written → %s", report_path)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
