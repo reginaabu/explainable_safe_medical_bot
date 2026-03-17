@@ -34,6 +34,12 @@ except ImportError:
 
 HERE = Path(__file__).parent
 
+# ── PHI scrubber ──────────────────────────────────────────────────────────────
+try:
+    from utils.phi_scrub import scrub as _scrub_phi
+except ImportError:
+    _scrub_phi = None   # degrades gracefully if utils package not on path
+
 # ── Logger ────────────────────────────────────────────────────────────────────
 import logging as _logging
 
@@ -663,6 +669,28 @@ st.divider()
 
 # ── Retrieval ─────────────────────────────────────────────────────────────────
 if query.strip():
+    # ── HIPAA Safe Harbour PHI scrubbing ──────────────────────────────────────
+    # Replaces up to 11 identifier categories (SSN, phone, email, dates, ZIP,
+    # names, MRN, IP, URL, device IDs, ages >89) with neutral placeholders
+    # before any text is passed to the retrieval index or external LLM API.
+    # The displayed query in the text box is unchanged; only the downstream
+    # processing uses the scrubbed version.
+    if _scrub_phi is not None:
+        _scrub = _scrub_phi(query)
+        if _scrub.found:
+            _categories = ", ".join(_scrub.found)
+            st.info(
+                f"**Privacy protection active** — {len(_scrub.found)} identifier "
+                f"type(s) detected ({_categories}) and replaced before processing. "
+                f"Your original text is never stored or transmitted.",
+                icon="🔒",
+            )
+            _log.info(
+                "PHI_SCRUB | categories=%s | original_len=%d | scrubbed_len=%d",
+                _categories, len(query), len(_scrub.text),
+            )
+        query = _scrub.text   # use scrubbed version for all downstream calls
+
     use_kg      = mode in ("KG expansion", "KG + Cross-encoder")
     use_reranker = mode in ("Cross-encoder reranker", "KG + Cross-encoder")
     rag_top3_chunks: list[dict] = []
@@ -674,7 +702,7 @@ if query.strip():
     _last_q = st.session_state.get("_last_logged_query")
     if _last_q != query:
         _log.info(
-            "QUERY | text=%r | mode=%s | bm25_candidates=%d | "
+            "QUERY | text(scrubbed)=%r | mode=%s | bm25_candidates=%d | "
             "top3_pmids=%s | top3_norm_scores=%s",
             query, mode, len(base_idx),
             [corpus[i]["pubid"] for i in base_idx[:3]],
