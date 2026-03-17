@@ -1,0 +1,387 @@
+<?xml version="1.0" ?>
+<annotations>
+    <case id="1">
+        <patient_narrative>
+        I had severe abdomen pain and was hospitalised for 15 days in ICU, diagnosed with CBD sludge thereafter on udiliv. Doctor advised for ERCP. My question is if the sludge was there does not the medication help in flushing it out? Whether ERCP was the only cure?
+    </patient_narrative>
+        <patient_question>
+            <phrase id="0" start_char_index="141">
+            My question is if the sludge was there does not the medication help in flushing it out? Whether ERCP was the only cure?
+        </phrase>
+        </patient_question>
+        <clinician_question>
+        Why was ERCP recommended over continuing a medication-based treatment?
+    </clinician_question>
+        <note_excerpt>
+        [Note excerpt from MIMIC discharge summary]
+    </note_excerpt>
+        <note_excerpt_sentences>
+            <sentence id="0" paragraph_id="0" start_char_index="0">
+            Patient is a 52-year-old male presenting with right upper quadrant pain and jaundice for 3 days.
+        </sentence>
+            <sentence id="1" paragraph_id="0" start_char_index="0">
+            Abdominal ultrasound demonstrated common bile duct dilation to 12 mm with echogenic material (sludge/calculi) in the CBD.
+        </sentence>
+            <sentence id="2" paragraph_id="1" start_char_index="0">
+            Ursodiol (Udiliv) was initiated but repeat imaging after 10 days showed persistent obstruction with rising bilirubin (total 8.4 mg/dL).
+        </sentence>
+            <sentence id="3" paragraph_id="1" start_char_index="0">
+            Given failed medical management and ongoing biliary obstruction, gastroenterology recommended ERCP for stone/sludge extraction.
+        </sentence>
+            <sentence id="4" paragraph_id="2" start_char_index="0">
+            Procedure was uncomplicated; CBD was cleared of sludge and a temporary biliary stent was placed.
+        </sentence>
+            <sentence id="5" paragraph_id="2" start_char_index="0">
+            Bilirubin normalised to 1.2 mg/dL at 48-hour post-ERCP check.
+        </sentence>
+            <sentence id="6" paragraph_id="3" start_char_index="0">
+            Patient's breakfast preferences were noted in the chart.
+        </sentence>
+        </note_excerpt_sentences>
+    </case>
+    <case id="2">
+        <patient_narrative>
+        I just wrote about my dad given multiple shots of lasix after he was already so swelled his shin looked like it would burst open. Why would they give him so much. He was on oxygen and they took him off of the higher flow rate.
+    </patient_narrative>
+        <patient_question>
+            <phrase id="0" start_char_index="22">
+            dad given multiple shots of lasix after he was already so swelled his shin looked like it would burst open. Why would they give him so much.
+        </phrase>
+        </patient_question>
+        <clinician_question>
+        Why was he given multiple doses of furosemide and why was his oxygen flow rate reduced?
+    </clinician_question>
+        <note_excerpt>
+        [Note excerpt from MIMIC discharge summary]
+    </note_excerpt>
+        <note_excerpt_sentences>
+            <sentence id="0" paragraph_id="0" start_char_index="0">
+            Patient is a 71-year-old male with a history of ischemic cardiomyopathy (EF 25%) and chronic kidney disease stage 3 admitted for acute decompensated heart failure.
+        </sentence>
+            <sentence id="1" paragraph_id="0" start_char_index="0">
+            On admission, examination revealed 3+ pitting oedema to the mid-thighs bilaterally and tense ascites; estimated 15 kg volume overload.
+        </sentence>
+            <sentence id="2" paragraph_id="1" start_char_index="0">
+            Intravenous furosemide 80 mg was administered; repeat assessment at 4 hours showed inadequate urine output (&lt;500 mL), prompting a second dose of 120 mg IV.
+        </sentence>
+            <sentence id="3" paragraph_id="1" start_char_index="0">
+            Aggressive diuresis was required to relieve pulmonary congestion contributing to hypoxia; SpO2 improved from 88% to 96% after second diuretic dose.
+        </sentence>
+            <sentence id="4" paragraph_id="2" start_char_index="0">
+            Supplemental oxygen was weaned from 4 L/min to 2 L/min as pulmonary oedema resolved on chest X-ray over 48 hours.
+        </sentence>
+            <sentence id="5" paragraph_id="2" start_char_index="0">
+            Renal function remained stable with creatinine 1.9 mg/dL (baseline 1.7).
+        </sentence>
+            <sentence id="6" paragraph_id="3" start_char_index="0">
+            Nurse documented patient preference for evening bath.
+        </sentence>
+        </note_excerpt_sentences>
+    </case>
+    <case id="3">
+        <patient_narrative>
+        my son fell and lost consciousness for a couple mins. we rushed him to hospital took a CT scan there was bleeding in the brain we got him admitted in icu and he was under observ. they were giving him pain killers and injected to prevent him from vomiting yesterday i got him back home but he is continuously irritated and has headache when awake what do i do
+    </patient_narrative>
+        <patient_question>
+            <phrase id="0" start_char_index="289">
+            he is continuously irritated and has headache when awake what do i do
+        </phrase>
+        </patient_question>
+        <clinician_question>
+        What is the expected course of recovery for a child with traumatic intracranial haemorrhage?
+    </clinician_question>
+        <note_excerpt>
+        [Note excerpt from MIMIC discharge summary]
+    </note_excerpt>
+        <note_excerpt_sentences>
+            <sentence id="0" paragraph_id="0" start_char_index="0">
+            Patient is a 9-year-old male admitted following a fall from approximately 2 metres with loss of consciousness lasting approximately 2 minutes.
+        </sentence>
+            <sentence id="1" paragraph_id="0" start_char_index="0">
+            Non-contrast CT head revealed a small subdural haematoma (5 mm maximum thickness) in the right temporal region without midline shift.
+        </sentence>
+            <sentence id="2" paragraph_id="1" start_char_index="0">
+            Neurosurgery was consulted; non-operative management with observation was recommended given haematoma size and clinical stability.
+        </sentence>
+            <sentence id="3" paragraph_id="1" start_char_index="0">
+            Post-concussive symptoms including headache and irritability are common and expected following mild-moderate traumatic brain injury; they typically resolve within 4–8 weeks.
+        </sentence>
+            <sentence id="4" paragraph_id="2" start_char_index="0">
+            Patient was discharged with instructions to avoid contact sports and screen time for 2 weeks and to return if headaches worsen, vomiting recurs, or any focal neurological deficits develop.
+        </sentence>
+            <sentence id="5" paragraph_id="2" start_char_index="0">
+            Follow-up CT and neurology appointment scheduled in 4 weeks.
+        </sentence>
+            <sentence id="6" paragraph_id="3" start_char_index="0">
+            Patient's school attendance record was requested.
+        </sentence>
+        </note_excerpt_sentences>
+    </case>
+    <case id="4">
+        <patient_narrative>
+        I am 48 years old. On February 20, I passed out, was taken to the hospital, and had two other episodes. I have chronic kidney disease with creatinine around 1.5. I had anaemia and haemoglobin was 10.3. I was in ICU 8 days and discharged in stable condition. My doctor performed a cardiac catheterisation. I had no increase in cardiac enzymes and an ECHO in the hospital showed 25% LVEF. Was this invasive, risky procedure necessary.
+    </patient_narrative>
+        <patient_question>
+            <phrase id="0" start_char_index="254">
+            My doctor performed a cardiac catheterisation.
+        </phrase>
+            <phrase id="1" start_char_index="381">
+            Was this invasive, risky procedure necessary.
+        </phrase>
+        </patient_question>
+        <clinician_question>
+        Why was cardiac catheterisation recommended to the patient?
+    </clinician_question>
+        <note_excerpt>
+        [Note excerpt from MIMIC discharge summary]
+    </note_excerpt>
+        <note_excerpt_sentences>
+            <sentence id="0" paragraph_id="0" start_char_index="0">
+            Patient is a 48-year-old male presenting with three syncopal episodes; ECG on arrival showed sinus bradycardia and ST-segment depression in V4–V6.
+        </sentence>
+            <sentence id="1" paragraph_id="0" start_char_index="0">
+            Transthoracic echocardiogram (TTE) demonstrated severely reduced LVEF of 25% with anterior wall hypokinesis, raising concern for ischaemic aetiology.
+        </sentence>
+            <sentence id="2" paragraph_id="1" start_char_index="0">
+            Troponin I was 0.04 ng/mL (borderline); creatinine 1.5 mg/dL and haemoglobin 10.3 g/dL noted.
+        </sentence>
+            <sentence id="3" paragraph_id="1" start_char_index="0">
+            Given new-onset severe LV dysfunction and syncopal presentation, coronary angiography was performed to exclude obstructive coronary artery disease as a treatable cause.
+        </sentence>
+            <sentence id="4" paragraph_id="2" start_char_index="0">
+            Coronary angiography revealed 85% stenosis of the proximal LAD; PCI with drug-eluting stent was performed.
+        </sentence>
+            <sentence id="5" paragraph_id="2" start_char_index="0">
+            Repeat LVEF at 4-week follow-up improved to 40%, confirming ischaemic hibernating myocardium as the underlying aetiology.
+        </sentence>
+        </note_excerpt_sentences>
+    </case>
+    <case id="5">
+        <patient_narrative>
+        I overdosed October 4th on trihexyphenidyl, thorazine, and cocaine. Ended up in icu with prolonged qt for 8 days. I have had chest pain in my left upper quadrant ever since. My doctor said it is related to muscle and bone. It is a dull to deep pain. Any ideas?
+    </patient_narrative>
+        <patient_question>
+            <phrase id="0" start_char_index="0">
+            I overdosed October 4th on trihexyphenidyl, thorazine, and cocaine.
+        </phrase>
+            <phrase id="1" start_char_index="114">
+            I have had chest pain in my left upper quadrant ever since.
+        </phrase>
+            <phrase id="2" start_char_index="248">
+            Any ideas?
+        </phrase>
+        </patient_question>
+        <clinician_question>
+        Is the persistent chest pain connected to the overdose or another aetiology?
+    </clinician_question>
+        <note_excerpt>
+        [Note excerpt from MIMIC discharge summary]
+    </note_excerpt>
+        <note_excerpt_sentences>
+            <sentence id="0" paragraph_id="0" start_char_index="0">
+            Patient presented in a toxidrome following ingestion of trihexyphenidyl, chlorpromazine (Thorazine), and cocaine with QTc 620 ms on admission ECG.
+        </sentence>
+            <sentence id="1" paragraph_id="0" start_char_index="0">
+            ICU course was complicated by QT prolongation managed with IV magnesium, temporary pacing, and withdrawal of offending agents.
+        </sentence>
+            <sentence id="2" paragraph_id="1" start_char_index="0">
+            Rhabdomyolysis was documented (peak CK 14,200 U/L) consistent with cocaine toxicity and prolonged muscle rigidity.
+        </sentence>
+            <sentence id="3" paragraph_id="1" start_char_index="0">
+            Chest X-ray and CT chest at discharge showed resolving bilateral infiltrates and no rib fractures; musculoskeletal chest pain is consistent with post-CPR or prolonged rigidity.
+        </sentence>
+            <sentence id="4" paragraph_id="2" start_char_index="0">
+            Persistent left-sided chest wall pain post-discharge is most likely musculoskeletal (costochondritis or intercostal muscle strain) from the prolonged toxic episode; cardiac workup was negative.
+        </sentence>
+            <sentence id="5" paragraph_id="2" start_char_index="0">
+            Follow-up cardiology appointment was arranged for 6 weeks post-discharge.
+        </sentence>
+            <sentence id="6" paragraph_id="3" start_char_index="0">
+            Patient's address was updated in the system.
+        </sentence>
+        </note_excerpt_sentences>
+    </case>
+    <case id="11">
+        <patient_narrative>
+        My mother had knee replacement surgery and two days later developed sudden shortness of breath. The doctors said she had a pulmonary embolism. She is now on blood thinners. How long will she need them and is she at risk again?
+    </patient_narrative>
+        <patient_question>
+            <phrase id="0" start_char_index="95">
+            How long will she need them and is she at risk again?
+        </phrase>
+        </patient_question>
+        <clinician_question>
+        What is the recommended duration of anticoagulation following PE after orthopaedic surgery and the risk of recurrence?
+    </clinician_question>
+        <note_excerpt>
+        [Note excerpt from MIMIC discharge summary]
+    </note_excerpt>
+        <note_excerpt_sentences>
+            <sentence id="0" paragraph_id="0" start_char_index="0">
+            Patient is a 67-year-old female, post-operative day 2 following left total knee arthroplasty, presenting with acute dyspnoea and desaturation to 88%.
+        </sentence>
+            <sentence id="1" paragraph_id="0" start_char_index="0">
+            CT pulmonary angiography confirmed bilateral segmental pulmonary emboli.
+        </sentence>
+            <sentence id="2" paragraph_id="1" start_char_index="0">
+            Anticoagulation with low molecular weight heparin was initiated and transitioned to rivaroxaban 15 mg twice daily for 21 days then 20 mg daily.
+        </sentence>
+            <sentence id="3" paragraph_id="1" start_char_index="0">
+            Provoked VTE following major orthopaedic surgery carries a low recurrence risk; standard duration of anticoagulation is 3 months per ACCP guidelines.
+        </sentence>
+            <sentence id="4" paragraph_id="2" start_char_index="0">
+            After completing 3 months of anticoagulation, annual recurrence risk falls to approximately 3%, comparable to the general population.
+        </sentence>
+            <sentence id="5" paragraph_id="2" start_char_index="0">
+            Compression stockings and early mobilisation are recommended to prevent post-thrombotic syndrome.
+        </sentence>
+            <sentence id="6" paragraph_id="3" start_char_index="0">
+            Social work referred for home nursing support post-discharge.
+        </sentence>
+        </note_excerpt_sentences>
+    </case>
+    <case id="12">
+        <patient_narrative>
+        My father has Parkinson's disease and was admitted after a fall. The neurologist said he should have DBS. What is deep brain stimulation and how does it help Parkinson's?
+    </patient_narrative>
+        <patient_question>
+            <phrase id="0" start_char_index="80">
+            What is deep brain stimulation and how does it help Parkinson's?
+        </phrase>
+        </patient_question>
+        <clinician_question>
+        What is the indication and mechanism of deep brain stimulation in advanced Parkinson's disease?
+    </clinician_question>
+        <note_excerpt>
+        [Note excerpt from MIMIC discharge summary]
+    </note_excerpt>
+        <note_excerpt_sentences>
+            <sentence id="0" paragraph_id="0" start_char_index="0">
+            Patient is a 72-year-old male with 12-year history of Parkinson's disease presenting with recurrent falls secondary to severe on-off motor fluctuations and dyskinesia despite optimised levodopa/carbidopa therapy.
+        </sentence>
+            <sentence id="1" paragraph_id="0" start_char_index="0">
+            Motor UPDRS score 42/108 during 'off' state; 'off' periods comprise approximately 6 hours per waking day.
+        </sentence>
+            <sentence id="2" paragraph_id="1" start_char_index="0">
+            DBS eligibility workup initiated: neuropsychology testing, MRI brain, and levodopa challenge (&gt;30% UPDRS improvement confirmed).
+        </sentence>
+            <sentence id="3" paragraph_id="1" start_char_index="0">
+            Deep brain stimulation of the subthalamic nucleus (STN-DBS) delivers high-frequency electrical pulses that modulate pathological basal ganglia circuitry, reducing motor fluctuations and dyskinesia.
+        </sentence>
+            <sentence id="4" paragraph_id="2" start_char_index="0">
+            Clinical trials show STN-DBS reduces 'off' time by approximately 50% and levodopa equivalent daily dose by 30–50% in well-selected candidates.
+        </sentence>
+            <sentence id="5" paragraph_id="2" start_char_index="0">
+            Neurosurgery has accepted referral; procedure scheduled for 8 weeks.
+        </sentence>
+        </note_excerpt_sentences>
+    </case>
+    <case id="13">
+        <patient_narrative>
+        My wife was admitted with severe sepsis from a UTI. She was in ICU for 5 days. The doctor mentioned her lactate was very high. What does high lactate mean and why is it dangerous?
+    </patient_narrative>
+        <patient_question>
+            <phrase id="0" start_char_index="90">
+            What does high lactate mean and why is it dangerous?
+        </phrase>
+        </patient_question>
+        <clinician_question>
+        What is the clinical significance of hyperlactataemia in septic shock and what does it indicate?
+    </clinician_question>
+        <note_excerpt>
+        [Note excerpt from MIMIC discharge summary]
+    </note_excerpt>
+        <note_excerpt_sentences>
+            <sentence id="0" paragraph_id="0" start_char_index="0">
+            Patient is a 58-year-old female admitted with fever, rigors, and confusion; urine culture grew E. coli &gt;100,000 CFU/mL.
+        </sentence>
+            <sentence id="1" paragraph_id="0" start_char_index="0">
+            Initial lactate 6.8 mmol/L (normal &lt;2.0) with MAP 58 mmHg despite 2L IV fluid bolus, meeting Sepsis-3 criteria for septic shock.
+        </sentence>
+            <sentence id="2" paragraph_id="1" start_char_index="0">
+            Elevated lactate in sepsis reflects tissue hypoperfusion and anaerobic metabolism; lactate &gt;4 mmol/L is associated with in-hospital mortality of approximately 40%.
+        </sentence>
+            <sentence id="3" paragraph_id="1" start_char_index="0">
+            Norepinephrine was commenced at 0.15 mcg/kg/min to maintain MAP &gt;65 mmHg; broad-spectrum antibiotics (piperacillin-tazobactam) started within 1 hour.
+        </sentence>
+            <sentence id="4" paragraph_id="2" start_char_index="0">
+            Lactate clearance &gt;10% at 2 hours is a treatment target; lactate fell to 2.1 mmol/L by hour 6 following resuscitation.
+        </sentence>
+            <sentence id="5" paragraph_id="2" start_char_index="0">
+            ICU course was 5 days; antibiotics de-escalated to trimethoprim based on sensitivities.
+        </sentence>
+        </note_excerpt_sentences>
+    </case>
+    <case id="14">
+        <patient_narrative>
+        My son has sickle cell disease and was admitted for a pain crisis. They gave him IV fluids and morphine. Why can't his haemoglobin be fixed with a transfusion every time?
+    </patient_narrative>
+        <patient_question>
+            <phrase id="0" start_char_index="112">
+            Why can't his haemoglobin be fixed with a transfusion every time?
+        </phrase>
+        </patient_question>
+        <clinician_question>
+        Why is routine transfusion not used to manage acute sickle cell pain crises?
+    </clinician_question>
+        <note_excerpt>
+        [Note excerpt from MIMIC discharge summary]
+    </note_excerpt>
+        <note_excerpt_sentences>
+            <sentence id="0" paragraph_id="0" start_char_index="0">
+            Patient is a 19-year-old male with HbSS sickle cell disease admitted with acute vaso-occlusive crisis involving bilateral lower extremity and lumbar pain, pain score 9/10.
+        </sentence>
+            <sentence id="1" paragraph_id="0" start_char_index="0">
+            Haemoglobin on admission 7.2 g/dL (baseline 7.5–8.0); reticulocyte count elevated at 12%, consistent with chronic haemolytic anaemia.
+        </sentence>
+            <sentence id="2" paragraph_id="1" start_char_index="0">
+            Routine transfusion in vaso-occlusive crisis is not recommended as it does not address the underlying pathophysiology (sickling due to HbSS polymerisation under hypoxia) and raises viscosity risk.
+        </sentence>
+            <sentence id="3" paragraph_id="1" start_char_index="0">
+            Repeated transfusions lead to iron overload, alloimmunisation (antibody development in 30% of SCD patients), and hyperviscosity syndrome.
+        </sentence>
+            <sentence id="4" paragraph_id="2" start_char_index="0">
+            Transfusion IS indicated for acute complications: stroke, acute chest syndrome with SpO2 &lt;95%, splenic sequestration, or haemoglobin &lt;5 g/dL.
+        </sentence>
+            <sentence id="5" paragraph_id="2" start_char_index="0">
+            Current management: IV hydration, IV morphine PCA, supplemental oxygen, and hydroxyurea optimisation.
+        </sentence>
+        </note_excerpt_sentences>
+    </case>
+    <case id="15">
+        <patient_narrative>
+        My grandmother was found to have atrial fibrillation. The doctor wants to cardiovert her. What does cardioversion mean and is it safe for an 81-year-old?
+    </patient_narrative>
+        <patient_question>
+            <phrase id="0" start_char_index="70">
+            What does cardioversion mean and is it safe for an 81-year-old?
+        </phrase>
+        </patient_question>
+        <clinician_question>
+        What are the risks and benefits of electrical cardioversion for new-onset atrial fibrillation in an elderly patient?
+    </clinician_question>
+        <note_excerpt>
+        [Note excerpt from MIMIC discharge summary]
+    </note_excerpt>
+        <note_excerpt_sentences>
+            <sentence id="0" paragraph_id="0" start_char_index="0">
+            Patient is an 81-year-old female with hypertension and type 2 diabetes presenting with palpitations and dyspnoea; ECG confirmed new-onset AF with ventricular rate 130 bpm.
+        </sentence>
+            <sentence id="1" paragraph_id="0" start_char_index="0">
+            Transoesophageal echocardiogram ruled out left atrial appendage thrombus; CHA2DS2-VASc score 5, indicating high stroke risk.
+        </sentence>
+            <sentence id="2" paragraph_id="1" start_char_index="0">
+            Electrical cardioversion (DC cardioversion) delivers a synchronised electrical shock to restore sinus rhythm; success rates exceed 90% for recent-onset AF.
+        </sentence>
+            <sentence id="3" paragraph_id="1" start_char_index="0">
+            In elderly patients, cardioversion is generally safe under anaesthesia; major risks include thromboembolic stroke (mitigated by pre-cardioversion anticoagulation and TOE) and anaesthetic complications.
+        </sentence>
+            <sentence id="4" paragraph_id="2" start_char_index="0">
+            Anticoagulation with apixaban was initiated; cardioversion scheduled after minimum 3 weeks of therapeutic anticoagulation per guidelines.
+        </sentence>
+            <sentence id="5" paragraph_id="2" start_char_index="0">
+            Long-term rate vs rhythm control strategy to be discussed at cardiology follow-up given patient's age and functional status.
+        </sentence>
+        </note_excerpt_sentences>
+    </case>
+</annotations>

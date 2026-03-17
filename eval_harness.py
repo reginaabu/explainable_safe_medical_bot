@@ -1,14 +1,15 @@
 """
 eval_harness.py – CLI evaluation harness for Track 3.
 
-Samples N questions from pubmedqa_subset.csv, runs the full RAG+eval pipeline
-for each, and writes a Markdown report to track3_eval_report.md.
+Samples N questions from a dataset, runs the full RAG+eval pipeline for each,
+and writes a Markdown report to track3_eval_report.md.
 
 Usage
 -----
-    python eval_harness.py              # 25 questions, seed=42
-    python eval_harness.py --n 50
-    python eval_harness.py --n 10 --seed 99
+    python eval_harness.py                                   # PubMedQA, 25 questions
+    python eval_harness.py --dataset medquad                 # MedQuAD via HuggingFace
+    python eval_harness.py --dataset medquad --n 50
+    python eval_harness.py --dataset archehr_qa --csv-path /path/to/archehr.csv
 """
 
 from __future__ import annotations
@@ -34,27 +35,45 @@ HERE = Path(__file__).parent
 
 # ── CLI args ──────────────────────────────────────────────────────────────────
 def _parse_args() -> argparse.Namespace:
+    from utils.dataset_adapter import DATASET_META
     p = argparse.ArgumentParser(description="Track 3 evaluation harness")
     p.add_argument("--n",    type=int, default=25, help="Number of questions (default: 25)")
     p.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
     p.add_argument("--compare", action="store_true",
                    help="Also run baseline (raw RAG, no correction) and show delta")
+    p.add_argument(
+        "--dataset",
+        default="pubmedqa",
+        choices=list(DATASET_META),
+        help="Dataset to evaluate (default: pubmedqa)",
+    )
+    p.add_argument(
+        "--csv-path",
+        default=None,
+        help="Path to a local CSV file. If omitted, the default path or "
+             "HuggingFace auto-download is used.",
+    )
+    p.add_argument(
+        "--retriever",
+        default=None,
+        choices=["bm25", "semantic", "hybrid"],
+        help="Retrieval strategy. Defaults to the dataset's recommended retriever "
+             "(bm25 for pubmedqa, hybrid for medquad).",
+    )
     return p.parse_args()
 
 
-# ── Load CSV ──────────────────────────────────────────────────────────────────
-def _load_csv() -> list[dict]:
-    csv_path = HERE / "pubmedqa_subset.csv"
-    if not csv_path.exists():
-        raise FileNotFoundError(
-            f"{csv_path} not found — run track2_build_kg.py first to create it."
-        )
-    rows: list[dict] = []
-    with open(csv_path, newline="", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            rows.append(row)
-    return rows
+# ── Load rows ─────────────────────────────────────────────────────────────────
+def _load_rows(dataset: str, csv_path: str | None) -> list[dict]:
+    from utils.dataset_adapter import load_dataset_rows
+
+    # For pubmedqa, fall back to the local subset CSV when no explicit path given
+    if csv_path is None and dataset == "pubmedqa":
+        default = HERE / "pubmedqa_subset.csv"
+        if default.exists():
+            csv_path = str(default)
+
+    return load_dataset_rows(dataset, csv_path=csv_path)
 
 
 # ── Build inline BM25 index from CSV ─────────────────────────────────────────
@@ -112,8 +131,24 @@ def main() -> int:
     args = _parse_args()
     n, seed = args.n, args.seed
 
-    log.info("Loading CSV …")
-    all_rows = _load_csv()
+    from utils.dataset_adapter import get_id_label, get_source_type, get_default_retriever
+    id_label    = get_id_label(args.dataset)
+    source_type = get_source_type(args.dataset)
+    retriever   = args.retriever or get_default_retriever(args.dataset)
+
+    log.info("Loading dataset '%s' …", args.dataset)
+    all_rows = _load_rows(args.dataset, args.csv_path)
+
+    # Skip rows with no question (e.g. MIMIC-III/IV which have no QA pairs)
+    all_rows = [r for r in all_rows if r["question"].strip()]
+    if not all_rows:
+        log.error(
+            "Dataset '%s' contains no rows with a 'question' field. "
+            "This dataset cannot be used with the eval harness directly — "
+            "it needs a QA benchmark layered on top (e.g. ArchEHR-QA for MIMIC-IV).",
+            args.dataset,
+        )
+        return 1
 
     rng = random.Random(seed)
     sample = rng.sample(all_rows, min(n, len(all_rows)))
@@ -121,6 +156,32 @@ def main() -> int:
 
     log.info("Building BM25 index …")
     bm25, corpus = _build_bm25(all_rows)
+
+    # Build semantic / hybrid index if needed
+    sem_index = None
+    hybrid_index = None
+    if retriever in ("semantic", "hybrid"):
+        from utils.semantic_index import SemanticIndex, HybridIndex
+        if retriever == "semantic":
+            sem_index = SemanticIndex(all_rows)
+        else:
+            # For Q&A datasets, build a question-field BM25 so the BM25 signal
+            # searches the same field as the semantic index — avoids the
+            # "What is X?" answer dominating all type-specific queries.
+            has_questions = any(r["question"].strip() for r in all_rows)
+            if has_questions:
+                log.info("Building question-field BM25 for hybrid index …")
+                q_tokenized = [r["question"].lower().split() for r in all_rows
+                               if r["question"].strip() and r["context"].strip()]
+                q_corpus = [{"pubid": r["doc_id"], "text": r["context"]}
+                            for r in all_rows
+                            if r["question"].strip() and r["context"].strip()]
+                from rank_bm25 import BM25Okapi
+                q_bm25 = BM25Okapi(q_tokenized)
+                hybrid_index = HybridIndex(all_rows, q_bm25, q_corpus)
+            else:
+                hybrid_index = HybridIndex(all_rows, bm25, corpus)
+    log.info("Retriever: %s", retriever)
 
     from rag_generate import generate_answer, _get_api_key as _rag_api_key
     from evaluator import evaluate_answer, FACTUALITY_THRESHOLD
@@ -137,17 +198,27 @@ def main() -> int:
     for i, row in enumerate(sample, 1):
         pubid    = row["doc_id"]
         question = row["question"]
-        log.info("[%d/%d] PMID %s | %s …", i, len(sample), pubid, question[:60])
+        log.info("[%d/%d] %s %s | %s …", i, len(sample), id_label, pubid, question[:60])
 
-        chunks = _retrieve(bm25, corpus, question, top_k=3)
+        # Question-focus expansion for BM25 (free boost for Q&A datasets)
+        focus  = row.get("focus", "").strip()
+        q_type = row.get("q_type", "").strip() or None
+        bm25_query = f"{question} {focus}".strip() if focus else question
+
+        if retriever == "semantic" and sem_index:
+            chunks = sem_index.query(question, top_k=3, q_type=q_type)
+        elif retriever == "hybrid" and hybrid_index:
+            chunks = hybrid_index.query(bm25_query, top_k=3, q_type=q_type)
+        else:
+            chunks = _retrieve(bm25, corpus, bm25_query, top_k=3)
+
         if not chunks:
-            # Fallback: use the raw CSV context
             chunks = [{"pubid": pubid, "text": row["context"][:800]}]
 
         # Generate answer (timed)
         t0 = time.perf_counter()
         try:
-            answer = generate_answer(question, chunks)
+            answer = generate_answer(question, chunks, id_label=id_label, source_type=source_type)
         except Exception as exc:
             log.error("generate_answer failed: %s", exc)
             log.error("Failing fast. No report written.")
@@ -168,7 +239,8 @@ def main() -> int:
             log.info("  factuality %.2f < %.2f — retrying with strict prompt …",
                      eval_result["factuality_score"], FACTUALITY_THRESHOLD)
             try:
-                strict_ans = generate_answer(question, chunks, strict=True)
+                strict_ans = generate_answer(question, chunks, strict=True,
+                                             id_label=id_label, source_type=source_type)
                 strict_res = evaluate_answer(question, strict_ans, chunks,
                                              latency_s=eval_result["latency_s"])
                 strict_res["correction_applied"] = False
@@ -195,7 +267,8 @@ def main() -> int:
         baseline_faith = None
         if args.compare:
             try:
-                bl_answer = generate_answer(question, chunks)
+                bl_answer = generate_answer(question, chunks,
+                                            id_label=id_label, source_type=source_type)
                 from evaluator.metrics import score_metrics as _sm
                 baseline_faith = _sm(question, bl_answer, chunks)["faithfulness"]
             except Exception as exc:
@@ -245,6 +318,7 @@ def main() -> int:
     lines: list[str] = [
         "# Track 3 Evaluation Report",
         "",
+        f"**Dataset:** {args.dataset}  |  "
         f"**Questions evaluated:** {len(results)}  |  "
         f"**Seed:** {seed}  |  "
         f"**Date:** {time.strftime('%Y-%m-%d')}",
@@ -262,7 +336,7 @@ def main() -> int:
         "",
         "## Per-Question Breakdown",
         "",
-        "| # | PMID | Question | Faithfulness | Answer Rel. | Factuality | Safe | Latency | Corrected |",
+        f"| # | {id_label} | Question | Faithfulness | Answer Rel. | Factuality | Safe | Latency | Corrected |",
         "|---|------|----------|-------------|-------------|------------|------|---------|-----------|",
     ]
 
@@ -309,7 +383,7 @@ def main() -> int:
             "",
             "### Per-question delta",
             "",
-            "| # | PMID | Baseline Faith | Track 3 Faith | Δ Faith | Corrected |",
+            f"| # | {id_label} | Baseline Faith | Track 3 Faith | Δ Faith | Corrected |",
             "|---|------|---------------|--------------|---------|-----------|",
         ]
         for i, r in enumerate(results, 1):

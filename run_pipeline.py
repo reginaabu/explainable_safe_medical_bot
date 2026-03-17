@@ -47,6 +47,23 @@ def _parse_args() -> argparse.Namespace:
         action="store_true",
         help="Also run baseline compare section in eval report",
     )
+    p_t3.add_argument(
+        "--dataset",
+        default="pubmedqa",
+        help="Dataset to evaluate: pubmedqa (default), medquad, archehr_qa, mimic3, mimic4",
+    )
+    p_t3.add_argument(
+        "--csv-path",
+        default=None,
+        help="Path to a local CSV file for the dataset (optional; "
+             "falls back to HuggingFace auto-download when omitted)",
+    )
+    p_t3.add_argument(
+        "--retriever",
+        default=None,
+        choices=["bm25", "semantic", "hybrid"],
+        help="Retrieval strategy (default: dataset's recommended retriever)",
+    )
 
     sub.add_parser("app", help="Launch Streamlit app")
     return p.parse_args()
@@ -74,6 +91,12 @@ def main() -> int:
             cmd = [py, "eval_harness.py", "--n", str(args.n), "--seed", str(args.seed)]
             if args.compare:
                 cmd.append("--compare")
+            if args.dataset != "pubmedqa":
+                cmd += ["--dataset", args.dataset]
+            if args.csv_path:
+                cmd += ["--csv-path", args.csv_path]
+            if args.retriever:
+                cmd += ["--retriever", args.retriever]
             _run(cmd)
             return 0
 

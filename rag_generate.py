@@ -20,21 +20,24 @@ import anthropic
 MODEL  = "claude-sonnet-4-6"
 _CLIENT: anthropic.Anthropic | None = None
 
-_STANDARD_SYSTEM = (
-    "You are a medical evidence assistant. "
-    "Answer the question based ONLY on the provided PubMed abstracts. "
-    "Cite sources inline as (PMID XXXXXXXX). "
-    "If the evidence is insufficient, say so."
-)
 
-_STRICT_SYSTEM = (
-    "You are a medical evidence assistant. "
-    "Answer using ONLY facts explicitly stated in the provided abstracts. "
-    "Every sentence must be directly traceable to a specific PMID — "
-    "if you cannot cite a PMID for a claim, omit it entirely. "
-    "Be conservative: fewer well-supported claims are better than many unsupported ones. "
-    "Cite sources inline as (PMID XXXXXXXX)."
-)
+def _build_system_prompts(id_label: str, source_type: str) -> tuple[str, str]:
+    """Return (standard_prompt, strict_prompt) for the given dataset vocabulary."""
+    standard = (
+        "You are a medical evidence assistant. "
+        f"Answer the question based ONLY on the provided {source_type}. "
+        f"Cite sources inline as ({id_label} XXXXXXXX). "
+        "If the evidence is insufficient, say so."
+    )
+    strict = (
+        "You are a medical evidence assistant. "
+        f"Answer using ONLY facts explicitly stated in the provided {source_type}. "
+        f"Every sentence must be directly traceable to a specific {id_label} — "
+        f"if you cannot cite a {id_label} for a claim, omit it entirely. "
+        "Be conservative: fewer well-supported claims are better than many unsupported ones. "
+        f"Cite sources inline as ({id_label} XXXXXXXX)."
+    )
+    return standard, strict
 
 
 def _get_api_key() -> str | None:
@@ -69,26 +72,31 @@ def generate_answer(
     chunks: list[dict],
     max_tokens: int = 400,
     strict: bool = False,
+    id_label: str = "PMID",
+    source_type: str = "PubMed abstracts",
 ) -> str:
     """
     Pass retrieved chunks to Claude and return a grounded answer.
 
     Parameters
     ----------
-    query      : the user's medical question
-    chunks     : list of {"pubid": str, "text": str}
-    max_tokens : max tokens in the generated response
-    strict     : if True, use conservative prompt requiring every claim to cite a PMID
+    query       : the user's medical question
+    chunks      : list of {"pubid": str, "text": str}
+    max_tokens  : max tokens in the generated response
+    strict      : if True, use conservative prompt requiring every claim to be cited
+    id_label    : identifier label used in citations, e.g. "PMID" or "QID"
+    source_type : description of evidence type for the prompt, e.g. "PubMed abstracts"
 
     Returns
     -------
-    Claude's answer string, citing PMIDs inline as (PMID XXXXXXXX).
+    Claude's answer string with inline source citations.
     """
     context = "\n\n".join(
-        f"[PMID {c['pubid']}]\n{c['text']}" for c in chunks
+        f"[{id_label} {c['pubid']}]\n{c['text']}" for c in chunks
     )
 
-    system = _STRICT_SYSTEM if strict else _STANDARD_SYSTEM
+    standard, strict_prompt = _build_system_prompts(id_label, source_type)
+    system = strict_prompt if strict else standard
 
     resp = _get_client().messages.create(
         model=MODEL,

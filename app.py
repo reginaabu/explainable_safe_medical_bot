@@ -172,18 +172,25 @@ def load_rag_generator():
         return None
 
 
+# ── Retrieval constants ───────────────────────────────────────────────────────
+_RETRIEVE_K      = 20     # internal candidate pool size (never shown to user)
+_SCORE_THRESHOLD = 0.85   # minimum normalised score to display a result
+
+
 # ── Retrieval helpers ─────────────────────────────────────────────────────────
-def bm25_retrieve(bm25, corpus, query_str: str, top_k: int):
+def bm25_retrieve(bm25, corpus, query_str: str):
     scores     = bm25.get_scores(query_str.lower().split())
     max_s      = scores.max()
     norm       = scores / max_s if max_s > 0 else scores   # normalise to [0,1]
-    ranked_idx = np.argsort(scores)[::-1][:top_k]
+    ranked_idx = np.argsort(scores)[::-1][:_RETRIEVE_K]
     ranked_idx = [i for i in ranked_idx if scores[i] > 0]
     return ranked_idx, norm
 
 
 def result_cards(ranked_idx, norm_scores, corpus, query: str = "",
-                 rerank_fn=None, top_k: int = 5):
+                 rerank_fn=None):
+    import math
+
     if not ranked_idx:
         st.warning("No relevant documents found. Try rephrasing your question.")
         return
@@ -202,22 +209,32 @@ def result_cards(ranked_idx, norm_scores, corpus, query: str = "",
     else:
         reranked = [{"**orig_idx**": i, **corpus[i]} for i in ranked_idx]
 
-    st.subheader(f"Top {min(len(reranked), top_k)} results")
-    for rank, doc in enumerate(reranked[:top_k], 1):
-        pubid  = doc["pubid"]
-        pmurl  = f"https://pubmed.ncbi.nlm.nih.gov/{pubid}/"
-
-        # Score to display: ce_score if reranked, else normalised BM25
+    # ── Filter: only show results at or above the score threshold ─────────────
+    passing = []
+    for rank0, doc in enumerate(reranked):
         if "ce_score" in doc:
-            score_label = "CE score"
-            score_val   = doc["ce_score"]
-            # CE scores from ms-marco are logits; apply sigmoid for [0,1]
-            import math
-            display_score = 1 / (1 + math.exp(-score_val))
+            display_score = 1 / (1 + math.exp(-doc["ce_score"]))
+            score_label   = "CE"
         else:
-            score_label = "BM25"
-            orig_idx    = ranked_idx[rank - 1]
+            orig_idx      = ranked_idx[rank0] if rank0 < len(ranked_idx) else 0
             display_score = float(norm_scores[orig_idx])
+            score_label   = "BM25"
+        if display_score >= _SCORE_THRESHOLD:
+            passing.append((doc, display_score, score_label))
+
+    if not passing:
+        st.info(
+            f"No results met the {_SCORE_THRESHOLD:.0%} relevance threshold. "
+            "Try rephrasing your question.",
+            icon="🔎",
+        )
+        return
+
+    st.subheader(f"{len(passing)} result{'s' if len(passing) != 1 else ''} "
+                 f"above {_SCORE_THRESHOLD:.0%} relevance")
+    for rank, (doc, display_score, score_label) in enumerate(passing, 1):
+        pubid = doc["pubid"]
+        pmurl = f"https://pubmed.ncbi.nlm.nih.gov/{pubid}/"
 
         with st.container(border=True):
             h_col, s_col = st.columns([5, 1])
@@ -271,17 +288,7 @@ def _render_eval_dashboard(result: dict) -> None:
         with r1_right:
             st.markdown(f"**Latency:** {result['latency_s']:.2f} s")
 
-        # Row 2: RAGAS scores
-        faith = result.get("faithfulness")
-        rel   = result.get("answer_relevancy")
-
-        faith_str = f"{faith:.2f}  {_score_bar(faith)}" if faith is not None else "N/A"
-        rel_str   = f"{rel:.2f}  {_score_bar(rel)}"     if rel   is not None else "N/A"
-
-        st.markdown(f"**Faithfulness:** &nbsp;&nbsp; {faith_str}", unsafe_allow_html=True)
-        st.markdown(f"**Answer Relevance:** {rel_str}", unsafe_allow_html=True)
-
-        # Row 3: Factuality summary
+        # Row 2: Factuality summary
         verdicts = result.get("fact_verdicts", [])
         n_facts  = len(verdicts)
         if n_facts > 0:
@@ -409,115 +416,195 @@ def _render_citation_gate(answer: str) -> None:
                 st.markdown(sentence)
 
 
-# ── Background eval — thread + polling fragment ───────────────────────────────
+# ── Pipeline helpers ──────────────────────────────────────────────────────────
 import hashlib
 import threading
 
+
 @st.cache_resource
-def _eval_store() -> dict:
-    """Module-level dict persisted by Streamlit's resource cache.
-    Keyed by a deterministic hash of (query, answer).
-    Values: None (pending) | dict (result).
-    """
+def _ragas_store() -> dict:
+    """Module-level store for async RAGAS results. Keyed by hash(query+answer)."""
     return {}
 
 
-def _eval_store_key(query: str, answer: str) -> str:
+def _ragas_key(query: str, answer: str) -> str:
     return hashlib.md5(f"{query}||{answer}".encode()).hexdigest()[:16]
 
 
-def _run_eval_thread(store: dict, key: str, query: str, answer: str,
-                     chunks: list, latency_s: float) -> None:
-    """Runs in a daemon thread; stores result dict into *store* when done."""
+def _run_ragas_thread(
+    store: dict, key: str,
+    query: str, answer: str, chunks: list,
+    answer_time: float,
+) -> None:
+    """Background thread: run RAGAS metrics and write result into store."""
+    import time as _t
+    t0 = _t.perf_counter()
     try:
-        from evaluator import evaluate_answer as _fn
-        result = _fn(query=query, answer=answer, chunks=chunks, latency_s=latency_s)
+        from evaluator.metrics import score_metrics
+        r = score_metrics(query, answer, chunks)
+        faithfulness     = r.get("faithfulness")
+        answer_relevancy = r.get("answer_relevancy")
     except Exception:
-        result = {
-            "is_safe": True, "safety_flags": [],
-            "answer_with_disclaimer": answer,
-            "facts": [], "fact_verdicts": [],
-            "factuality_score": 0.0,
-            "faithfulness": None, "answer_relevancy": None,
-            "latency_s": latency_s, "correction_applied": False,
-        }
-    _verdicts = result.get("fact_verdicts", [])
-    _n_sup    = sum(1 for v in _verdicts if v.get("verdict") == "supported")
+        faithfulness = None
+        answer_relevancy = None
+    ragas_time = _t.perf_counter() - t0
+    store[key] = {
+        "faithfulness":     faithfulness,
+        "answer_relevancy": answer_relevancy,
+        "ragas_time":       ragas_time,
+        "answer_time":      answer_time,
+    }
     _log.info(
-        "EVAL | safe=%s | faithfulness=%s | relevancy=%s | "
-        "factuality=%.2f | facts=%d/%d | latency=%.2fs",
-        result["is_safe"],
-        f"{result['faithfulness']:.3f}"   if result.get("faithfulness")    is not None else "N/A",
-        f"{result['answer_relevancy']:.3f}" if result.get("answer_relevancy") is not None else "N/A",
-        result.get("factuality_score", 0.0),
-        _n_sup, len(_verdicts),
-        result.get("latency_s", 0.0),
+        "RAGAS | faithfulness=%s | relevancy=%s | ragas_time=%.2fs",
+        f"{faithfulness:.3f}" if faithfulness      is not None else "N/A",
+        f"{answer_relevancy:.3f}" if answer_relevancy is not None else "N/A",
+        ragas_time,
     )
-    store[key] = result  # atomic write — fragment will pick this up on next poll
 
 
 @st.fragment(run_every=2)
-def _eval_panel(store_key: str, query: str, answer: str,
-                chunks: list, gen_fn) -> None:
-    """Auto-reruns every 2 s until the background eval thread stores a result."""
-    store  = _eval_store()
+def _ragas_panel(store_key: str) -> None:
+    """Fragment that polls the RAGAS store every 2 s and renders when ready."""
+    store  = _ragas_store()
     result = store.get(store_key)
 
     if result is None:
-        st.caption("⏳ Evaluating answer in background…")
-        return  # fragment auto-reruns in 2 s via run_every
+        st.caption("📊 Scoring faithfulness & relevance in background…")
+        return
 
-    # ── Correction loop (runs once in the fragment after result arrives) ───────
-    try:
-        from evaluator import FACTUALITY_THRESHOLD
-    except Exception:
-        FACTUALITY_THRESHOLD = 0.5
+    faith = result.get("faithfulness")
+    rel   = result.get("answer_relevancy")
+    ragas_time  = result.get("ragas_time",  0.0)
+    answer_time = result.get("answer_time", 0.0)
 
-    _corrected_key = store_key + ":corrected"
-    if (
-        result.get("factuality_score", 1.0) < FACTUALITY_THRESHOLD
-        and _corrected_key not in store
-    ):
-        _pct = int(result["factuality_score"] * 100)
-        _log.warning(
-            "CORRECTION | triggered=True | factuality=%.2f | threshold=%.2f",
-            result.get("factuality_score", 0.0), FACTUALITY_THRESHOLD,
-        )
-        with st.spinner(
-            f"Factuality {_pct}% < {int(FACTUALITY_THRESHOLD * 100)}%"
-            " — regenerating with stricter prompt …"
-        ):
+    with st.container(border=True):
+        st.markdown("#### Quality Scores")
+
+        t_col1, t_col2 = st.columns(2)
+        with t_col1:
+            st.metric("⚡ Answer rendered in", f"{answer_time:.2f} s")
+        with t_col2:
+            st.metric("📊 RAGAS scored in", f"{ragas_time:.2f} s")
+
+        faith_str = f"{faith:.2f}  {_score_bar(faith)}" if faith is not None else "N/A"
+        rel_str   = f"{rel:.2f}  {_score_bar(rel)}"     if rel   is not None else "N/A"
+        st.markdown(f"**Faithfulness:** &nbsp;&nbsp; {faith_str}", unsafe_allow_html=True)
+        st.markdown(f"**Answer Relevance:** {rel_str}", unsafe_allow_html=True)
+
+
+# ── Core pipeline: generate → safety → factcheck → self-correct ───────────────
+
+def _run_core_pipeline(
+    query: str,
+    chunks: list,
+    gen_fn,
+) -> dict:
+    """
+    Run generation + safety + factcheck + self-correction synchronously,
+    showing live steps in an st.status() widget.  RAGAS is NOT run here —
+    it is launched asynchronously after this function returns.
+
+    Returns a result dict compatible with _render_eval_dashboard(), plus
+    a 'core_time' key with the wall-clock seconds for this pipeline.
+    """
+    import time as _time
+    from evaluator import FACTUALITY_THRESHOLD
+    from evaluator.safety import check_safety
+    from evaluator.fact_decompose import decompose_facts
+    from evaluator.fact_verify import verify_facts
+
+    t_start = _time.perf_counter()
+
+    with st.status("Checking your answer — please wait…", expanded=True) as _status:
+
+        # ── Step 1: Generate ──────────────────────────────────────────────────
+        st.write("🤖 Generating answer with Claude…")
+        _t0 = _time.perf_counter()
+        answer = gen_fn(query, chunks)
+        gen_lat = _time.perf_counter() - _t0
+
+        # ── Step 2: Safety check ──────────────────────────────────────────────
+        st.write("🛡️ Running safety check…")
+        try:
+            _safety = check_safety(answer)
+        except Exception:
+            _safety = {"is_safe": True, "flags": [],
+                       "answer_with_disclaimer": answer}
+
+        # ── Step 3: Extract atomic claims ─────────────────────────────────────
+        st.write("🔬 Extracting atomic claims…")
+        try:
+            facts = decompose_facts(answer)
+        except Exception:
+            facts = []
+
+        # ── Step 4: Verify claims against sources ─────────────────────────────
+        n_facts = len(facts)
+        st.write(f"🔍 Verifying {n_facts} claim{'s' if n_facts != 1 else ''} "
+                 f"against retrieved sources…")
+        try:
+            verdicts = verify_facts(facts, chunks) if facts else []
+        except Exception:
+            verdicts = [{"fact": f, "verdict": "unsupported", "pmid": None}
+                        for f in facts]
+
+        n_sup = sum(1 for v in verdicts if v.get("verdict") == "supported")
+        score = n_sup / len(verdicts) if verdicts else 0.0
+        corrected = False
+
+        # ── Step 5: Self-correction if factuality below threshold ─────────────
+        if score < FACTUALITY_THRESHOLD:
+            _pct = int(score * 100)
+            _thr = int(FACTUALITY_THRESHOLD * 100)
+            st.write(f"⚠️ Factuality {_pct}% below {_thr}% — regenerating…")
+            _log.warning("CORRECTION | triggered=True | factuality=%.2f", score)
             try:
-                import time as _t2
-                _t0 = _t2.perf_counter()
+                _tc = _time.perf_counter()
                 _strict_ans = gen_fn(query, chunks, strict=True)
-                _strict_lat = _t2.perf_counter() - _t0
-                from evaluator import evaluate_answer as _ef2
-                _strict_res = _ef2(
-                    query=query, answer=_strict_ans,
-                    chunks=chunks, latency_s=_strict_lat,
-                )
-                if _strict_res["factuality_score"] >= result["factuality_score"]:
-                    _log.info(
-                        "CORRECTION | accepted=True | old=%.2f | new=%.2f",
-                        result["factuality_score"], _strict_res["factuality_score"],
-                    )
-                    _strict_res["correction_applied"] = True
-                    store[_corrected_key] = _strict_ans
-                    store[store_key] = _strict_res
-                    st.session_state["_rag_answer"] = _strict_ans
-                    st.rerun(scope="app")
-                    return
+                gen_lat += _time.perf_counter() - _tc
+                _strict_facts    = decompose_facts(_strict_ans)
+                _strict_verdicts = verify_facts(_strict_facts, chunks) if _strict_facts else []
+                _strict_n_sup    = sum(1 for v in _strict_verdicts
+                                       if v.get("verdict") == "supported")
+                _strict_score    = (_strict_n_sup / len(_strict_verdicts)
+                                    if _strict_verdicts else 0.0)
+                if _strict_score >= score:
+                    answer, facts, verdicts = _strict_ans, _strict_facts, _strict_verdicts
+                    n_sup, score, corrected = _strict_n_sup, _strict_score, True
+                    _safety = check_safety(answer)
+                    st.write(f"✅ Corrected — factuality → {int(score * 100)}%")
+                    _log.info("CORRECTION | accepted=True | new=%.2f", score)
                 else:
-                    _log.info(
-                        "CORRECTION | accepted=False | old=%.2f | new=%.2f",
-                        result["factuality_score"], _strict_res["factuality_score"],
-                    )
-                    store[_corrected_key] = None  # mark attempted
+                    st.write("ℹ️ Strict regeneration didn't improve factuality — "
+                             "keeping original.")
+                    _log.info("CORRECTION | accepted=False | new=%.2f", _strict_score)
             except Exception:
-                store[_corrected_key] = None
+                pass
 
-    _render_eval_dashboard(result)
+        core_time = _time.perf_counter() - t_start
+        _status.update(
+            label=f"✅ Answer ready — scoring quality in background…",
+            state="complete", expanded=False,
+        )
+
+    result = {
+        "is_safe":                _safety["is_safe"],
+        "safety_flags":           _safety["flags"],
+        "answer_with_disclaimer": _safety.get("answer_with_disclaimer", answer),
+        "facts":                  facts,
+        "fact_verdicts":          verdicts,
+        "factuality_score":       score,
+        "latency_s":              gen_lat,
+        "core_time":              core_time,
+        "correction_applied":     corrected,
+    }
+    _n_sup = sum(1 for v in verdicts if v.get("verdict") == "supported")
+    _log.info(
+        "CORE_EVAL | safe=%s | factuality=%.2f | facts=%d/%d | "
+        "core_time=%.2fs | corrected=%s",
+        result["is_safe"], score, _n_sup, len(verdicts), core_time, corrected,
+    )
+    return result
 
 
 # ── UI ────────────────────────────────────────────────────────────────────────
@@ -534,29 +621,43 @@ params_note = (
 st.title("🩺 ArogyaSaathi")
 st.caption("Because every health question deserves a real answer.")
 
+# Align all form-column widgets to the same baseline
+st.markdown(
+    "<style>"
+    "[data-testid='column'] { display:flex; flex-direction:column; justify-content:flex-end; }"
+    "</style>",
+    unsafe_allow_html=True,
+)
+
 st.divider()
 
 _default_q = st.query_params.get("q", "")
 
-ctrl1, ctrl2, ctrl3 = st.columns([3, 1, 2])
-with ctrl1:
-    query = st.text_input(
-        "Ask a medical question",
-        value=_default_q,
-        placeholder="e.g. Do statins reduce cardiovascular mortality?",
-    )
-with ctrl2:
-    top_k = st.number_input("Top-k", min_value=1, max_value=20, value=5, step=1)
-with ctrl3:
-    mode = st.selectbox(
-        "Enhancement",
-        options=[
-            "None (BM25 only)",
-            "KG expansion",
-            "Cross-encoder reranker",
-            "KG + Cross-encoder",
-        ],
-    )
+# ── Search form — Press Enter or click Search to trigger the full pipeline ──
+with st.form("search_form", border=False, clear_on_submit=False):
+    fc1, fc2, fc3 = st.columns([5, 2, 1])
+    with fc1:
+        query = st.text_input(
+            "Ask a medical question",
+            value=_default_q,
+            placeholder="e.g. Do statins reduce cardiovascular mortality?",
+            label_visibility="collapsed",
+        )
+    with fc2:
+        mode = st.selectbox(
+            "Enhancement",
+            options=[
+                "None (BM25 only)",
+                "KG expansion",
+                "Cross-encoder reranker",
+                "KG + Cross-encoder",
+            ],
+            label_visibility="collapsed",
+        )
+    with fc3:
+        submitted = st.form_submit_button(
+            "Search ↵", type="primary", use_container_width=True
+        )
 
 st.divider()
 
@@ -568,14 +669,14 @@ if query.strip():
     rag_grounding_label = "top-3 BM25 chunks"
 
     # ── Baseline retrieval ─────────────────────────────────────────────────────
-    base_idx, base_norm = bm25_retrieve(bm25, corpus, query, top_k=20)
+    base_idx, base_norm = bm25_retrieve(bm25, corpus, query)
     # Only log when the query text actually changes to avoid flooding on reruns
     _last_q = st.session_state.get("_last_logged_query")
     if _last_q != query:
         _log.info(
-            "QUERY | text=%r | top_k=%d | mode=%s | bm25_candidates=%d | "
+            "QUERY | text=%r | mode=%s | bm25_candidates=%d | "
             "top3_pmids=%s | top3_norm_scores=%s",
-            query, top_k, mode, len(base_idx),
+            query, mode, len(base_idx),
             [corpus[i]["pubid"] for i in base_idx[:3]],
             [f"{base_norm[i]:.3f}" for i in base_idx[:3]],
         )
@@ -583,8 +684,7 @@ if query.strip():
 
     if mode == "None (BM25 only)":
         # Single-column standard results
-        result_cards(base_idx[:top_k], base_norm, corpus,
-                     query=query, top_k=top_k)
+        result_cards(base_idx, base_norm, corpus, query=query)
         rag_top3_chunks = [
             {"pubid": corpus[i]["pubid"], "text": corpus[i]["text"]}
             for i in base_idx[:3]
@@ -596,8 +696,7 @@ if query.strip():
 
         with left:
             st.markdown("#### BM25 baseline")
-            result_cards(base_idx[:top_k], base_norm, corpus,
-                         query=query, top_k=top_k)
+            result_cards(base_idx, base_norm, corpus, query=query)
 
         with right:
             enhanced_label = mode
@@ -619,15 +718,12 @@ if query.strip():
                     "terms_added=%d | new_terms=%s",
                     query, enhanced_query, len(added_terms), added_terms,
                 )
-                if added_terms:
-                    st.info(f"**KG added:** {', '.join(added_terms)}", icon="🧬")
-                else:
-                    st.info("No KG terms found for this query.", icon="ℹ️")
+                pass  # KG expansion applied silently
             else:
                 enhanced_query = query
 
             # Retrieve with (possibly expanded) query
-            enh_idx, enh_norm = bm25_retrieve(bm25, corpus, enhanced_query, top_k=20)
+            enh_idx, enh_norm = bm25_retrieve(bm25, corpus, enhanced_query)
 
             # Optionally rerank
             if use_reranker:
@@ -642,8 +738,8 @@ if query.strip():
             else:
                 rerank_fn = None
 
-            result_cards(enh_idx[:top_k], enh_norm, corpus,
-                         query=enhanced_query, rerank_fn=rerank_fn, top_k=top_k)
+            result_cards(enh_idx, enh_norm, corpus,
+                         query=enhanced_query, rerank_fn=rerank_fn)
 
             # Ground generation on the currently selected retrieval mode.
             if rerank_fn is not None:
@@ -670,42 +766,39 @@ if query.strip():
             for i in base_idx[:3]
         ]
 
-        # ── Generate on button click ───────────────────────────────────────
-        if st.button("Generate Answer", type="primary"):
+        # ── Auto-trigger core pipeline when form is submitted ─────────────
+        if submitted and query.strip():
             if not _top3_chunks:
                 st.warning("No retrieval evidence available to ground generation.")
                 st.stop()
-            with st.spinner("Generating answer with Claude …"):
-                import time as _time
-                _t0 = _time.perf_counter()
-                _answer = gen_fn(query, _top3_chunks)
-                _gen_lat = _time.perf_counter() - _t0
-            _log.info(
-                "RAG_GEN | query=%r | latency=%.2fs | answer_words=%d | "
-                "source_pmids=%s",
-                query, _gen_lat, len(_answer.split()),
-                [c["pubid"] for c in _top3_chunks],
-            )
-            st.session_state["_rag_answer"]  = _answer
-            st.session_state["_rag_query"]   = query
-            st.session_state["_gen_latency"] = _gen_lat
-            # Clear any stale eval result from a previous query
-            st.session_state.pop("_eval_result", None)
-            st.session_state.pop("_eval_query",  None)
+            _log.info("RAG_GEN | query=%r | source_pmids=%s",
+                      query, [c["pubid"] for c in _top3_chunks])
+            _result = _run_core_pipeline(query, _top3_chunks, gen_fn)
+            st.session_state["_rag_result"] = _result
+            st.session_state["_rag_query"]  = query
 
-        # ── Show answer if it belongs to the current query ─────────────────
+            # Launch RAGAS asynchronously — pass answer_time for the timer
+            _rk = _ragas_key(query, _result["answer_with_disclaimer"])
+            _rs = _ragas_store()
+            _rs[_rk] = None  # mark as pending
+            threading.Thread(
+                target=_run_ragas_thread,
+                args=(_rs, _rk, query,
+                      _result["answer_with_disclaimer"],
+                      _top3_chunks,
+                      _result["core_time"]),
+                daemon=True,
+            ).start()
+            st.session_state["_ragas_key"] = _rk
+
+        # ── Render answer once core pipeline has completed for this query ──
         if (
             st.session_state.get("_rag_query") == query
-            and "_rag_answer" in st.session_state
+            and "_rag_result" in st.session_state
         ):
-            _stored_answer = st.session_state["_rag_answer"]
-            _sk = _eval_store_key(query, _stored_answer)
-            _ev = _eval_store()
-            _existing_eval = _ev.get(_sk)
-            _display_answer = (
-                _existing_eval.get("answer_with_disclaimer", _stored_answer)
-                if isinstance(_existing_eval, dict) else _stored_answer
-            )
+            _result         = st.session_state["_rag_result"]
+            _display_answer = _result["answer_with_disclaimer"]
+
             st.markdown(
                 f"<div style='"
                 f"background:#f0f7ff;border-left:4px solid #2196F3;"
@@ -717,20 +810,14 @@ if query.strip():
 
             # ── Evidence panel + citation gate ─────────────────────────────
             _render_why_panel(_top3_chunks)
-            _render_citation_gate(_stored_answer)
+            _render_citation_gate(_display_answer)
 
-            # ── Launch background eval thread (once per answer) ────────────
-            if _sk not in _ev and st.session_state.get("_eval_thread_key") != _sk:
-                _lat = st.session_state.pop("_gen_latency", 0.0)
-                threading.Thread(
-                    target=_run_eval_thread,
-                    args=(_ev, _sk, query, _stored_answer, _top3_chunks, _lat),
-                    daemon=True,
-                ).start()
-                st.session_state["_eval_thread_key"] = _sk
+            # ── Core eval: safety + factuality (immediately available) ─────
+            _render_eval_dashboard(_result)
 
-            # ── Fragment polls every 2 s until result arrives ──────────────
-            _eval_panel(_sk, query, _stored_answer, _top3_chunks, gen_fn)
+            # ── Async RAGAS panel: polls every 2s, shows both timers ───────
+            if "_ragas_key" in st.session_state:
+                _ragas_panel(st.session_state["_ragas_key"])
 
         from rag_generate import MODEL as _RAG_MODEL
         st.caption(
