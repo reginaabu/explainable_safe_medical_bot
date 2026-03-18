@@ -422,6 +422,34 @@ def _render_citation_gate(answer: str) -> None:
                 st.markdown(sentence)
 
 
+
+def _extract_answer_body(answer: str) -> str:
+    """Strip raw markdown section scaffolding from the model output."""
+    import re
+
+    text = (answer or "").replace("\r\n", "\n").strip()
+    if not text:
+        return ""
+
+    cleaned_lines: list[str] = []
+    for line in text.splitlines():
+        stripped = line.strip()
+
+        if re.match(r"^#{1,6}\s*(key evidence|evidence|evidence sources?|why this answer)\b", stripped, re.IGNORECASE):
+            break
+        if not cleaned_lines and re.match(r"^#{1,6}\s+.+", stripped):
+            continue
+        if re.match(r"^#{1,6}\s*(answer|summary)\b", stripped, re.IGNORECASE):
+            continue
+        if stripped == "---":
+            continue
+
+        cleaned_lines.append(line)
+
+    cleaned = "\n".join(cleaned_lines).strip()
+    cleaned = re.sub(r"\n{3,}", "\n\n", cleaned)
+    return cleaned or text
+
 # ── Pipeline helpers ──────────────────────────────────────────────────────────
 import hashlib
 import threading
@@ -638,10 +666,17 @@ st.markdown(
 st.divider()
 
 _default_q = st.query_params.get("q", "")
+_mode_options = [
+    "None (BM25 only)",
+    "KG expansion",
+    "Cross-encoder reranker",
+    "KG + Cross-encoder",
+]
+_default_mode = st.session_state.get("_ui_mode", _mode_options[0])
 
 # ── Search form — Press Enter or click Search to trigger the full pipeline ──
 with st.form("search_form", border=False, clear_on_submit=False):
-    fc1, fc2, fc3 = st.columns([5, 2, 1])
+    fc1, fc2 = st.columns([6, 1])
     with fc1:
         query = st.text_input(
             "Ask a medical question",
@@ -650,20 +685,19 @@ with st.form("search_form", border=False, clear_on_submit=False):
             label_visibility="collapsed",
         )
     with fc2:
-        mode = st.selectbox(
-            "Enhancement",
-            options=[
-                "None (BM25 only)",
-                "KG expansion",
-                "Cross-encoder reranker",
-                "KG + Cross-encoder",
-            ],
-            label_visibility="collapsed",
-        )
-    with fc3:
         submitted = st.form_submit_button(
             "Search ↵", type="primary", use_container_width=True
         )
+
+    with st.expander("Advanced retrieval options", expanded=False):
+        mode = st.selectbox(
+            "Retrieval mode",
+            options=_mode_options,
+            index=_mode_options.index(_default_mode) if _default_mode in _mode_options else 0,
+            help="Use this only when comparing retrieval strategies; the default keeps the product UX simple.",
+        )
+
+st.session_state["_ui_mode"] = mode
 
 st.divider()
 
@@ -826,20 +860,21 @@ if query.strip():
         ):
             _result         = st.session_state["_rag_result"]
             _display_answer = _result["answer_with_disclaimer"]
+            _answer_body    = _extract_answer_body(_display_answer)
 
+            st.markdown("#### Answer")
             st.markdown(
                 f"<div style='"
                 f"background:#f0f7ff;border-left:4px solid #2196F3;"
-                f"padding:1rem;border-radius:4px;'>"
-                f"{_display_answer.replace(chr(10), '<br>')}"
+                f"padding:1rem;border-radius:4px;line-height:1.7;'>"
+                f"{_answer_body.replace(chr(10), '<br>')}"
                 f"</div>",
                 unsafe_allow_html=True,
             )
 
             # ── Evidence panel + citation gate ─────────────────────────────
             _render_why_panel(_top3_chunks)
-            _render_citation_gate(_display_answer)
-
+            _render_citation_gate(_answer_body)
             # ── Core eval: safety + factuality (immediately available) ─────
             _render_eval_dashboard(_result)
 
@@ -876,3 +911,5 @@ if "_example_q" in st.session_state:
     q = st.session_state.pop("_example_q")
     st.query_params["q"] = q
     st.rerun()
+
+
