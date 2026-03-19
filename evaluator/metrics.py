@@ -18,7 +18,71 @@ score_metrics(query: str, answer: str, chunks: list[dict]) -> dict
 
 from __future__ import annotations
 
+import re
+
 _NULL = {"faithfulness": None, "answer_relevancy": None}
+
+
+_DISCLAIMER_MARKERS = (
+    "this information is for educational purposes only",
+    "does not constitute medical advice",
+    "consult a qualified healthcare professional",
+    "if you or someone else is experiencing a medical emergency",
+    "call 911",
+    "local emergency number",
+)
+
+_LOW_SUPPORT_MARKERS = (
+    "the retrieved evidence only partially supports a confident answer",
+    "this summary is tentative",
+    "the evidence only partially supports",
+    "insufficient for a confident answer",
+)
+
+
+def _clean_answer_for_metrics(answer: str) -> str:
+    """
+    Strip UI/safety scaffolding before scoring answer quality.
+
+    We want faithfulness/relevancy to reflect the substantive medical answer,
+    not boilerplate disclaimers or the low-support preface shown to users.
+    """
+    text = (answer or "").replace("\r\n", "\n")
+    if not text.strip():
+        return ""
+
+    # Remove common markdown wrappers that are irrelevant to quality scoring.
+    text = text.replace("---", " ")
+    text = re.sub(r"[*_`>#]", "", text)
+    text = re.sub(r"\s+", " ", text).strip()
+
+    # Split into sentences so we can drop legal/meta boilerplate cleanly.
+    sentences = re.split(r"(?<=[.!?])\s+", text)
+    kept: list[str] = []
+    for sent in sentences:
+        stripped = sent.strip()
+        if not stripped:
+            continue
+        lowered = stripped.lower()
+        if any(marker in lowered for marker in _DISCLAIMER_MARKERS):
+            continue
+        if any(marker in lowered for marker in _LOW_SUPPORT_MARKERS):
+            continue
+        kept.append(stripped)
+
+    cleaned = " ".join(kept).strip()
+    if not cleaned:
+        cleaned = text
+
+    # Remove inline citation markup so the evaluator judges the content itself.
+    cleaned = re.sub(
+        r"\s*\((?:PMID|PMIDs|QID|Case|Source)\s+[^)]*\)",
+        "",
+        cleaned,
+        flags=re.IGNORECASE,
+    )
+    cleaned = re.sub(r"\s+", " ", cleaned).strip()
+    return cleaned
 
 
 def _geval_answer_relevancy(query: str, answer: str, api_key: str | None) -> float | None:
@@ -36,6 +100,9 @@ def _geval_answer_relevancy(query: str, answer: str, api_key: str | None) -> flo
         prompt = (
             "You are evaluating a medical question-answering system.\n"
             "Score how well the ANSWER addresses the QUESTION on a scale from 0.0 to 1.0.\n\n"
+            "Ignore legal/safety disclaimers, citation markers like (PMID 123456), "
+            "and meta-sentences about evidence confidence. Judge only the substantive "
+            "medical answer content.\n\n"
             "Scoring guidelines:\n"
             "- 1.0: Answer directly and completely addresses the question\n"
             "- 0.7–0.9: Answer mostly addresses the question with minor gaps\n"
@@ -120,6 +187,10 @@ def score_metrics(query: str, answer: str, chunks: list[dict]) -> dict:
     if not _RAGAS_OK:
         return _NULL
 
+    scored_answer = _clean_answer_for_metrics(answer)
+    if not scored_answer:
+        return _NULL
+
     try:
         import copy
         from langchain_anthropic import ChatAnthropic
@@ -156,7 +227,7 @@ def score_metrics(query: str, answer: str, chunks: list[dict]) -> dict:
         contexts = [c["text"] for c in chunks]
         sample = SingleTurnSample(
             user_input=query,
-            response=answer,
+            response=scored_answer,
             retrieved_contexts=contexts,
         )
         ragas_dataset = EvaluationDataset(samples=[sample])
@@ -177,7 +248,7 @@ def score_metrics(query: str, answer: str, chunks: list[dict]) -> dict:
         # G-Eval answer relevancy: directly asks Claude haiku whether the answer
         # addresses the question.  Handles list answers, storage/disposal,
         # brand names and safety-hedged answers that cause RAGAS to return 0.0.
-        rel_val = _geval_answer_relevancy(query, answer, _api_key)
+        rel_val = _geval_answer_relevancy(query, scored_answer, _api_key)
 
         return {"faithfulness": faith_val, "answer_relevancy": rel_val}
 
