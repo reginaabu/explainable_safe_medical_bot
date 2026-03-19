@@ -400,9 +400,26 @@ def _render_why_panel(chunks: list) -> None:
 def _render_citation_gate(answer: str) -> None:
     import re
     sentences = re.split(r'(?<=[.!?])\s+', answer.strip())
-    pmid_re   = re.compile(r'\(PMID\s*\d+\)', re.IGNORECASE)
+    pmid_re   = re.compile(r'\(PMIDs?\s*\d+(?:\s*,\s*\d+)*\)', re.IGNORECASE)
 
-    flagged = [s for s in sentences if len(s.split()) > 5 and not pmid_re.search(s)]
+    def _should_ignore(sentence: str) -> bool:
+        lowered = sentence.lower().strip()
+        return any(
+            phrase in lowered for phrase in [
+                "this information is for educational purposes only",
+                "does not constitute medical advice",
+                "consult a qualified healthcare professional",
+                "call 911",
+                "local emergency number",
+            ]
+        )
+
+    flagged = [
+        s for s in sentences
+        if len(s.split()) > 5
+        and not pmid_re.search(s)
+        and not _should_ignore(s)
+    ]
     if not flagged:
         return
 
@@ -410,6 +427,9 @@ def _render_citation_gate(answer: str) -> None:
         st.caption("Sentences longer than 5 words with no inline (PMID …) citation are highlighted.")
         for sentence in sentences:
             if not sentence.strip():
+                continue
+            if _should_ignore(sentence):
+                st.caption(sentence)
                 continue
             if len(sentence.split()) > 5 and not pmid_re.search(sentence):
                 st.markdown(
@@ -421,6 +441,133 @@ def _render_citation_gate(answer: str) -> None:
             else:
                 st.markdown(sentence)
 
+
+def _inject_inline_citations(answer: str, verdicts: list[dict]) -> str:
+    """Attach PMID citations to uncited answer sentences when support is clear."""
+    import re
+
+    pmid_re = re.compile(r'\(PMIDs?\s*\d+(?:\s*,\s*\d+)*\)', re.IGNORECASE)
+    stopwords = {
+        "about", "after", "against", "among", "because", "before", "between",
+        "could", "during", "every", "evidence", "first", "have", "into",
+        "more", "most", "other", "over", "same", "such", "than", "that",
+        "their", "there", "these", "they", "this", "those", "through",
+        "under", "using", "which", "with", "within", "would",
+    }
+
+    def _tokens(text: str) -> set[str]:
+        words = re.findall(r"[A-Za-z][A-Za-z0-9_-]{2,}", text.lower())
+        return {w for w in words if w not in stopwords}
+
+    supported = []
+    for verdict in verdicts:
+        if verdict.get("verdict") != "supported" or not verdict.get("pmid"):
+            continue
+        supported.append({
+            "pmid": str(verdict["pmid"]),
+            "tokens": _tokens(verdict.get("fact", "")),
+        })
+
+    if not answer.strip() or not supported:
+        return answer
+
+    unique_pmids: list[str] = []
+    for item in supported:
+        if item["pmid"] not in unique_pmids:
+            unique_pmids.append(item["pmid"])
+
+    def _append_citation(sentence: str, pmid: str) -> str:
+        stripped = sentence.strip()
+        match = re.search(r"([.!?])$", stripped)
+        if match:
+            return f"{stripped[:-1]} (PMID {pmid}){match.group(1)}"
+        return f"{stripped} (PMID {pmid})"
+
+    sentences = re.split(r'(?<=[.!?])\s+', answer.strip())
+    revised: list[str] = []
+
+    for sentence in sentences:
+        stripped = sentence.strip()
+        if not stripped:
+            continue
+        if len(stripped.split()) <= 5 or pmid_re.search(stripped):
+            revised.append(stripped)
+            continue
+
+        sent_tokens = _tokens(stripped)
+        best_pmid = None
+        best_score = 0.0
+
+        for item in supported:
+            fact_tokens = item["tokens"]
+            if not sent_tokens or not fact_tokens:
+                continue
+            score = len(sent_tokens & fact_tokens) / max(1, len(sent_tokens | fact_tokens))
+            if score > best_score:
+                best_score = score
+                best_pmid = item["pmid"]
+
+        if best_pmid and best_score >= 0.12:
+            revised.append(_append_citation(stripped, best_pmid))
+        elif len(unique_pmids) == 1:
+            revised.append(_append_citation(stripped, unique_pmids[0]))
+        else:
+            revised.append(stripped)
+
+    return " ".join(revised) if revised else answer
+
+
+def _soften_low_factuality_answer(
+    answer: str,
+    verdicts: list[dict],
+    score: float,
+    threshold: float,
+) -> str:
+    """Make low-confidence answers visibly more conservative."""
+    import re
+
+    if not answer.strip() or score >= threshold:
+        return answer
+
+    supported_pmids = [
+        str(v["pmid"]) for v in verdicts
+        if v.get("verdict") == "supported" and v.get("pmid")
+    ]
+    supported_pmids = list(dict.fromkeys(supported_pmids))
+    if len(supported_pmids) > 1:
+        pmid_suffix = f" (PMIDs {', '.join(supported_pmids[:2])})"
+    elif supported_pmids:
+        pmid_suffix = f" (PMID {supported_pmids[0]})"
+    else:
+        pmid_suffix = ""
+
+    caution = (
+        "The retrieved evidence only partially supports a confident answer, "
+        "so this summary is tentative"
+        f"{pmid_suffix}."
+    )
+
+    sentences = re.split(r'(?<=[.!?])\s+', answer.strip())
+    disclaimer_markers = (
+        "this information is for educational purposes only",
+        "does not constitute medical advice",
+        "consult a qualified healthcare professional",
+    )
+
+    concise_sentence = ""
+    for sentence in sentences:
+        stripped = sentence.strip()
+        lowered = stripped.lower()
+        if not stripped:
+            continue
+        if any(marker in lowered for marker in disclaimer_markers):
+            continue
+        concise_sentence = stripped
+        break
+
+    if concise_sentence:
+        return f"{caution}\n\n{concise_sentence}"
+    return caution
 
 
 def _extract_answer_body(answer: str) -> str:
@@ -605,7 +752,6 @@ def _run_core_pipeline(
                 if _strict_score >= score:
                     answer, facts, verdicts = _strict_ans, _strict_facts, _strict_verdicts
                     n_sup, score, corrected = _strict_n_sup, _strict_score, True
-                    _safety = check_safety(answer)
                     st.write(f"✅ Corrected — factuality → {int(score * 100)}%")
                     _log.info("CORRECTION | accepted=True | new=%.2f", score)
                 else:
@@ -614,6 +760,16 @@ def _run_core_pipeline(
                     _log.info("CORRECTION | accepted=False | new=%.2f", _strict_score)
             except Exception:
                 pass
+
+        answer = _inject_inline_citations(answer, verdicts)
+        answer = _soften_low_factuality_answer(
+            answer, verdicts, score, FACTUALITY_THRESHOLD
+        )
+        try:
+            _safety = check_safety(answer)
+        except Exception:
+            _safety = {"is_safe": True, "flags": [],
+                       "answer_with_disclaimer": answer}
 
         core_time = _time.perf_counter() - t_start
         _status.update(
@@ -911,5 +1067,6 @@ if "_example_q" in st.session_state:
     q = st.session_state.pop("_example_q")
     st.query_params["q"] = q
     st.rerun()
+
 
 

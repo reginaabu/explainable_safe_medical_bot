@@ -26,12 +26,17 @@ def _build_system_prompts(id_label: str, source_type: str) -> tuple[str, str]:
     standard = (
         "You are a medical evidence assistant. "
         f"Answer the question based ONLY on the provided {source_type}. "
+        "Return plain prose only: no markdown headings, no bullets, and no separate evidence section. "
+        "Keep the answer concise, ideally 1-3 sentences. "
+        f"Every factual sentence must include an inline source citation as ({id_label} XXXXXXXX). "
         f"Cite sources inline as ({id_label} XXXXXXXX). "
         "If the evidence is insufficient, say so."
     )
     strict = (
         "You are a medical evidence assistant. "
         f"Answer using ONLY facts explicitly stated in the provided {source_type}. "
+        "Return plain prose only: no markdown headings, no bullets, and no separate evidence section. "
+        "Keep the answer concise, ideally 1-3 sentences. "
         f"Every sentence must be directly traceable to a specific {id_label} — "
         f"if you cannot cite a {id_label} for a claim, omit it entirely. "
         "Be conservative: fewer well-supported claims are better than many unsupported ones. "
