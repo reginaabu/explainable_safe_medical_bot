@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+*.pyo
+
+.streamlit/secrets.toml
+
+logs/*.log
+logs/streamlit_smoke_*.log
+
+.uv-cache/
+.uv-python/
+.venv-review/
