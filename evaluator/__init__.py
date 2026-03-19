@@ -31,6 +31,7 @@ def evaluate_answer(
     answer: str,
     chunks: list[dict],
     latency_s: float = 0.0,
+    dataset: str = "",
 ) -> EvalResult:
     """
     Run the full evaluation pipeline on a single QA pair.
@@ -64,7 +65,7 @@ def evaluate_answer(
     # ── 2. Fact decomposition ─────────────────────────────────────────────────
     try:
         from evaluator.fact_decompose import decompose_facts
-        facts: list[str] = decompose_facts(answer)
+        facts: list[str] = decompose_facts(answer, dataset=dataset)
     except Exception:
         facts = []
 

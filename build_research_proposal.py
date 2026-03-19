@@ -144,7 +144,9 @@ body(
     "and user-appropriate communication. A synchronous atomic fact-verification layer blocks "
     "answer display until claims are verified; a self-correction loop regenerates answers when "
     "factuality falls below threshold; asynchronous RAGAS scoring provides live quality metrics; "
-    "and a 0.85 relevance threshold automatically filters low-confidence retrieval results."
+    "and a federated retrieval layer simultaneously queries all three indexes with Reciprocal "
+    "Rank Fusion, normalising scores to [0,1] and surfacing the top 5 most relevant results "
+    "regardless of which knowledge base they originate from."
 )
 body(
     "The expected impact includes safer consumer-facing medical Q&A, improved medical literacy, "
@@ -609,9 +611,14 @@ body(
     "generation, and multi-dataset support — are enhancements to the MVP."
 )
 numbered(
-    "Objective 1 — Knowledge Base Construction: Construct a robust hybrid RAG knowledge base "
-    "integrating PubMedQA, MedQuAD, and ArchEHR-QA with multi-dataset normalisation via a "
-    "unified adapter. Evaluation measure: Recall@20 > 0.60 on the labelled subsets of each dataset."
+    "Objective 1 — Knowledge Base Construction and Federated Retrieval: Construct a robust "
+    "hybrid RAG knowledge base integrating PubMedQA (BM25), MedQuAD (Hybrid/RRF), and "
+    "ArchEHR-QA (Semantic) with multi-dataset normalisation via a unified adapter, and "
+    "implement simultaneous federated retrieval across all three sources using Reciprocal "
+    "Rank Fusion (RRF) so that every user query is answered from the most relevant source "
+    "regardless of which knowledge base it resides in. Evaluation measure: successful "
+    "federated index build and retrieval on all three datasets; Recall@10 > 0.90 on "
+    "PubMedQA (measured in retrieval evaluation)."
 )
 numbered(
     "Objective 2 — Synchronous Verification Pipeline: Design and implement a pipeline that "
@@ -779,8 +786,9 @@ bullet("Dual Indexing: Documents indexed into sparse (BM25) and dense (sentence-
        "embedding) stores, enabling RRF fusion.")
 bullet("Reranking: A cross-encoder (ms-marco-MiniLM) reranks the BM25 candidate pool and "
        "applies sigmoid normalisation before threshold filtering.")
-bullet("Relevance Threshold: A 0.85 normalised score threshold filters results across all "
-       "retrieval modes, replacing subjective Top-k selection.")
+bullet("Federated Retrieval: A retrieve_federated() function simultaneously queries all "
+       "three indexes, merges with RRF (k=60), normalises scores to [0,1], and returns "
+       "the top 5 results with per-source dataset badges, replacing subjective Top-k selection.")
 
 heading("7.2 Phase 2: Two-Layer Generative Core (Safety and Correction)", 3)
 body("This layer implements the self-monitoring capability.")
@@ -843,12 +851,12 @@ add_table(
     ["Dimension", "Metric", "Measure", "Tool"],
     [
         ["Factuality",     "RAGAS Faithfulness",    "Fraction of claims inferable from context", "RAGAS 0.1.x"],
-        ["Relevance",      "RAGAS Answer Relevancy","Semantic similarity: question ↔ answer",     "all-MiniLM-L6-v2"],
+        ["Relevance",      "G-Eval Answer Relevancy","LLM judge: does answer address question?",  "Claude Haiku 4.5"],
         ["Hallucination",  "Atomic Fact Accuracy",  "n_supported / n_total claims",               "Claude Haiku AFC"],
         ["Safety",         "Safety Rate",           "Fraction of safe answers",                   "Regex patterns"],
         ["Efficiency",     "Mean Latency",          "Core pipeline time (s)",                     "time.perf_counter"],
         ["Explainability", "CCE ACJ Score",         "Pairwise expert preference",                 "Expert annotators"],
-        ["Coverage",       "Recall@20",             "Relevant docs in top-20",                    "Labelled subsets"],
+        ["Coverage",       "Recall@10",             "Relevant docs in top-10",                    "Labelled subsets (PubMedQA measured: 0.975)"],
     ],
     caption="Table 2: Multi-Dimensional Evaluation Framework for Trustworthy Medical QA"
 )
@@ -868,7 +876,7 @@ add_table(
         ["Retrieval",          "rank_bm25, FAISS, Sentence-Transformers",  "Sparse and dense retrieval"],
         ["Knowledge Graph",    "SciSpacy, RDFlib, Neo4j (optional)",       "NER and KG construction"],
         ["LLM",                "LLaMA-3 / Flan-T5-XL (local) or Claude API", "Generation and verification"],
-        ["Evaluation",         "RAGAS 0.1.x",                              "Faithfulness + Answer Relevancy"],
+        ["Evaluation",         "RAGAS 0.1.x + G-Eval (Haiku 4.5)",         "Faithfulness + G-Eval Answer Relevancy"],
         ["UI",                 "Streamlit 1.x",                            "Web prototype interface"],
         ["Safety",             "Python re (regex)",                        "Pattern-based safety checking"],
         ["Monitoring",         "Weights and Biases",                       "Experiment tracking (MLOps)"],
@@ -957,7 +965,7 @@ compact_item("Deliverable: Processed datasets, BM25 retrieval baseline")
 
 heading("Week 4: Retrieval Stack and Infrastructure", 4)
 compact_item("Implement semantic index (all-MiniLM-L6-v2) and hybrid RRF")
-compact_item("Implement 0.85 relevance threshold filter")
+compact_item("Implement federated retrieval with RRF merge and normalised Top-5 display")
 compact_item("Finalise system design document")
 compact_item("Deliverable: Full retrieval pipeline + design document")
 
@@ -1177,6 +1185,6 @@ for ref in refs:
 # ══════════════════════════════════════════════════════════════════════════════
 #  SAVE
 # ══════════════════════════════════════════════════════════════════════════════
-out = "Research_Proposal_v3.docx"
+out = "Research_Proposal_v4.docx"
 doc.save(out)
 print(f"Saved: {out}")

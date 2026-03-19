@@ -40,6 +40,31 @@ try:
 except ImportError:
     _scrub_phi = None   # degrades gracefully if utils package not on path
 
+# ── Dataset adapter ────────────────────────────────────────────────────────────
+try:
+    from utils.dataset_adapter import (
+        DATASET_META, load_dataset_rows,
+        get_id_label, get_source_type, get_default_retriever,
+    )
+    _DATASET_ADAPTER_OK = True
+except ImportError:
+    _DATASET_ADAPTER_OK = False
+
+# All datasets available in the app, with display labels and local paths.
+# mimic3 / mimic4 require credentialed PhysioNet access — not included.
+_FEDERATED_DATASETS: dict[str, dict] = {
+    "pubmedqa":   {"label": "PubMedQA",  "local_path": None},
+    "medquad":    {"label": "MedQuAD",   "local_path": None},
+    "archehr_qa": {"label": "ArchEHR-QA","local_path": str(HERE / "data" / "archehr_qa")},
+}
+
+# Short badge shown on each result card
+_DATASET_BADGE: dict[str, str] = {
+    "pubmedqa":   "📄 PubMed",
+    "medquad":    "💊 MedQuAD",
+    "archehr_qa": "🏥 ArchEHR",
+}
+
 # ── Logger ────────────────────────────────────────────────────────────────────
 import logging as _logging
 
@@ -100,47 +125,126 @@ def _bm25_params() -> tuple[float, float]:
     return 1.5, 0.75   # BM25Okapi defaults
 
 
-# ── Load BM25 index (cached) ──────────────────────────────────────────────────
-@st.cache_resource(show_spinner="Building BM25 index … (first run only)")
-def load_index():
+# ── Load index (cached per dataset) ───────────────────────────────────────────
+@st.cache_resource(show_spinner="Building index … (first run only)")
+def load_index(dataset_name: str = "pubmedqa", csv_path: str | None = None):
+    """
+    Build the retrieval index for *dataset_name*.  Returns a bundle dict:
+      type      : "bm25" | "semantic" | "hybrid"
+      corpus    : list of {"pubid": doc_id, "text": chunk}
+      records   : list of canonical rows (doc_id, question, context, …)
+      k1, b     : BM25 params (for display badge)
+      bm25      : BM25Okapi instance (type=="bm25" only)
+      idx       : SemanticIndex or HybridIndex (type=="semantic"/"hybrid")
+    """
     k1, b = _bm25_params()
-    subset_csv = HERE / "pubmedqa_subset.csv"
-    records = []
 
-    # Prefer local subset to avoid network dependency on app startup.
-    if subset_csv.exists():
-        with subset_csv.open(newline="", encoding="utf-8") as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                records.append({
-                    "pubid":    str(row.get("doc_id") or row.get("pubid") or ""),
-                    "question": row["question"],
-                    "context":  row["context"],
+    # ── Load raw records ───────────────────────────────────────────────────────
+    if dataset_name == "pubmedqa":
+        # Prefer local subset CSV for fast startup; fall back to HuggingFace.
+        subset_csv = HERE / "pubmedqa_subset.csv"
+        raw_records: list[dict] = []
+        if subset_csv.exists():
+            with subset_csv.open(newline="", encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    raw_records.append({
+                        "doc_id":   str(row.get("doc_id") or row.get("pubid") or ""),
+                        "pubid":    str(row.get("doc_id") or row.get("pubid") or ""),
+                        "question": row["question"],
+                        "context":  row["context"],
+                    })
+        if not raw_records:
+            dataset_hf = load_dataset("pubmed_qa", "pqa_labeled", trust_remote_code=True)
+            for item in dataset_hf["train"]:
+                context_flat = " ".join(item["context"]["contexts"])
+                raw_records.append({
+                    "doc_id":   str(item["pubid"]),
+                    "pubid":    str(item["pubid"]),
+                    "question": item["question"],
+                    "context":  context_flat,
                 })
+        records = raw_records
+    else:
+        # Use dataset_adapter for all other datasets.
+        rows = load_dataset_rows(dataset_name, csv_path=csv_path, max_rows=None)
+        # Normalise: add "pubid" alias so chunks and retrieval code use one key.
+        # MedQuAD's 12 source files reuse the same QID numbering, so up to 10
+        # completely different topics share the same doc_id (e.g. "0000118-1"
+        # covers Sleep Apnea, Bone Marrow Transplantation, cholestasis, …).
+        # Deduplicate by appending __N to the second and later occurrences so
+        # each QA pair gets its own unique pubid and its own context in the index.
+        _seen_ids: dict[str, int] = {}
+        records = []
+        for r in rows:
+            base_id = r["doc_id"]
+            if base_id not in _seen_ids:
+                _seen_ids[base_id] = 0
+                uid = base_id
+            else:
+                _seen_ids[base_id] += 1
+                uid = f"{base_id}__{_seen_ids[base_id]}"
+            records.append({**r, "doc_id": uid, "pubid": uid})
 
-    if not records:
-        dataset = load_dataset("pubmed_qa", "pqa_labeled", trust_remote_code=True)
-        for item in dataset["train"]:
-            context_flat = " ".join(item["context"]["contexts"])
-            records.append({
-                "pubid":    str(item["pubid"]),
-                "question": item["question"],
-                "context":  context_flat,
-            })
-
-    corpus = []
+    # ── Build chunked corpus (shared by all retriever types) ──────────────────
+    corpus: list[dict] = []
     for rec in records:
-        words = rec["context"].split()
-        start = 0
+        doc_id = rec.get("pubid") or rec.get("doc_id", "")
+        words  = rec["context"].split()
+        start  = 0
         while start < len(words):
             chunk = " ".join(words[start : start + 400])
             if chunk.strip():
-                corpus.append({"pubid": rec["pubid"], "text": chunk})
+                corpus.append({"pubid": doc_id, "text": chunk})
             start += 350
 
+    # ── Select retriever ──────────────────────────────────────────────────────
+    retriever_type = (
+        get_default_retriever(dataset_name)
+        if _DATASET_ADAPTER_OK else "bm25"
+    )
+
+    if retriever_type == "semantic":
+        try:
+            from utils.semantic_index import SemanticIndex
+            idx = SemanticIndex(records)
+            return {"type": "semantic", "idx": idx, "dataset": dataset_name,
+                    "corpus": corpus, "records": records, "k1": k1, "b": b}
+        except Exception as _se:
+            _log.warning("Semantic index build failed (%s) — falling back to BM25", _se)
+
+    elif retriever_type == "hybrid":
+        try:
+            from utils.semantic_index import HybridIndex
+            q_corpus = [{"pubid": r["pubid"], "text": r["question"]} for r in records]
+            tokenized_q = [r["question"].lower().split() for r in records]
+            q_bm25 = BM25Okapi(tokenized_q, k1=k1, b=b)
+            idx = HybridIndex(records, q_bm25, q_corpus)
+            return {"type": "hybrid", "idx": idx, "dataset": dataset_name,
+                    "corpus": corpus, "records": records, "k1": k1, "b": b}
+        except Exception as _he:
+            _log.warning("Hybrid index build failed (%s) — falling back to BM25", _he)
+
+    # BM25 (default / fallback)
     tokenized = [doc["text"].lower().split() for doc in corpus]
     bm25 = BM25Okapi(tokenized, k1=k1, b=b)
-    return bm25, corpus, records, k1, b
+
+    # Build a question-field BM25 and a pubid→record-index map for per-candidate
+    # Q-field gating.  At query time we score the query against each *candidate*
+    # document's question (not over all questions) to check whether the candidate
+    # research question is at all related to the user query.
+    # e.g. "Is halofantrine ototoxic?" scores 0 against
+    # "How many people are affected by keratoderma with woolly hair?" because
+    # none of the query terms appear in the halofantrine question.
+    tokenized_q = [r.get("question", "").lower().split() for r in records]
+    q_bm25 = BM25Okapi(tokenized_q, k1=k1, b=b)
+    pubid_to_rec_idx = {
+        r.get("pubid") or r.get("doc_id", ""): i for i, r in enumerate(records)
+    }
+
+    return {"type": "bm25", "bm25": bm25, "q_bm25": q_bm25,
+            "pubid_to_rec_idx": pubid_to_rec_idx, "dataset": dataset_name,
+            "corpus": corpus, "records": records, "k1": k1, "b": b}
 
 
 # ── Load KG expander (cached, degrades gracefully) ────────────────────────────
@@ -190,69 +294,285 @@ def bm25_retrieve(bm25, corpus, query_str: str):
     norm       = scores / max_s if max_s > 0 else scores   # normalise to [0,1]
     ranked_idx = np.argsort(scores)[::-1][:_RETRIEVE_K]
     ranked_idx = [i for i in ranked_idx if scores[i] > 0]
-    return ranked_idx, norm
+    return ranked_idx, norm, float(max_s)
 
 
-def result_cards(ranked_idx, norm_scores, corpus, query: str = "",
-                 rerank_fn=None):
+# Minimum raw BM25 score for a source to participate in federated retrieval.
+_MIN_BM25_SCORE   = 1.5
+# Minimum cosine similarity for semantic/hybrid sources.
+_MIN_SEM_SCORE    = 0.50
+# Minimum per-candidate question-field BM25 score (content terms only).
+# A score of 0 means the candidate document's question shares no content words
+# with the user query → it is a false BM25 match and should be excluded.
+_MIN_Q_BM25_SCORE = 8.0
+
+# Stop words excluded from per-candidate Q-field gating so only content words
+# (disease names, procedures, drugs, etc.) determine topic relevance.
+_BM25_STOP_WORDS = frozenset({
+    "a", "an", "the", "and", "or", "but", "in", "on", "at", "to", "for",
+    "of", "with", "by", "from", "is", "are", "was", "were", "be", "been",
+    "being", "do", "does", "did", "will", "would", "could", "should", "may",
+    "might", "can", "what", "which", "who", "whom", "when", "where", "why",
+    "how", "this", "that", "these", "those", "it", "its", "they", "we",
+    "you", "not", "no", "nor", "many", "much", "more", "most", "some",
+    "any", "all", "each", "if", "as", "so", "than", "then", "very",
+    "have", "has", "had", "their", "our", "your", "my", "his", "her",
+    # Generic epidemiology / research words that appear in unrelated questions
+    # and would cause false positive Q-field matches (e.g. "people" in
+    # "Do French lay people find it acceptable…" matching keratoderma query).
+    "people", "affected", "patients", "patient", "person", "individuals",
+    "study", "studies", "data", "result", "results", "effect", "effects",
+    "use", "used", "using", "based", "new", "between", "compared",
+    "associated", "related", "known", "given", "found", "number",
+    # Generic clinical-research verbs/nouns that appear in many unrelated questions
+    # and produce false Q-field matches (e.g. "influence" in "Does music influence
+    # stress?" matching the hematopoietic contamination query).
+    "influence", "influences", "improve", "improves", "affect", "affects",
+    "outcomes", "outcome", "success", "risk", "risks", "rate", "rates",
+    "increase", "decrease", "reduce", "causes", "cause", "prevent",
+    "predict", "determine", "evaluate", "assess", "develop", "developed",
+    "show", "shows", "showed", "indicate", "indicates", "suggest", "suggests",
+    "provide", "provides", "lead", "leads", "include", "includes",
+})
+
+
+def _infer_medquad_q_type(query: str) -> str | None:
+    """
+    Map a free-text query to one of MedQuAD's question_type values so the
+    hybrid/semantic index can restrict candidates to the matching question facet.
+    Rules are ordered from most specific to most general.
+    Returns None when no rule fires (falls back to unfiltered retrieval).
+    """
+    q = query.lower()
+    if any(w in q for w in ["brand name", "brand names"]):
+        return "brand names"
+    if any(w in q for w in ["storage", "disposal", "store and dispos"]):
+        return "storage and disposal"
+    if any(w in q for w in ["forgot a dose", "forget a dose", "missed dose", "miss a dose"]):
+        return "forget a dose"
+    if any(w in q for w in ["side effect", "adverse effect", "adverse reaction"]):
+        return "side effects"
+    if any(w in q for w in ["overdose", "emergency overdose"]):
+        return "emergency or overdose"
+    if any(w in q for w in ["important warning", "warnings"]):
+        return "important warning"
+    if any(w in q for w in ["genetic change", "gene mutation", "genetic mutation"]):
+        return "genetic changes"
+    if any(w in q for w in ["inherit", "hereditary", "is it inherited"]):
+        return "inheritance"
+    if any(w in q for w in ["symptom", "sign of", "signs of"]):
+        return "symptoms"
+    if any(w in q for w in ["cause", "causes", "what causes"]):
+        return "causes"
+    if any(w in q for w in ["treatment", "treat ", "therapy", "therapies", "manage ", "cure"]):
+        return "treatment"
+    if any(w in q for w in ["diagnos", "test for", "how is it detected", "exams"]):
+        return "exams and tests"
+    if any(w in q for w in ["prevent", "prevention"]):
+        return "prevention"
+    if any(w in q for w in ["outlook", "prognos"]):
+        return "outlook"
+    if any(w in q for w in ["see a doctor", "need a doctor", "contact a medical", "when to call"]):
+        return "when to contact a medical professional"
+    if any(w in q for w in ["complication"]):
+        return "complications"
+    if any(w in q for w in ["how many", "how common", "how frequent", "prevalence", "frequency"]):
+        return "frequency"
+    if any(w in q for w in ["how should", "how to use", "dosage", "how much to take"]):
+        return "usage"
+    if any(w in q for w in ["who should get", "prescribed for", "why is it prescribed", "indication"]):
+        return "indication"
+    if any(w in q for w in ["other information", "what else should", "what other information"]):
+        return "other information"
+    if any(w in q for w in ["precaution"]):
+        return "precautions"
+    if any(w in q for w in ["suscept", "who is at risk", "risk factor"]):
+        return "susceptibility"
+    if any(w in q for w in ["dietary", "food", "eat "]):
+        return "dietary"
+    if any(w in q for w in ["research", "latest research"]):
+        return "research"
+    if any(w in q for w in ["what is", "what are", "describe", "information about"]):
+        return "information"
+    return None
+
+
+def _retrieve_docs(query: str, bundle: dict, k: int = _RETRIEVE_K) -> list:
+    """
+    Unified retrieval dispatch.  Returns list of (doc_dict, score, score_label).
+    doc_dict always has "pubid" and "text" keys.
+    Returns an empty list when the source has no genuine matches for this query.
+    """
+    if bundle["type"] == "bm25":
+        idx, norm, max_s = bm25_retrieve(bundle["bm25"], bundle["corpus"], query)
+        # Gate: if the best raw BM25 score is below threshold, this source has
+        # no relevant documents for this query — exclude entirely.
+        if max_s < _MIN_BM25_SCORE:
+            return []
+        # Per-candidate Q-field BM25 gate (content words only).
+        # Score each candidate's *own* question against the query's content words
+        # (stop words removed).  A score of 0 means the candidate's question
+        # shares no content vocabulary with the query → false BM25 match → drop.
+        # e.g. "Is halofantrine ototoxic?" scores 0.000 against content terms
+        # [people, affected, keratoderma, woolly, hair] → correctly excluded.
+        _q_bm25        = bundle.get("q_bm25")
+        _pubid_to_ridx = bundle.get("pubid_to_rec_idx", {})
+        if _q_bm25 is not None and _pubid_to_ridx:
+            _content_terms = [
+                t.strip("?,.:;!()'\"")
+                for t in query.lower().split()
+                if t.strip("?,.:;!()'\"") not in _BM25_STOP_WORDS
+                and len(t.strip("?,.:;!()'\""  )) > 4
+            ]
+            if _content_terms:
+                _q_scores = _q_bm25.get_scores(_content_terms)
+                _filtered = []
+                for i in idx:
+                    _pid   = bundle["corpus"][i]["pubid"]
+                    _ridx  = _pubid_to_ridx.get(_pid, -1)
+                    _qs    = float(_q_scores[_ridx]) if _ridx >= 0 else _MIN_Q_BM25_SCORE
+                    if _qs >= _MIN_Q_BM25_SCORE:
+                        _filtered.append(i)
+                if not _filtered:
+                    _log.info(
+                        "BM25 Q-field gate: all %d candidates excluded "
+                        "(content_terms=%s) for query %r",
+                        len(idx), _content_terms, query[:60],
+                    )
+                    return []
+                if len(_filtered) < len(idx):
+                    _log.info(
+                        "BM25 Q-field gate: kept %d/%d candidates for query %r",
+                        len(_filtered), len(idx), query[:60],
+                    )
+                idx = _filtered
+        return [(bundle["corpus"][i], float(norm[i]), "BM25") for i in idx]
+    elif bundle["type"] == "semantic":
+        # Infer question type for MedQuAD/ArchEHR to restrict semantic candidates
+        # to the matching question facet (symptoms, treatment, outlook, etc.).
+        _q_type = (
+            _infer_medquad_q_type(query)
+            if bundle.get("dataset") == "medquad" else None
+        )
+        chunks = bundle["idx"].query(query, top_k=k, q_type=_q_type)
+        filtered = [c for c in chunks if c.get("sem_score", 0.0) >= _MIN_SEM_SCORE]
+        return [(c, c.get("sem_score", 1.0), "Sem") for c in filtered]
+    elif bundle["type"] == "hybrid":
+        # Same q_type inference for MedQuAD hybrid index.
+        _q_type = (
+            _infer_medquad_q_type(query)
+            if bundle.get("dataset") == "medquad" else None
+        )
+        chunks = bundle["idx"].query(query, top_k=k, q_type=_q_type)
+        filtered = [c for c in chunks if c.get("sem_score", 0.0) >= _MIN_SEM_SCORE]
+        return [(c, c.get("sem_score", 1.0), "Hybrid") for c in filtered]
+    return []
+
+
+def retrieve_federated(query: str, bundles: dict, k_per: int = 10) -> list:
+    """
+    Query every loaded index and merge results with Reciprocal Rank Fusion.
+
+    bundles : {dataset_name: bundle_dict}  from load_index()
+    Returns list of (doc_dict, rrf_score, retriever_label, dataset_name),
+    sorted by descending RRF score.  doc_dict has "pubid", "text", "_dataset".
+    """
+    _RRF_K = 60
+    all_results: dict[str, tuple] = {}   # key → (doc, dataset_name, retriever_label)
+    dataset_ranks: dict[str, dict[str, int]] = {}  # dataset → {key: rank}
+
+    for ds_name, bundle in bundles.items():
+        retrieved = _retrieve_docs(query, bundle, k=k_per)
+        ranks: dict[str, int] = {}
+        for rank, (doc, score, label) in enumerate(retrieved):
+            key = f"{ds_name}::{doc['pubid']}"
+            doc_with_ds = {**doc, "_dataset": ds_name}
+            all_results[key] = (doc_with_ds, ds_name, label)
+            ranks[key] = rank
+        dataset_ranks[ds_name] = ranks
+
+    # RRF: score each key across all datasets
+    scored: list[tuple[float, str]] = []
+    for key in all_results:
+        rrf = sum(
+            1 / (_RRF_K + dataset_ranks[ds].get(key, k_per))
+            for ds in dataset_ranks
+        )
+        scored.append((rrf, key))
+
+    scored.sort(reverse=True)
+    # Normalise scores to [0, 1] so top result = 1.0 (raw RRF values ≈ 0.016 are
+    # rank-fusion weights, NOT accuracy — normalisation avoids confusion in the UI)
+    max_rrf = scored[0][0] if scored else 1.0
+    return [
+        (all_results[key][0], rrf / max_rrf, all_results[key][2], all_results[key][1])
+        for rrf, key in scored
+    ]
+
+
+def result_cards(retrieved: list, query: str = "", rerank_fn=None):
+    """
+    Display retrieval results from federated or single-dataset search.
+
+    retrieved : list of (doc_dict, score, score_label, dataset_name)
+                doc_dict has "pubid", "text", and optionally "_dataset".
+    """
     import math
 
-    if not ranked_idx:
+    if not retrieved:
         st.warning("No relevant documents found. Try rephrasing your question.")
         return
 
-    # Optionally rerank
+    # ── Optional cross-encoder reranking ─────────────────────────────────────
     if rerank_fn is not None:
-        candidates = [corpus[i] for i in ranked_idx]
-        reranked   = rerank_fn(query, candidates, top_k=len(candidates))
+        candidates = [doc for doc, _, _, _ in retrieved]
+        reranked_docs = rerank_fn(query, candidates, top_k=len(candidates))
         _log.info(
-            "RERANK | query=%r | top3_pmids=%s | top3_ce_scores=%s",
+            "RERANK | query=%r | top3_ids=%s | top3_ce_scores=%s",
             query,
-            [doc["pubid"] for doc in reranked[:3]],
+            [doc["pubid"] for doc in reranked_docs[:3]],
             [f"{doc.get('ce_score', 'n/a'):.3f}" if isinstance(doc.get("ce_score"), float)
-             else str(doc.get("ce_score", "n/a")) for doc in reranked[:3]],
+             else str(doc.get("ce_score", "n/a")) for doc in reranked_docs[:3]],
         )
+        # Preserve dataset_name from original retrieved list
+        ds_map = {doc["pubid"]: ds for doc, _, _, ds in retrieved}
+        retrieved_display = [
+            (doc,
+             1 / (1 + math.exp(-doc["ce_score"])) if "ce_score" in doc else 1.0,
+             "CE",
+             ds_map.get(doc["pubid"], "pubmedqa"))
+            for doc in reranked_docs
+        ]
     else:
-        reranked = [{"**orig_idx**": i, **corpus[i]} for i in ranked_idx]
+        retrieved_display = retrieved
 
-    # ── Filter: only show results at or above the score threshold ─────────────
-    passing = []
-    for rank0, doc in enumerate(reranked):
-        if "ce_score" in doc:
-            display_score = 1 / (1 + math.exp(-doc["ce_score"]))
-            score_label   = "CE"
-        else:
-            orig_idx      = ranked_idx[rank0] if rank0 < len(ranked_idx) else 0
-            display_score = float(norm_scores[orig_idx])
-            score_label   = "BM25"
-        if display_score >= _SCORE_THRESHOLD:
-            passing.append((doc, display_score, score_label))
-
-    if not passing:
-        st.info(
-            f"No results met the {_SCORE_THRESHOLD:.0%} relevance threshold. "
-            "Try rephrasing your question.",
-            icon="🔎",
-        )
+    if not retrieved_display:
+        st.info("No results found. Try rephrasing your question.", icon="🔎")
         return
 
-    st.subheader(f"{len(passing)} result{'s' if len(passing) != 1 else ''} "
-                 f"above {_SCORE_THRESHOLD:.0%} relevance")
-    for rank, (doc, display_score, score_label) in enumerate(passing, 1):
-        pubid = doc["pubid"]
-        pmurl = f"https://pubmed.ncbi.nlm.nih.gov/{pubid}/"
+    st.subheader(f"{len(retrieved_display)} result{'s' if len(retrieved_display) != 1 else ''} found")
+
+    for rank, (doc, display_score, score_label, ds_name) in enumerate(retrieved_display, 1):
+        doc_id   = doc["pubid"]
+        badge    = _DATASET_BADGE.get(ds_name, ds_name)
+        id_label = get_id_label(ds_name) if _DATASET_ADAPTER_OK else "ID"
+
+        if ds_name == "pubmedqa":
+            pmurl  = f"https://pubmed.ncbi.nlm.nih.gov/{doc_id}/"
+            header = f"**#{rank}** &nbsp; {badge} &nbsp; [{id_label} {doc_id}]({pmurl})"
+        else:
+            header = f"**#{rank}** &nbsp; {badge} &nbsp; {id_label} {doc_id}"
 
         with st.container(border=True):
             h_col, s_col = st.columns([5, 1])
             with h_col:
-                st.markdown(
-                    f"**#{rank}** &nbsp; 📄 [PMID {pubid}]({pmurl})",
-                    unsafe_allow_html=True,
-                )
+                st.markdown(header, unsafe_allow_html=True)
             with s_col:
+                # score_label is the retriever type (BM25/Hybrid/Semantic/CE);
+                # always show "Relevance" to users to avoid confusion with accuracy
                 st.markdown(
                     f"<div style='text-align:right;color:#555;font-size:0.82em;'>"
-                    f"{score_label}<br><b>{display_score:.3f}</b></div>",
+                    f"Relevance<br><b>{display_score:.3f}</b></div>",
                     unsafe_allow_html=True,
                 )
 
@@ -263,7 +583,8 @@ def result_cards(ranked_idx, norm_scores, corpus, query: str = "",
 
             with st.expander("Show full chunk"):
                 st.write(doc["text"])
-                st.markdown(f"[Open on PubMed ↗]({pmurl})", unsafe_allow_html=True)
+                if ds_name == "pubmedqa":
+                    st.markdown(f"[Open on PubMed ↗]({pmurl})", unsafe_allow_html=True)
 
 
 # ── Evaluation dashboard ───────────────────────────────────────────────────────
@@ -364,11 +685,17 @@ def _chunk_kg_rels(pubid, mentioned, cooccurs, max_rels=2):
 
 
 def _render_why_panel(chunks: list) -> None:
+    """
+    chunks: list of doc dicts with "pubid", "text", and optional "_dataset".
+    """
     mentioned, cooccurs = _load_triples()
     with st.expander("💡 Why this answer? — Evidence sources"):
         for idx, chunk in enumerate(chunks, 1):
-            pubid = chunk["pubid"]
-            # 1-2 sentence snippet (≤200 chars)
+            doc_id   = chunk["pubid"]
+            ds_name  = chunk.get("_dataset", "pubmedqa")
+            badge    = _DATASET_BADGE.get(ds_name, ds_name)
+            id_label = get_id_label(ds_name) if _DATASET_ADAPTER_OK else "PMID"
+
             sentences = [s.strip() for s in chunk["text"].replace("\n", " ").split(". ") if s.strip()]
             snippet = ". ".join(sentences[:2])
             if len(snippet) > 200:
@@ -376,22 +703,27 @@ def _render_why_panel(chunks: list) -> None:
             if snippet and not snippet.endswith("."):
                 snippet += "."
 
-            pmurl = f"https://pubmed.ncbi.nlm.nih.gov/{pubid}/"
-            st.markdown(f"**Source {idx}:** [PMID {pubid}]({pmurl})")
+            if ds_name == "pubmedqa":
+                pmurl = f"https://pubmed.ncbi.nlm.nih.gov/{doc_id}/"
+                st.markdown(f"**Source {idx}:** {badge} [{id_label} {doc_id}]({pmurl})")
+            else:
+                st.markdown(f"**Source {idx}:** {badge} {id_label} {doc_id}")
             st.caption(snippet)
 
-            rels = _chunk_kg_rels(pubid, mentioned, cooccurs)
-            if rels:
-                for head, tail in rels:
-                    st.markdown(
-                        f"<span style='font-size:0.82em;color:#555;'>"
-                        f"🔗 <code>{head}</code> &nbsp;→&nbsp; "
-                        f"co-occurs with &nbsp;→&nbsp; <code>{tail}</code>"
-                        f"</span>",
-                        unsafe_allow_html=True,
-                    )
-            else:
-                st.caption("_No KG relations found for this source._")
+            # KG relations are only available for the PubMedQA knowledge graph.
+            if ds_name == "pubmedqa":
+                rels = _chunk_kg_rels(doc_id, mentioned, cooccurs)
+                if rels:
+                    for head, tail in rels:
+                        st.markdown(
+                            f"<span style='font-size:0.82em;color:#555;'>"
+                            f"🔗 <code>{head}</code> &nbsp;→&nbsp; "
+                            f"co-occurs with &nbsp;→&nbsp; <code>{tail}</code>"
+                            f"</span>",
+                            unsafe_allow_html=True,
+                        )
+                else:
+                    st.caption("_No KG relations found for this source._")
 
             if idx < len(chunks):
                 st.markdown("---")
@@ -400,7 +732,11 @@ def _render_why_panel(chunks: list) -> None:
 def _render_citation_gate(answer: str) -> None:
     import re
     sentences = re.split(r'(?<=[.!?])\s+', answer.strip())
-    pmid_re   = re.compile(r'\(PMIDs?\s*\d+(?:\s*,\s*\d+)*\)', re.IGNORECASE)
+    # Match any inline citation format: (PMID 123), (QID 0001234-5), (Case 001), (Source ...)
+    cite_re = re.compile(
+        r'\((PMID|QID|Case|Source)\s+[\w\-]+\)',
+        re.IGNORECASE,
+    )
 
     def _should_ignore(sentence: str) -> bool:
         lowered = sentence.lower().strip()
@@ -417,21 +753,21 @@ def _render_citation_gate(answer: str) -> None:
     flagged = [
         s for s in sentences
         if len(s.split()) > 5
-        and not pmid_re.search(s)
+        and not cite_re.search(s)
         and not _should_ignore(s)
     ]
     if not flagged:
         return
 
-    with st.expander(f"⚠️ Citation check — {len(flagged)} sentence(s) without a PMID", expanded=False):
-        st.caption("Sentences longer than 5 words with no inline (PMID …) citation are highlighted.")
+    with st.expander(f"⚠️ Citation check — {len(flagged)} sentence(s) without an inline citation", expanded=False):
+        st.caption("Sentences longer than 5 words with no inline citation (PMID / QID / Case / Source) are highlighted.")
         for sentence in sentences:
             if not sentence.strip():
                 continue
             if _should_ignore(sentence):
                 st.caption(sentence)
                 continue
-            if len(sentence.split()) > 5 and not pmid_re.search(sentence):
+            if len(sentence.split()) > 5 and not cite_re.search(sentence):
                 st.markdown(
                     f"<span style='background:#fff3cd;padding:2px 6px;"
                     f"border-radius:3px;display:inline-block;margin:2px 0;'>"
@@ -700,8 +1036,22 @@ def _run_core_pipeline(
 
         # ── Step 1: Generate ──────────────────────────────────────────────────
         st.write("🤖 Generating answer with Claude…")
+        # Resolve correct citation label from the source datasets in the chunks.
+        # Federated results can mix pubmedqa (PMID), medquad (QID), archehr_qa (Case).
+        _DS_LABELS = {
+            "pubmedqa":   ("PMID",   "PubMed abstracts"),
+            "medquad":    ("QID",    "MedQuAD Q&A records"),
+            "archehr_qa": ("Case",   "clinical EHR notes"),
+        }
+        _ds_set = {c.get("_dataset", "pubmedqa") for c in chunks}
+        if len(_ds_set) == 1:
+            _single_ds = next(iter(_ds_set))
+            _id_label, _src_type = _DS_LABELS.get(_single_ds, ("Source", "medical evidence records"))
+        else:
+            _single_ds = ""
+            _id_label, _src_type = "Source", "medical evidence records"
         _t0 = _time.perf_counter()
-        answer = gen_fn(query, chunks)
+        answer = gen_fn(query, chunks, id_label=_id_label, source_type=_src_type, dataset=_single_ds)
         gen_lat = _time.perf_counter() - _t0
 
         # ── Step 2: Safety check ──────────────────────────────────────────────
@@ -715,7 +1065,7 @@ def _run_core_pipeline(
         # ── Step 3: Extract atomic claims ─────────────────────────────────────
         st.write("🔬 Extracting atomic claims…")
         try:
-            facts = decompose_facts(answer)
+            facts = decompose_facts(answer, dataset=_single_ds)
         except Exception:
             facts = []
 
@@ -741,9 +1091,9 @@ def _run_core_pipeline(
             _log.warning("CORRECTION | triggered=True | factuality=%.2f", score)
             try:
                 _tc = _time.perf_counter()
-                _strict_ans = gen_fn(query, chunks, strict=True)
+                _strict_ans = gen_fn(query, chunks, strict=True, id_label=_id_label, source_type=_src_type, dataset=_single_ds)
                 gen_lat += _time.perf_counter() - _tc
-                _strict_facts    = decompose_facts(_strict_ans)
+                _strict_facts    = decompose_facts(_strict_ans, dataset=_single_ds)
                 _strict_verdicts = verify_facts(_strict_facts, chunks) if _strict_facts else []
                 _strict_n_sup    = sum(1 for v in _strict_verdicts
                                        if v.get("verdict") == "supported")
@@ -798,16 +1148,6 @@ def _run_core_pipeline(
 
 
 # ── UI ────────────────────────────────────────────────────────────────────────
-bm25, corpus, records, k1, b = load_index()
-
-# Params badge
-params_json = HERE / "bm25_params.json"
-params_note = (
-    f"Tuned BM25 (k1={k1}, b={b})"
-    if params_json.exists() else
-    f"BM25 defaults (k1={k1}, b={b}) — run tune_bm25.py to optimise"
-)
-
 st.title("🩺 ArogyaSaathi")
 st.caption("Because every health question deserves a real answer.")
 
@@ -821,6 +1161,33 @@ st.markdown(
 
 st.divider()
 
+# ── Load all indexes at startup (each cached independently) ───────────────────
+_bundles: dict[str, dict] = {}
+_index_errors: list[str] = []
+for _ds, _cfg in _FEDERATED_DATASETS.items():
+    try:
+        _bundles[_ds] = load_index(_ds, _cfg["local_path"])
+    except Exception as _ie:
+        _index_errors.append(f"{_cfg['label']}: {_ie}")
+        _log.warning("Index load failed for %s: %s", _ds, _ie)
+
+if not _bundles:
+    st.error("No knowledge base could be loaded. Check logs for details.")
+    st.stop()
+
+if _index_errors:
+    st.warning("Some knowledge bases unavailable: " + " | ".join(_index_errors), icon="⚠️")
+
+# Summary of loaded indexes
+_total_chunks  = sum(len(b["corpus"])  for b in _bundles.values())
+_total_records = sum(len(b["records"]) for b in _bundles.values())
+_loaded_labels = [_FEDERATED_DATASETS[d]["label"] for d in _bundles]
+
+# Params badge (PubMedQA BM25 params, shown for reference)
+params_json = HERE / "bm25_params.json"
+k1 = _bundles["pubmedqa"]["k1"] if "pubmedqa" in _bundles else 1.5
+b  = _bundles["pubmedqa"]["b"]  if "pubmedqa" in _bundles else 0.75
+
 _default_q = st.query_params.get("q", "")
 _mode_options = [
     "None (BM25 only)",
@@ -830,7 +1197,7 @@ _mode_options = [
 ]
 _default_mode = st.session_state.get("_ui_mode", _mode_options[0])
 
-# ── Search form — Press Enter or click Search to trigger the full pipeline ──
+# ── Search form ────────────────────────────────────────────────────────────────
 with st.form("search_form", border=False, clear_on_submit=False):
     fc1, fc2 = st.columns([6, 1])
     with fc1:
@@ -860,11 +1227,6 @@ st.divider()
 # ── Retrieval ─────────────────────────────────────────────────────────────────
 if query.strip():
     # ── HIPAA Safe Harbour PHI scrubbing ──────────────────────────────────────
-    # Replaces up to 11 identifier categories (SSN, phone, email, dates, ZIP,
-    # names, MRN, IP, URL, device IDs, ages >89) with neutral placeholders
-    # before any text is passed to the retrieval index or external LLM API.
-    # The displayed query in the text box is unchanged; only the downstream
-    # processing uses the scrubbed version.
     if _scrub_phi is not None:
         _scrub = _scrub_phi(query)
         if _scrub.found:
@@ -879,126 +1241,96 @@ if query.strip():
                 "PHI_SCRUB | categories=%s | original_len=%d | scrubbed_len=%d",
                 _categories, len(query), len(_scrub.text),
             )
-        query = _scrub.text   # use scrubbed version for all downstream calls
+        query = _scrub.text
 
-    use_kg      = mode in ("KG expansion", "KG + Cross-encoder")
+    use_kg       = mode in ("KG expansion", "KG + Cross-encoder")
     use_reranker = mode in ("Cross-encoder reranker", "KG + Cross-encoder")
     rag_top3_chunks: list[dict] = []
-    rag_grounding_label = "top-3 BM25 chunks"
+    rag_grounding_label = "top-5 federated chunks"
 
-    # ── Baseline retrieval ─────────────────────────────────────────────────────
-    base_idx, base_norm = bm25_retrieve(bm25, corpus, query)
-    # Only log when the query text actually changes to avoid flooding on reruns
+    # ── KG query expansion (applies to all datasets) ──────────────────────────
+    search_query = query
+    if use_kg:
+        expand_fn = load_kg_expander()
+        if expand_fn is None:
+            st.warning("KG expansion unavailable — run track2_build_kg.py first.", icon="⚠️")
+            use_kg = False
+        else:
+            search_query = expand_fn(query)
+            added_terms = [t for t in search_query.split()
+                           if t not in set(query.lower().split())]
+            _log.info("KG_EXPAND | original=%r | expanded=%r | terms_added=%d",
+                      query, search_query, len(added_terms))
+
+    # ── Federated retrieval across all loaded indexes ─────────────────────────
+    base_federated = retrieve_federated(search_query, _bundles, k_per=10)[:5]
+
     _last_q = st.session_state.get("_last_logged_query")
     if _last_q != query:
         _log.info(
-            "QUERY | text(scrubbed)=%r | mode=%s | bm25_candidates=%d | "
-            "top3_pmids=%s | top3_norm_scores=%s",
-            query, mode, len(base_idx),
-            [corpus[i]["pubid"] for i in base_idx[:3]],
-            [f"{base_norm[i]:.3f}" for i in base_idx[:3]],
+            "QUERY | text(scrubbed)=%r | mode=%s | sources=%s | total_candidates=%d | "
+            "top3_ids=%s",
+            query, mode, list(_bundles.keys()), len(base_federated),
+            [f"{ds}:{doc['pubid']}" for doc, _, _, ds in base_federated[:3]],
         )
         st.session_state["_last_logged_query"] = query
 
-    if mode == "None (BM25 only)":
-        # Single-column standard results
-        result_cards(base_idx, base_norm, corpus, query=query)
-        rag_top3_chunks = [
-            {"pubid": corpus[i]["pubid"], "text": corpus[i]["text"]}
-            for i in base_idx[:3]
-        ]
-        rag_grounding_label = "top-3 BM25 chunks"
-    else:
-        # Two-column comparison: baseline vs enhanced
-        left, right = st.columns(2)
+    # ── Optional CE reranking ─────────────────────────────────────────────────
+    rerank_fn = None
+    if use_reranker:
+        rerank_fn = load_reranker()
+        if rerank_fn is None:
+            st.warning("Cross-encoder unavailable — run: pip install sentence-transformers",
+                       icon="⚠️")
 
+    if mode == "None":
+        result_cards(base_federated, query=query)
+        rag_top3_chunks = [
+            {**doc} for doc, _, _, _ in base_federated[:5]
+        ]
+        rag_grounding_label = "top-5 federated chunks"
+    else:
+        left, right = st.columns(2)
         with left:
-            st.markdown("#### BM25 baseline")
-            result_cards(base_idx, base_norm, corpus, query=query)
+            st.markdown("#### Federated baseline")
+            result_cards(base_federated, query=query)
 
         with right:
-            enhanced_label = mode
-            st.markdown(f"#### {enhanced_label}")
+            st.markdown(f"#### {mode}")
+            enh_federated = retrieve_federated(search_query, _bundles, k_per=10)[:5]
+            result_cards(enh_federated, query=search_query, rerank_fn=rerank_fn)
 
-            # Resolve query string (may be expanded)
-            if use_kg:
-                expand_fn = load_kg_expander()
-                if expand_fn is None:
-                    st.error("KG expansion unavailable — run track2_build_kg.py first.")
-                    st.stop()
-                enhanced_query = expand_fn(query)
-                added_terms = [
-                    t for t in enhanced_query.split()
-                    if t not in set(query.lower().split())
-                ]
-                _log.info(
-                    "KG_EXPAND | original=%r | expanded=%r | "
-                    "terms_added=%d | new_terms=%s",
-                    query, enhanced_query, len(added_terms), added_terms,
-                )
-                pass  # KG expansion applied silently
-            else:
-                enhanced_query = query
-
-            # Retrieve with (possibly expanded) query
-            enh_idx, enh_norm = bm25_retrieve(bm25, corpus, enhanced_query)
-
-            # Optionally rerank
-            if use_reranker:
-                rerank_fn = load_reranker()
-                if rerank_fn is None:
-                    st.warning(
-                        "Cross-encoder unavailable — "
-                        "run: pip install sentence-transformers",
-                        icon="⚠️",
-                    )
-                    rerank_fn = None
-            else:
-                rerank_fn = None
-
-            result_cards(enh_idx, enh_norm, corpus,
-                         query=enhanced_query, rerank_fn=rerank_fn)
-
-            # Ground generation on the currently selected retrieval mode.
             if rerank_fn is not None:
-                _cand_docs = [corpus[i] for i in enh_idx]
-                _gen_docs = rerank_fn(enhanced_query, _cand_docs, top_k=3)
-                rag_top3_chunks = [
-                    {"pubid": d["pubid"], "text": d["text"]}
-                    for d in _gen_docs
-                ]
-                rag_grounding_label = "top-3 KG+CE chunks" if use_kg else "top-3 CE chunks"
+                _cand_docs = [doc for doc, _, _, _ in enh_federated]
+                _gen_docs  = rerank_fn(search_query, _cand_docs, top_k=5)
+                rag_top3_chunks = [{**d} for d in _gen_docs]
+                rag_grounding_label = "top-5 KG+CE federated chunks" if use_kg else "top-5 CE federated chunks"
             else:
-                rag_top3_chunks = [
-                    {"pubid": corpus[i]["pubid"], "text": corpus[i]["text"]}
-                    for i in enh_idx[:3]
-                ]
-                rag_grounding_label = "top-3 KG-expanded BM25 chunks" if use_kg else "top-3 BM25 chunks"
+                rag_top3_chunks = [{**doc} for doc, _, _, _ in enh_federated[:5]]
+                rag_grounding_label = "top-5 KG federated chunks" if use_kg else "top-5 federated chunks"
 
     # ── RAG Generation + Evaluation ───────────────────────────────────────────
     st.divider()
     gen_fn = load_rag_generator()
     if gen_fn is not None:
         _top3_chunks = rag_top3_chunks or [
-            {"pubid": corpus[i]["pubid"], "text": corpus[i]["text"]}
-            for i in base_idx[:3]
+            {**doc} for doc, _, _, _ in base_federated[:5]
         ]
 
-        # ── Auto-trigger core pipeline when form is submitted ─────────────
-        if submitted and query.strip():
+        _auto_submit = st.session_state.pop("_example_submitted", False)
+        if (submitted or _auto_submit) and query.strip():
             if not _top3_chunks:
                 st.warning("No retrieval evidence available to ground generation.")
                 st.stop()
-            _log.info("RAG_GEN | query=%r | source_pmids=%s",
+            _log.info("RAG_GEN | query=%r | source_ids=%s",
                       query, [c["pubid"] for c in _top3_chunks])
             _result = _run_core_pipeline(query, _top3_chunks, gen_fn)
             st.session_state["_rag_result"] = _result
             st.session_state["_rag_query"]  = query
 
-            # Launch RAGAS asynchronously — pass answer_time for the timer
             _rk = _ragas_key(query, _result["answer_with_disclaimer"])
             _rs = _ragas_store()
-            _rs[_rk] = None  # mark as pending
+            _rs[_rk] = None
             threading.Thread(
                 target=_run_ragas_thread,
                 args=(_rs, _rk, query,
@@ -1009,7 +1341,6 @@ if query.strip():
             ).start()
             st.session_state["_ragas_key"] = _rk
 
-        # ── Render answer once core pipeline has completed for this query ──
         if (
             st.session_state.get("_rag_query") == query
             and "_rag_result" in st.session_state
@@ -1028,20 +1359,18 @@ if query.strip():
                 unsafe_allow_html=True,
             )
 
-            # ── Evidence panel + citation gate ─────────────────────────────
             _render_why_panel(_top3_chunks)
             _render_citation_gate(_answer_body)
-            # ── Core eval: safety + factuality (immediately available) ─────
             _render_eval_dashboard(_result)
 
-            # ── Async RAGAS panel: polls every 2s, shows both timers ───────
             if "_ragas_key" in st.session_state:
                 _ragas_panel(st.session_state["_ragas_key"])
 
         from rag_generate import MODEL as _RAG_MODEL
         st.caption(
             f"anthropic {_ANTHROPIC_VERSION} · model: {_RAG_MODEL} · "
-            f"grounded on {rag_grounding_label}"
+            f"grounded on {rag_grounding_label} · "
+            f"sources: {', '.join(_loaded_labels)}"
         )
     else:
         st.caption(
@@ -1051,21 +1380,27 @@ if query.strip():
 
 else:
     st.info(
-        f"Index ready — {len(corpus):,} chunks from {len(records):,} PubMed abstracts. "
-        "Type a question above to search."
+        f"Ready — {_total_chunks:,} chunks from {_total_records:,} records across "
+        f"{', '.join(_loaded_labels)}. Type a question above to search."
     )
 
-    with st.expander("Example questions from PubMedQA"):
-        for rec in records[:8]:
-            label = rec["question"][:90] + ("…" if len(rec["question"]) > 90 else "")
-            if st.button(label, key=rec["pubid"]):
-                st.session_state["_example_q"] = rec["question"]
-                st.rerun()
+    # Example questions drawn from each dataset
+    for _ds, _bundle in _bundles.items():
+        _ds_label = _FEDERATED_DATASETS[_ds]["label"]
+        with st.expander(f"Example questions from {_ds_label}"):
+            for rec in _bundle["records"][:5]:
+                q_text = rec.get("question", "") or ""
+                label  = q_text[:90] + ("…" if len(q_text) > 90 else "")
+                doc_id = rec.get("pubid") or rec.get("doc_id", "")
+                if st.button(label, key=f"{_ds}::{doc_id}"):
+                    st.session_state["_example_q"] = q_text
+                    st.rerun()
 
 # Handle example question clicks
 if "_example_q" in st.session_state:
     q = st.session_state.pop("_example_q")
     st.query_params["q"] = q
+    st.session_state["_example_submitted"] = True
     st.rerun()
 
 

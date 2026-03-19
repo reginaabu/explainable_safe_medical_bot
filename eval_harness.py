@@ -60,6 +60,23 @@ def _parse_args() -> argparse.Namespace:
         help="Retrieval strategy. Defaults to the dataset's recommended retriever "
              "(bm25 for pubmedqa, hybrid for medquad).",
     )
+    p.add_argument(
+        "--output",
+        default=None,
+        help="Output Markdown report filename (default: <dataset>_<mode>_eval_report.md).",
+    )
+    p.add_argument(
+        "--mode",
+        default="bm25",
+        choices=["bm25", "bm25+kg", "bm25+ce", "bm25+kg+ce"],
+        help=(
+            "Retrieval/enhancement mode:\n"
+            "  bm25        – basic BM25 only\n"
+            "  bm25+kg     – BM25 with KG query expansion\n"
+            "  bm25+ce     – BM25 with cross-encoder reranking\n"
+            "  bm25+kg+ce  – BM25 with KG expansion AND cross-encoder reranking"
+        ),
+    )
     return p.parse_args()
 
 
@@ -181,7 +198,35 @@ def main() -> int:
                 hybrid_index = HybridIndex(all_rows, q_bm25, q_corpus)
             else:
                 hybrid_index = HybridIndex(all_rows, bm25, corpus)
-    log.info("Retriever: %s", retriever)
+    log.info("Retriever: %s  |  Mode: %s", retriever, args.mode)
+
+    # ── Load KG expander if needed ────────────────────────────────────────────
+    use_kg = "kg" in args.mode
+    kg_expand_fn = None
+    if use_kg:
+        try:
+            from kg_expand import expand_query as _expand_query
+            kg_expand_fn = _expand_query
+            log.info("KG expansion: enabled")
+        except Exception as exc:
+            log.warning("KG expansion unavailable (%s) — falling back to plain query", exc)
+            use_kg = False
+
+    # ── Load cross-encoder reranker if needed ────────────────────────────────
+    use_ce = "ce" in args.mode
+    ce_rerank_fn = None
+    if use_ce:
+        try:
+            import reranker as _reranker
+            if _reranker.is_available():
+                ce_rerank_fn = _reranker.rerank
+                log.info("Cross-encoder reranker: enabled")
+            else:
+                log.warning("sentence-transformers not installed — cross-encoder disabled")
+                use_ce = False
+        except Exception as exc:
+            log.warning("Cross-encoder unavailable (%s) — disabled", exc)
+            use_ce = False
 
     from rag_generate import generate_answer, _get_api_key as _rag_api_key
     from evaluator import evaluate_answer, FACTUALITY_THRESHOLD
@@ -205,12 +250,33 @@ def main() -> int:
         q_type = row.get("q_type", "").strip() or None
         bm25_query = f"{question} {focus}".strip() if focus else question
 
+        # KG query expansion (appends co-occurrence neighbours to query)
+        retrieval_query = bm25_query
+        if kg_expand_fn is not None:
+            try:
+                retrieval_query = kg_expand_fn(bm25_query)
+                if retrieval_query != bm25_query:
+                    log.debug("  KG expanded: %r", retrieval_query[len(bm25_query):].strip())
+            except Exception as exc:
+                log.debug("  KG expand failed: %s", exc)
+                retrieval_query = bm25_query
+
         if retriever == "semantic" and sem_index:
-            chunks = sem_index.query(question, top_k=3, q_type=q_type)
+            chunks = sem_index.query(retrieval_query, top_k=10, q_type=q_type)
         elif retriever == "hybrid" and hybrid_index:
-            chunks = hybrid_index.query(bm25_query, top_k=3, q_type=q_type)
+            chunks = hybrid_index.query(retrieval_query, top_k=10, q_type=q_type)
         else:
-            chunks = _retrieve(bm25, corpus, bm25_query, top_k=3)
+            chunks = _retrieve(bm25, corpus, retrieval_query, top_k=10)
+
+        # Cross-encoder reranking (rerank to top-3)
+        if ce_rerank_fn is not None and chunks:
+            try:
+                chunks = ce_rerank_fn(question, chunks, top_k=3)
+            except Exception as exc:
+                log.debug("  CE rerank failed: %s", exc)
+                chunks = chunks[:3]
+        else:
+            chunks = chunks[:3]
 
         if not chunks:
             chunks = [{"pubid": pubid, "text": row["context"][:800]}]
@@ -218,7 +284,7 @@ def main() -> int:
         # Generate answer (timed)
         t0 = time.perf_counter()
         try:
-            answer = generate_answer(question, chunks, id_label=id_label, source_type=source_type)
+            answer = generate_answer(question, chunks, id_label=id_label, source_type=source_type, dataset=args.dataset)
         except Exception as exc:
             log.error("generate_answer failed: %s", exc)
             log.error("Failing fast. No report written.")
@@ -227,7 +293,7 @@ def main() -> int:
 
         # Evaluate
         try:
-            eval_result = evaluate_answer(question, answer, chunks, latency_s=latency_s)
+            eval_result = evaluate_answer(question, answer, chunks, latency_s=latency_s, dataset=args.dataset)
         except Exception as exc:
             log.error("evaluate_answer failed: %s", exc)
             log.error("Failing fast. No report written.")
@@ -240,9 +306,9 @@ def main() -> int:
                      eval_result["factuality_score"], FACTUALITY_THRESHOLD)
             try:
                 strict_ans = generate_answer(question, chunks, strict=True,
-                                             id_label=id_label, source_type=source_type)
+                                             id_label=id_label, source_type=source_type, dataset=args.dataset)
                 strict_res = evaluate_answer(question, strict_ans, chunks,
-                                             latency_s=eval_result["latency_s"])
+                                             latency_s=eval_result["latency_s"], dataset=args.dataset)
                 strict_res["correction_applied"] = False
                 if strict_res["factuality_score"] >= eval_result["factuality_score"]:
                     answer, eval_result = strict_ans, strict_res
@@ -314,11 +380,14 @@ def main() -> int:
     log.info("  corrections      : %d/%d", n_corrected, len(results))
 
     # ── Write Markdown report ─────────────────────────────────────────────────
-    report_path = HERE / "track3_eval_report.md"
+    mode_slug = args.mode.replace("+", "_")
+    report_filename = args.output or f"{args.dataset}_{mode_slug}_eval_report.md"
+    report_path = HERE / report_filename
     lines: list[str] = [
         "# Track 3 Evaluation Report",
         "",
         f"**Dataset:** {args.dataset}  |  "
+        f"**Mode:** {args.mode}  |  "
         f"**Questions evaluated:** {len(results)}  |  "
         f"**Seed:** {seed}  |  "
         f"**Date:** {time.strftime('%Y-%m-%d')}",

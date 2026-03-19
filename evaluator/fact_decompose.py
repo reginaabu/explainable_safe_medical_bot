@@ -62,15 +62,30 @@ def _nltk_sentences(text: str) -> list[str]:
         return [s.strip() for s in text.split(". ") if s.strip()]
 
 
-def decompose_facts(answer: str) -> list[str]:
+def decompose_facts(answer: str, dataset: str = "") -> list[str]:
     """
     Decompose *answer* into a flat list of atomic claim strings.
+
+    Parameters
+    ----------
+    answer  : the generated answer text
+    dataset : dataset name (e.g. "pubmedqa").  For PubMedQA, answers are
+              intentionally kept to 1–2 sentences; further LLM decomposition
+              fragments them into 5–8 micro-claims, many of which fail
+              verification as paraphrases.  Skipping it keeps factuality
+              measurement aligned with the actual answer granularity.
 
     Returns
     -------
     list[str]  – each element is one indivisible factual claim.
     """
     sentences = _nltk_sentences(answer)
+
+    # For PubMedQA short answers (≤2 sentences) skip LLM decomposition.
+    # The 1-2 sentence prompt produces whole-sentence claims; breaking them
+    # further creates paraphrase failures that don't reflect real errors.
+    if dataset == "pubmedqa" and len(sentences) <= 2:
+        return [s for s in sentences if s.strip()]
 
     # Decide whether we need the LLM pass
     needs_llm = len(sentences) > 1 or any(

@@ -155,6 +155,12 @@ class HybridIndex:
         self._bm25   = bm25
         self._corpus = corpus
         self._sem    = SemanticIndex(rows)
+        # Build pubid → context lookup so BM25-ranked results always return
+        # answer/context text (not question text from q_corpus).
+        self._pubid_to_context: dict[str, str] = {
+            r["doc_id"]: r["context"] for r in rows
+            if r.get("context", "").strip()
+        }
 
     def query(
         self,
@@ -216,10 +222,28 @@ class HybridIndex:
         for key, (_, chunk) in sem_by_key.items():
             key_to_chunk.setdefault(key, chunk)
 
+        # Build pubid → sem_score for gate checks
+        pubid_to_sem: dict[str, float] = {
+            chunk["pubid"]: chunk.get("sem_score", 0.0)
+            for _, chunk in sem_by_key.values()
+        }
+
         results = []
+        seen_pubids: set[str] = set()
         for _, key in scored[:top_k]:
             chunk = key_to_chunk.get(key)
             if chunk:
-                results.append({"pubid": chunk["pubid"], "text": chunk["text"]})
+                pubid = chunk["pubid"]
+                if pubid in seen_pubids:
+                    continue  # skip duplicate pubid (q-text and ctx-text both ranked)
+                seen_pubids.add(pubid)
+                # Always return the answer/context text, not the question text
+                # (BM25 is built on questions for ranking but context is the evidence)
+                context = self._pubid_to_context.get(pubid, chunk["text"])
+                results.append({
+                    "pubid":     pubid,
+                    "text":      context,
+                    "sem_score": pubid_to_sem.get(pubid, 0.0),
+                })
 
         return results

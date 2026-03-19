@@ -20,6 +20,42 @@ from __future__ import annotations
 
 _NULL = {"faithfulness": None, "answer_relevancy": None}
 
+
+def _geval_answer_relevancy(query: str, answer: str, api_key: str | None) -> float | None:
+    """
+    G-Eval: ask Claude haiku to directly score how well the answer addresses
+    the question.  Replaces RAGAS reverse-question cosine similarity, which
+    collapses to 0.0 for list answers (brand names, storage instructions, etc.)
+    and safety-hedged clinical answers.
+
+    Returns a float in [0.0, 1.0] or None on failure.
+    """
+    try:
+        import anthropic
+        client = anthropic.Anthropic(api_key=api_key) if api_key else anthropic.Anthropic()
+        prompt = (
+            "You are evaluating a medical question-answering system.\n"
+            "Score how well the ANSWER addresses the QUESTION on a scale from 0.0 to 1.0.\n\n"
+            "Scoring guidelines:\n"
+            "- 1.0: Answer directly and completely addresses the question\n"
+            "- 0.7–0.9: Answer mostly addresses the question with minor gaps\n"
+            "- 0.4–0.6: Answer partially addresses the question\n"
+            "- 0.1–0.3: Answer barely addresses the question\n"
+            "- 0.0: Answer does not address the question at all\n\n"
+            f"QUESTION: {query}\n\n"
+            f"ANSWER: {answer}\n\n"
+            "Output ONLY a single decimal number between 0.0 and 1.0, nothing else."
+        )
+        resp = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=10,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        raw = resp.content[0].text.strip()
+        return max(0.0, min(1.0, float(raw)))
+    except Exception:
+        return None
+
 try:
     import ragas as _ragas_mod
     _RAGAS_OK = True
@@ -89,7 +125,6 @@ def score_metrics(query: str, answer: str, chunks: list[dict]) -> dict:
         from langchain_anthropic import ChatAnthropic
         from ragas.llms.base import LangchainLLMWrapper
         from ragas.metrics._faithfulness import Faithfulness as _FaithfulnessClass
-        from ragas.metrics._answer_relevance import AnswerRelevancy as _AnswerRelevancyClass
         from ragas import EvaluationDataset, SingleTurnSample, evaluate
 
         # Resolve API key (env or .streamlit/secrets.toml)
@@ -113,12 +148,10 @@ def score_metrics(query: str, answer: str, chunks: list[dict]) -> dict:
         llm = LangchainLLMWrapper(lc_llm)
         embeddings = _get_embeddings()
 
-        # Create fresh metric instances (don't mutate global singletons)
+        # Faithfulness only — answer_relevancy is replaced by G-Eval below
         fm = _FaithfulnessClass()
-        rm = _AnswerRelevancyClass()
         fm.llm = llm
-        rm.llm = llm
-        rm.embeddings = embeddings
+        fm.embeddings = embeddings
 
         contexts = [c["text"] for c in chunks]
         sample = SingleTurnSample(
@@ -126,11 +159,11 @@ def score_metrics(query: str, answer: str, chunks: list[dict]) -> dict:
             response=answer,
             retrieved_contexts=contexts,
         )
-        dataset = EvaluationDataset(samples=[sample])
+        ragas_dataset = EvaluationDataset(samples=[sample])
 
         result = evaluate(
-            dataset=dataset,
-            metrics=[fm, rm],
+            dataset=ragas_dataset,
+            metrics=[fm],
             show_progress=False,
         )
 
@@ -140,11 +173,11 @@ def score_metrics(query: str, answer: str, chunks: list[dict]) -> dict:
             if "faithfulness" in scores.columns
             else None
         )
-        rel_val = (
-            float(scores["answer_relevancy"].iloc[0])
-            if "answer_relevancy" in scores.columns
-            else None
-        )
+
+        # G-Eval answer relevancy: directly asks Claude haiku whether the answer
+        # addresses the question.  Handles list answers, storage/disposal,
+        # brand names and safety-hedged answers that cause RAGAS to return 0.0.
+        rel_val = _geval_answer_relevancy(query, answer, _api_key)
 
         return {"faithfulness": faith_val, "answer_relevancy": rel_val}
 
