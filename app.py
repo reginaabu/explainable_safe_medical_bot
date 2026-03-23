@@ -1009,12 +1009,51 @@ def _ragas_panel(store_key: str) -> None:
         st.markdown(f"**Answer Relevance:** {rel_str}", unsafe_allow_html=True)
 
 
+# ── Conversational query rewriter ─────────────────────────────────────────────
+
+def rewrite_query_with_context(query: str, chat_history: list[dict]) -> str:
+    """
+    If there is prior conversation, use Claude Haiku to rewrite a vague
+    follow-up query into a self-contained retrieval query by resolving
+    pronouns and implied references.  Falls back to the original query
+    on any error.
+    """
+    if len(chat_history) < 2:
+        return query
+    try:
+        import anthropic as _anth
+        _client = _anth.Anthropic()
+        history_text = "\n".join(
+            f"{t['role'].capitalize()}: {t['content'][:300]}"
+            for t in chat_history[-4:]
+        )
+        resp = _client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=80,
+            messages=[{
+                "role": "user",
+                "content": (
+                    f"Conversation so far:\n{history_text}\n\n"
+                    f"Follow-up question: {query}\n\n"
+                    "Rewrite this as a self-contained medical search query "
+                    "(resolve any pronouns or implied topic references). "
+                    "Return only the rewritten query, nothing else."
+                ),
+            }],
+        )
+        rewritten = resp.content[0].text.strip()
+        return rewritten if rewritten else query
+    except Exception:
+        return query
+
+
 # ── Core pipeline: generate → safety → factcheck → self-correct ───────────────
 
 def _run_core_pipeline(
     query: str,
     chunks: list,
     gen_fn,
+    chat_history: list[dict] | None = None,
 ) -> dict:
     """
     Run generation + safety + factcheck + self-correction synchronously,
@@ -1051,7 +1090,7 @@ def _run_core_pipeline(
             _single_ds = ""
             _id_label, _src_type = "Source", "medical evidence records"
         _t0 = _time.perf_counter()
-        answer = gen_fn(query, chunks, id_label=_id_label, source_type=_src_type, dataset=_single_ds)
+        answer = gen_fn(query, chunks, id_label=_id_label, source_type=_src_type, dataset=_single_ds, chat_history=chat_history)
         gen_lat = _time.perf_counter() - _t0
 
         # ── Step 2: Safety check ──────────────────────────────────────────────
@@ -1091,7 +1130,7 @@ def _run_core_pipeline(
             _log.warning("CORRECTION | triggered=True | factuality=%.2f", score)
             try:
                 _tc = _time.perf_counter()
-                _strict_ans = gen_fn(query, chunks, strict=True, id_label=_id_label, source_type=_src_type, dataset=_single_ds)
+                _strict_ans = gen_fn(query, chunks, strict=True, id_label=_id_label, source_type=_src_type, dataset=_single_ds, chat_history=chat_history)
                 gen_lat += _time.perf_counter() - _tc
                 _strict_facts    = decompose_facts(_strict_ans, dataset=_single_ds)
                 _strict_verdicts = verify_facts(_strict_facts, chunks) if _strict_facts else []
@@ -1147,18 +1186,11 @@ def _run_core_pipeline(
     return result
 
 
+
+
 # ── UI ────────────────────────────────────────────────────────────────────────
-st.title("🩺 ArogyaSaathi")
+st.title("ArogyaSaathi")
 st.caption("Because every health question deserves a real answer.")
-
-# Align all form-column widgets to the same baseline
-st.markdown(
-    "<style>"
-    "[data-testid='column'] { display:flex; flex-direction:column; justify-content:flex-end; }"
-    "</style>",
-    unsafe_allow_html=True,
-)
-
 st.divider()
 
 # ── Load all indexes at startup (each cached independently) ───────────────────
@@ -1178,17 +1210,21 @@ if not _bundles:
 if _index_errors:
     st.warning("Some knowledge bases unavailable: " + " | ".join(_index_errors), icon="⚠️")
 
-# Summary of loaded indexes
 _total_chunks  = sum(len(b["corpus"])  for b in _bundles.values())
 _total_records = sum(len(b["records"]) for b in _bundles.values())
 _loaded_labels = [_FEDERATED_DATASETS[d]["label"] for d in _bundles]
 
-# Params badge (PubMedQA BM25 params, shown for reference)
 params_json = HERE / "bm25_params.json"
 k1 = _bundles["pubmedqa"]["k1"] if "pubmedqa" in _bundles else 1.5
 b  = _bundles["pubmedqa"]["b"]  if "pubmedqa" in _bundles else 0.75
 
-_default_q = st.query_params.get("q", "")
+# ── Session state ─────────────────────────────────────────────────────────────
+_MAX_HISTORY_TURNS = 12  # 6 user + 6 assistant turns kept as LLM context
+
+if "_chat_history" not in st.session_state:
+    st.session_state["_chat_history"] = []
+
+# ── Retrieval mode selector ────────────────────────────────────────────────────
 _mode_options = [
     "None (BM25 only)",
     "KG expansion",
@@ -1197,36 +1233,69 @@ _mode_options = [
 ]
 _default_mode = st.session_state.get("_ui_mode", _mode_options[0])
 
-# ── Search form ────────────────────────────────────────────────────────────────
-with st.form("search_form", border=False, clear_on_submit=False):
-    fc1, fc2 = st.columns([6, 1])
-    with fc1:
-        query = st.text_input(
-            "Ask a medical question",
-            value=_default_q,
-            placeholder="e.g. Do statins reduce cardiovascular mortality?",
-            label_visibility="collapsed",
-        )
-    with fc2:
-        submitted = st.form_submit_button(
-            "Search ↵", type="primary", use_container_width=True
-        )
-
-    with st.expander("Advanced retrieval options", expanded=False):
-        mode = st.selectbox(
-            "Retrieval mode",
-            options=_mode_options,
-            index=_mode_options.index(_default_mode) if _default_mode in _mode_options else 0,
-            help="Use this only when comparing retrieval strategies; the default keeps the product UX simple.",
-        )
+with st.expander("Advanced retrieval options", expanded=False):
+    mode = st.selectbox(
+        "Retrieval mode",
+        options=_mode_options,
+        index=_mode_options.index(_default_mode) if _default_mode in _mode_options else 0,
+        help="Use this only when comparing retrieval strategies.",
+    )
 
 st.session_state["_ui_mode"] = mode
 
-st.divider()
+# ── Render past conversation turns (text-only bubbles) ────────────────────────
+for _turn in st.session_state["_chat_history"]:
+    with st.chat_message(_turn["role"]):
+        st.markdown(_turn["content"])
 
-# ── Retrieval ─────────────────────────────────────────────────────────────────
-if query.strip():
-    # ── HIPAA Safe Harbour PHI scrubbing ──────────────────────────────────────
+# ── Always render the most recent answered turn before the chat input ──────────
+# This keeps the last Q&A visible on screen while a new query is being processed,
+# preventing the confusing flash where the previous answer disappears mid-session.
+_cur_q      = st.session_state.get("_current_query")
+_cur_r      = st.session_state.get("_current_result")
+_cur_chunks = st.session_state.get("_current_chunks", [])
+if _cur_q and _cur_r:
+    with st.chat_message("user"):
+        st.markdown(_cur_q)
+    with st.chat_message("assistant"):
+        _cur_body = _extract_answer_body(_cur_r["answer_with_disclaimer"])
+        st.markdown(
+            f"<div style='background:#f0f7ff;border-left:4px solid #2196F3;"
+            f"padding:1rem;border-radius:4px;line-height:1.7;'>"
+            f"{_cur_body.replace(chr(10), '<br>')}</div>",
+            unsafe_allow_html=True,
+        )
+        _render_why_panel(_cur_chunks)
+        _render_citation_gate(_cur_body)
+        _render_eval_dashboard(_cur_r)
+        if "_ragas_key" in st.session_state:
+            _ragas_panel(st.session_state["_ragas_key"])
+    from rag_generate import MODEL as _RAG_MODEL
+    st.caption(
+        f"anthropic {_ANTHROPIC_VERSION} · model: {_RAG_MODEL} · "
+        f"grounded on {st.session_state.get('_rag_grounding_label', 'top-5 federated chunks')} · "
+        f"sources: {', '.join(_loaded_labels)}"
+    )
+
+# ── Chat input ────────────────────────────────────────────────────────────────
+_raw_input = st.chat_input("Ask a medical question...")
+query = _raw_input or st.session_state.pop("_pending_query", None)
+
+if query:
+    # Show the new user message
+    with st.chat_message("user"):
+        st.markdown(query)
+
+    # Flush the current result into history now that a new query is coming
+    if _cur_q and _cur_r:
+        _prev_body = _extract_answer_body(_cur_r["answer_with_disclaimer"])
+        st.session_state["_chat_history"].append({"role": "user",      "content": _cur_q})
+        st.session_state["_chat_history"].append({"role": "assistant", "content": _prev_body})
+        if len(st.session_state["_chat_history"]) > _MAX_HISTORY_TURNS:
+            st.session_state["_chat_history"] = st.session_state["_chat_history"][-_MAX_HISTORY_TURNS:]
+
+    # ── HIPAA PHI scrubbing ────────────────────────────────────────────────
+    scrubbed_query = query
     if _scrub_phi is not None:
         _scrub = _scrub_phi(query)
         if _scrub.found:
@@ -1241,41 +1310,48 @@ if query.strip():
                 "PHI_SCRUB | categories=%s | original_len=%d | scrubbed_len=%d",
                 _categories, len(query), len(_scrub.text),
             )
-        query = _scrub.text
+        scrubbed_query = _scrub.text
+
+    # ── Rewrite vague follow-up queries using conversation context ─────────
+    _history_for_llm = list(st.session_state["_chat_history"])
+    retrieval_query  = rewrite_query_with_context(scrubbed_query, _history_for_llm)
+    if retrieval_query != scrubbed_query:
+        _log.info("QUERY_REWRITE | original=%r | rewritten=%r",
+                  scrubbed_query, retrieval_query)
 
     use_kg       = mode in ("KG expansion", "KG + Cross-encoder")
     use_reranker = mode in ("Cross-encoder reranker", "KG + Cross-encoder")
     rag_top3_chunks: list[dict] = []
     rag_grounding_label = "top-5 federated chunks"
 
-    # ── KG query expansion (applies to all datasets) ──────────────────────────
-    search_query = query
+    # ── KG query expansion ─────────────────────────────────────────────────
+    search_query = retrieval_query
     if use_kg:
         expand_fn = load_kg_expander()
         if expand_fn is None:
             st.warning("KG expansion unavailable — run track2_build_kg.py first.", icon="⚠️")
             use_kg = False
         else:
-            search_query = expand_fn(query)
+            search_query = expand_fn(retrieval_query)
             added_terms = [t for t in search_query.split()
-                           if t not in set(query.lower().split())]
+                           if t not in set(retrieval_query.lower().split())]
             _log.info("KG_EXPAND | original=%r | expanded=%r | terms_added=%d",
-                      query, search_query, len(added_terms))
+                      retrieval_query, search_query, len(added_terms))
 
-    # ── Federated retrieval across all loaded indexes ─────────────────────────
+    # ── Federated retrieval ────────────────────────────────────────────────
     base_federated = retrieve_federated(search_query, _bundles, k_per=10)[:5]
 
     _last_q = st.session_state.get("_last_logged_query")
-    if _last_q != query:
+    if _last_q != scrubbed_query:
         _log.info(
             "QUERY | text(scrubbed)=%r | mode=%s | sources=%s | total_candidates=%d | "
             "top3_ids=%s",
-            query, mode, list(_bundles.keys()), len(base_federated),
+            scrubbed_query, mode, list(_bundles.keys()), len(base_federated),
             [f"{ds}:{doc['pubid']}" for doc, _, _, ds in base_federated[:3]],
         )
-        st.session_state["_last_logged_query"] = query
+        st.session_state["_last_logged_query"] = scrubbed_query
 
-    # ── Optional CE reranking ─────────────────────────────────────────────────
+    # ── Optional CE reranking ──────────────────────────────────────────────
     rerank_fn = None
     if use_reranker:
         rerank_fn = load_reranker()
@@ -1283,23 +1359,19 @@ if query.strip():
             st.warning("Cross-encoder unavailable — run: pip install sentence-transformers",
                        icon="⚠️")
 
-    if mode == "None":
-        result_cards(base_federated, query=query)
-        rag_top3_chunks = [
-            {**doc} for doc, _, _, _ in base_federated[:5]
-        ]
+    if mode == "None (BM25 only)":
+        result_cards(base_federated, query=scrubbed_query)
+        rag_top3_chunks = [{**doc} for doc, _, _, _ in base_federated[:5]]
         rag_grounding_label = "top-5 federated chunks"
     else:
         left, right = st.columns(2)
         with left:
             st.markdown("#### Federated baseline")
-            result_cards(base_federated, query=query)
-
+            result_cards(base_federated, query=scrubbed_query)
         with right:
             st.markdown(f"#### {mode}")
             enh_federated = retrieve_federated(search_query, _bundles, k_per=10)[:5]
             result_cards(enh_federated, query=search_query, rerank_fn=rerank_fn)
-
             if rerank_fn is not None:
                 _cand_docs = [doc for doc, _, _, _ in enh_federated]
                 _gen_docs  = rerank_fn(search_query, _cand_docs, top_k=5)
@@ -1309,62 +1381,54 @@ if query.strip():
                 rag_top3_chunks = [{**doc} for doc, _, _, _ in enh_federated[:5]]
                 rag_grounding_label = "top-5 KG federated chunks" if use_kg else "top-5 federated chunks"
 
-    # ── RAG Generation + Evaluation ───────────────────────────────────────────
+    # ── RAG Generation + Evaluation ───────────────────────────────────────
     st.divider()
     gen_fn = load_rag_generator()
     if gen_fn is not None:
-        _top3_chunks = rag_top3_chunks or [
-            {**doc} for doc, _, _, _ in base_federated[:5]
-        ]
+        _top3_chunks = rag_top3_chunks or [{**doc} for doc, _, _, _ in base_federated[:5]]
+        if not _top3_chunks:
+            st.warning("No retrieval evidence available to ground generation.")
+            st.stop()
+        _log.info("RAG_GEN | query=%r | source_ids=%s",
+                  scrubbed_query, [c["pubid"] for c in _top3_chunks])
 
-        _auto_submit = st.session_state.pop("_example_submitted", False)
-        if (submitted or _auto_submit) and query.strip():
-            if not _top3_chunks:
-                st.warning("No retrieval evidence available to ground generation.")
-                st.stop()
-            _log.info("RAG_GEN | query=%r | source_ids=%s",
-                      query, [c["pubid"] for c in _top3_chunks])
-            _result = _run_core_pipeline(query, _top3_chunks, gen_fn)
-            st.session_state["_rag_result"] = _result
-            st.session_state["_rag_query"]  = query
+        _result = _run_core_pipeline(
+            scrubbed_query, _top3_chunks, gen_fn,
+            chat_history=_history_for_llm,
+        )
 
-            _rk = _ragas_key(query, _result["answer_with_disclaimer"])
-            _rs = _ragas_store()
-            _rs[_rk] = None
-            threading.Thread(
-                target=_run_ragas_thread,
-                args=(_rs, _rk, query,
-                      _result["answer_with_disclaimer"],
-                      _top3_chunks,
-                      _result["core_time"]),
-                daemon=True,
-            ).start()
-            st.session_state["_ragas_key"] = _rk
+        _rk = _ragas_key(scrubbed_query, _result["answer_with_disclaimer"])
+        _rs = _ragas_store()
+        _rs[_rk] = None
+        threading.Thread(
+            target=_run_ragas_thread,
+            args=(_rs, _rk, scrubbed_query,
+                  _result["answer_with_disclaimer"],
+                  _top3_chunks,
+                  _result["core_time"]),
+            daemon=True,
+        ).start()
+        st.session_state["_ragas_key"] = _rk
 
-        if (
-            st.session_state.get("_rag_query") == query
-            and "_rag_result" in st.session_state
-        ):
-            _result         = st.session_state["_rag_result"]
-            _display_answer = _result["answer_with_disclaimer"]
-            _answer_body    = _extract_answer_body(_display_answer)
+        # Persist result so RAGAS fragment can re-render on polling cycles
+        st.session_state["_current_query"]       = scrubbed_query
+        st.session_state["_current_result"]      = _result
+        st.session_state["_current_chunks"]      = _top3_chunks
+        st.session_state["_rag_grounding_label"] = rag_grounding_label
 
-            st.markdown("#### Answer")
+        _answer_body = _extract_answer_body(_result["answer_with_disclaimer"])
+        with st.chat_message("assistant"):
             st.markdown(
-                f"<div style='"
-                f"background:#f0f7ff;border-left:4px solid #2196F3;"
+                f"<div style='background:#f0f7ff;border-left:4px solid #2196F3;"
                 f"padding:1rem;border-radius:4px;line-height:1.7;'>"
                 f"{_answer_body.replace(chr(10), '<br>')}"
                 f"</div>",
                 unsafe_allow_html=True,
             )
-
             _render_why_panel(_top3_chunks)
             _render_citation_gate(_answer_body)
             _render_eval_dashboard(_result)
-
-            if "_ragas_key" in st.session_state:
-                _ragas_panel(st.session_state["_ragas_key"])
+            _ragas_panel(_rk)
 
         from rag_generate import MODEL as _RAG_MODEL
         st.caption(
@@ -1379,29 +1443,48 @@ if query.strip():
         )
 
 else:
-    st.info(
-        f"Ready — {_total_chunks:,} chunks from {_total_records:,} records across "
-        f"{', '.join(_loaded_labels)}. Type a question above to search."
-    )
+    # ── Re-render most recent result for RAGAS polling cycles ─────────────
+    if st.session_state.get("_current_query") and st.session_state.get("_current_result"):
+        _cur_q      = st.session_state["_current_query"]
+        _cur_result = st.session_state["_current_result"]
+        _cur_chunks = st.session_state.get("_current_chunks", [])
 
-    # Example questions drawn from each dataset
-    for _ds, _bundle in _bundles.items():
-        _ds_label = _FEDERATED_DATASETS[_ds]["label"]
-        with st.expander(f"Example questions from {_ds_label}"):
-            for rec in _bundle["records"][:5]:
-                q_text = rec.get("question", "") or ""
-                label  = q_text[:90] + ("…" if len(q_text) > 90 else "")
-                doc_id = rec.get("pubid") or rec.get("doc_id", "")
-                if st.button(label, key=f"{_ds}::{doc_id}"):
-                    st.session_state["_example_q"] = q_text
-                    st.rerun()
+        with st.chat_message("user"):
+            st.markdown(_cur_q)
+        with st.chat_message("assistant"):
+            _cur_body = _extract_answer_body(_cur_result["answer_with_disclaimer"])
+            st.markdown(
+                f"<div style='background:#f0f7ff;border-left:4px solid #2196F3;"
+                f"padding:1rem;border-radius:4px;line-height:1.7;'>"
+                f"{_cur_body.replace(chr(10), '<br>')}</div>",
+                unsafe_allow_html=True,
+            )
+            _render_why_panel(_cur_chunks)
+            _render_citation_gate(_cur_body)
+            _render_eval_dashboard(_cur_result)
+            if "_ragas_key" in st.session_state:
+                _ragas_panel(st.session_state["_ragas_key"])
 
-# Handle example question clicks
-if "_example_q" in st.session_state:
-    q = st.session_state.pop("_example_q")
-    st.query_params["q"] = q
-    st.session_state["_example_submitted"] = True
-    st.rerun()
+        from rag_generate import MODEL as _RAG_MODEL
+        st.caption(
+            f"anthropic {_ANTHROPIC_VERSION} · model: {_RAG_MODEL} · "
+            f"grounded on {st.session_state.get('_rag_grounding_label', 'top-5 federated chunks')} · "
+            f"sources: {', '.join(_loaded_labels)}"
+        )
 
-
-
+    else:
+        # ── Welcome screen with example questions ─────────────────────────
+        st.info(
+            f"Ready — {_total_chunks:,} chunks from {_total_records:,} records across "
+            f"{', '.join(_loaded_labels)}. Type a question below to start."
+        )
+        for _ds, _bundle in _bundles.items():
+            _ds_label = _FEDERATED_DATASETS[_ds]["label"]
+            with st.expander(f"Example questions from {_ds_label}"):
+                for rec in _bundle["records"][:5]:
+                    q_text = rec.get("question", "") or ""
+                    label  = q_text[:90] + ("..." if len(q_text) > 90 else "")
+                    doc_id = rec.get("pubid") or rec.get("doc_id", "")
+                    if st.button(label, key=f"{_ds}::{doc_id}"):
+                        st.session_state["_pending_query"] = q_text
+                        st.rerun()

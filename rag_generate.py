@@ -120,6 +120,7 @@ def generate_answer(
     id_label: str = "PMID",
     source_type: str = "PubMed abstracts",
     dataset: str = "",
+    chat_history: list[dict] | None = None,
 ) -> str:
     """
     Pass retrieved chunks to Claude and return a grounded answer.
@@ -161,16 +162,19 @@ def generate_answer(
     standard, strict_prompt = _build_system_prompts(id_label, source_type, dataset=dataset)
     system = strict_prompt if strict else standard
 
+    _messages: list[dict] = []
+    for _turn in (chat_history or []):
+        _messages.append({"role": _turn["role"], "content": _turn["content"]})
+    _messages.append({
+        "role": "user",
+        "content": f"Question: {query}\n\nEvidence:\n{context}",
+    })
+
     resp = _get_client().messages.create(
         model=MODEL,
         max_tokens=max_tokens,
         system=system,
-        messages=[
-            {
-                "role": "user",
-                "content": f"Question: {query}\n\nEvidence:\n{context}",
-            }
-        ],
+        messages=_messages,
     )
     return resp.content[0].text
 
